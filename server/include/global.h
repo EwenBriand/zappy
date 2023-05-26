@@ -1,0 +1,13 @@
+/*
+** EPITECH PROJECT, 2023
+** B-NWP-400-BAR-4-1-myftp-ewen.briand
+** File description:
+** global
+*/
+
+#ifndef E457A391_B834_486A_BD0A_D24BDE4B6707
+#define E457A391_B834_486A_BD0A_D24BDE4B6707
+
+static int HANDLER = 0;
+
+#endif /* E457A391_B834_486A_BD0A_D24BDE4B6707 */
