@@ -6,6 +6,7 @@
 */
 
 #include "ftp.h"
+#include "server.h"
 
 static int get_command_line(char *command)
 {
@@ -52,14 +53,13 @@ static void make_command(server_t *server, char *buf, int i)
     }
 }
 
+// a update pour intégrer le circular buffer
 static void read_client2(server_t *server, int i)
 {
-    char buf[1024];
-    int val = 0;
+    char *buf = circular_read(server->client_fd[i]->fd);
+    int val = strlen(buf);
 
     printf("client start\n");
-    val = read(server->client_fd[i]->fd, buf, 1024);
-    buf[val] = '\0';
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
         printf("LAST Client said: %s\n", buf);
         dprintf(server->client_fd[i]->fd, "%s", NSG_221);
@@ -69,7 +69,7 @@ static void read_client2(server_t *server, int i)
         server->client_fd[i] = NULL;
     } else {
         printf("Client said: %s\n", buf);
-        make_command(server, buf, i);
+        // make_command(server, buf, i);
     }
 }
 

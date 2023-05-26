@@ -36,7 +36,4 @@ typedef struct args_s {
     int freq;
 } args_t;
 
-typedef struct server_s {
-} server_t;
-
 #endif /* EE9C98FD_0B95_4DFE_96CC_10295A834A7F */
