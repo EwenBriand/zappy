@@ -12,7 +12,7 @@ void setup_rdfs(server_t *server)
 {
     FD_ZERO(server->readfds);
     FD_SET(server->fd, server->readfds);
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < MAX_CLI; i++) {
         if (server->client_fd[i] != NULL && server->client_fd[i]->fd > 0)
             FD_SET(server->client_fd[i]->fd, server->readfds);
         if (server->client_fd[i] != NULL

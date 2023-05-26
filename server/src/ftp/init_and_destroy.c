@@ -7,13 +7,13 @@
 
 #include "ftp.h"
 
-static int creat_tcp(char *port)
+static int creat_tcp(int port)
 {
     struct sockaddr_in my_addr;
 
     memset(&my_addr, 0, sizeof(my_addr));
     my_addr.sin_family = AF_INET;
-    my_addr.sin_port = htons(atoi(port));
+    my_addr.sin_port = htons(port);
     my_addr.sin_addr.s_addr = INADDR_ANY;
 
     int tcp_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -23,21 +23,15 @@ static int creat_tcp(char *port)
     return tcp_socket;
 }
 
-server_t *init_server(char *port, char *origin)
+server_t *init_server(args_t *args)
 {
     server_t *server = malloc(sizeof(server_t));
-    server->origin = malloc(sizeof(char) * 1024);
 
-    server->fd = creat_tcp(port);
+    server->fd = creat_tcp(args->port);
     server->max = server->fd;
-    server->client_fd = malloc(sizeof(client_t *) * 100);
-    for (int i = 0; i < 100; i++)
+    server->client_fd = malloc(sizeof(client_t *) * MAX_CLI);
+    for (int i = 0; i < MAX_CLI; i++)
         server->client_fd[i] = NULL;
-    if (chdir(origin) == -1) {
-        free(server->origin);
-        server->origin = NULL;
-    } else
-        getcwd(server->origin, 1024);
 
     server->readfds = malloc(sizeof(fd_set));
     FD_ZERO(server->readfds);
@@ -48,7 +42,7 @@ server_t *init_server(char *port, char *origin)
 
 void destroy_server(server_t *server)
 {
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < MAX_CLI; i++)
         if (server->client_fd[i] != NULL)
             destroy_client(server->client_fd[i]);
 
@@ -64,11 +58,7 @@ client_t *client_init(int fd)
 
     client->fd = fd;
     client->name = NULL;
-    client->pass = NULL;
     client->connected = 0;
-    client->path = malloc(sizeof(char) * 1024);
-    getcwd(client->path, 1024);
-    client->mode = 0;
     client->data_socket = -1;
     return client;
 }
@@ -77,7 +67,5 @@ void destroy_client(client_t *client)
 {
     close(client->fd);
     free(client->name);
-    free(client->pass);
-    free(client->path);
     free(client);
 }

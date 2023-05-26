@@ -14,6 +14,12 @@ CLIENT		=	zappy_server
 SRC_CLIENT	=	src/main.c	\
 				src/help.c	\
 				src/create_server.c	\
+				src/ftp/accept_client.c	\
+				src/ftp/init_and_destroy.c	\
+				src/ftp/loop_server.c	\
+				src/ftp/read_client.c	\
+				src/circular_buf.c	\
+				src/commands/msz_command.c	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 

@@ -8,50 +8,28 @@
 #include "ftp.h"
 #include "server.h"
 
-static int get_command_line(char *command)
-{
-    char *tmp = malloc(sizeof(char) * (strlen(command) + 1));
-    char *cmd[] = {"USER", "PASS", "CWD", "CDUP", "DELE", "PWD", "PASV",
-        "PORT", "HELP", "NOOP", "RETR", "STOR", "LIST"};
-    int res = 0;
+// static int get_command_line(char *command)
+// {
+//     char *tmp = malloc(sizeof(char) * (strlen(command) + 1));
+//     char *cmd[] = {"USER", "PASS", "CWD", "CDUP", "DELE", "PWD", "PASV",
+//         "PORT", "HELP", "NOOP", "RETR", "STOR", "LIST"};
+//     int res = 0;
 
-    for (size_t i = 0; i < strlen(command); i++)
-        if (command[i] == ' ' || command[i] == '\r' || command[i] == '\n') {
-            tmp[i] = '\0';
-            break;
-        } else
-            tmp[i] = command[i];
+//     for (size_t i = 0; i < strlen(command); i++)
+//         if (command[i] == ' ' || command[i] == '\r' || command[i] == '\n') {
+//             tmp[i] = '\0';
+//             break;
+//         } else
+//             tmp[i] = command[i];
 
-    for (; res < 13; ++res)
-        if (strcmp(tmp, cmd[res]) == 0)
-            break;
-    if (strlen(command) == 0)
-        res = 14;
-    free(tmp);
-    return res;
-}
-
-static void make_command(server_t *server, char *buf, int i)
-{
-    int command = get_command_line(buf);
-
-    switch (command) {
-        case 0: user(server, i); break;
-        case 1: pass(server, buf, i); break;
-        case 2: cwd(server, buf, i); break;
-        case 3: cdup(server, i); break;
-        case 4: dele(server, buf, i); break;
-        case 5: pwd(server, i); break;
-        case 6: pasv(server, i); break;
-        case 7: port(server, buf, i); break;
-        case 8: help(server, i); break;
-        case 9: noop(server, i); break;
-        case 10: retr(server, buf, i); break;
-        case 12: list(server, buf, i); break;
-        case 14: dprintf(server->client_fd[i]->fd, "%s", NSG_550); break;
-        default: dprintf(server->client_fd[i]->fd, "%s", NSG_500); break;
-    }
-}
+//     for (; res < 13; ++res)
+//         if (strcmp(tmp, cmd[res]) == 0)
+//             break;
+//     if (strlen(command) == 0)
+//         res = 14;
+//     free(tmp);
+//     return res;
+// }
 
 // a update pour intégrer le circular buffer
 static void read_client2(server_t *server, int i)
@@ -59,7 +37,6 @@ static void read_client2(server_t *server, int i)
     char *buf = circular_read(server->client_fd[i]->fd);
     int val = strlen(buf);
 
-    printf("client start\n");
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
         printf("LAST Client said: %s\n", buf);
         dprintf(server->client_fd[i]->fd, "%s", NSG_221);
@@ -75,7 +52,7 @@ static void read_client2(server_t *server, int i)
 
 void read_client(server_t *server)
 {
-    for (int i = 0; i < 100 - 1; i++) {
+    for (int i = 0; i < MAX_CLI - 1; i++) {
         if (server->client_fd[i] != NULL)
             printf("%i\n", server->client_fd[i]->fd);
         if (server->client_fd[i] != NULL

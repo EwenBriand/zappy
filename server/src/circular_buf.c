@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "server.h"
 
 char *circular_read(int tcp_socket)
 {
@@ -18,7 +19,9 @@ char *circular_read(int tcp_socket)
     int n = 0;
     int buff_size = 0;
 
-    while (true) {
+    n = read(tcp_socket, &buf, 1023);
+    arr_append_n_bytes(buffer, buf, n, buff_size);
+    while (n == 1023) {
         n = read(tcp_socket, &buf, 1023);
         if (n < 0)
             break;

@@ -7,8 +7,67 @@
 
 #include "server.h"
 
-bool create_server(char **av)
+bool is_digit(char *str)
 {
-    printf("create_server\n");
-    return 0;
+    for (int i = 0; str[i]; i++)
+        if (str[i] < '0' || str[i] > '9') {
+            printf("Error: %s is not a digit\n", str);
+            return false;
+        }
+    return true;
 }
+
+void display_args(args_t *args)
+{
+    printf("port: %d\n", args->port);
+    printf("width: %d\n", args->width);
+    printf("height: %d\n", args->height);
+
+    for (int i = 0; args->name[i]; i++)
+        printf("name[%d]: %s\n", i, args->name[i]);
+
+    printf("clientsNb: %d\n", args->clientsNb);
+    printf("freq: %d\n", args->freq);
+}
+
+char **get_names(char **av)
+{
+    char **names = malloc(sizeof(char *) * 7);
+    int i = 0;
+    for (i = 0; av[i]; i++) {
+        if (av[i][0] == '-' && av[i][1] >= 'a' && av[i][1] <= 'z')
+            break;
+        names[i] = strdup(av[i]);
+    }
+    names[i] = NULL;
+    return names;
+}
+
+args_t *get_data_from_args(int ac, char **av)
+{
+    args_t *args = malloc(sizeof(args_t));
+
+    for (int i = 0; i < ac; i++) {
+        if (check_arg("-p"))
+            args->port = atoi(av[i + 1]);
+        if (check_arg("-x"))
+            args->width = atoi(av[i + 1]);
+        if (check_arg("-y"))
+            args->height = atoi(av[i + 1]);
+        if (strcmp(av[i], "-n") == 0)
+            args->name = get_names(av + i + 1);
+        if (check_arg("-c"))
+            args->clientsNb = atoi(av[i + 1]);
+        if (check_arg("-f"))
+            args->freq = atoi(av[i + 1]);
+    }
+    return args;
+}
+
+// bool create_server(args_t *args)
+// {
+//     printf("create_server\n");
+//     display_args(args);
+
+//     return 0;
+// }
