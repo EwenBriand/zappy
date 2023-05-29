@@ -11,7 +11,6 @@
 #include "server.h"
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
-
 static void ctrl_c(int sig_no)
 {
     HANDLER = ERROR_VALUE;
@@ -19,16 +18,12 @@ static void ctrl_c(int sig_no)
 
 int main(int argc, char **argv)
 {
-    printf("Hello World\n");
-    // if (argc < 7)
-    //     help();
+    if (argc < 7)
+        return help();
     // if (create_server(av))
     //     return 84;
 
     signal(SIGINT, ctrl_c);
-    if (argc < 7)
-        return ERROR_VALUE;
-    get_data_from_args(argc, argv);
     args_t *args = get_data_from_args(argc, argv);
     server_t *server = init_server(args);
 
