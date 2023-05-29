@@ -10,7 +10,7 @@
 static void update_list(server_t *server, int client)
 {
     printf("Connection accepted\n");
-    dprintf(client, "%s", NSG_220);
+    dprintf(client, "%s", MSG_220);
     for (int i = 0; i < 100; i++)
         if (server->client_fd[i] == NULL) {
             server->client_fd[i] = client_init(client);

@@ -39,7 +39,7 @@ static void read_client2(server_t *server, int i)
 
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
         printf("LAST Client said: %s\n", buf);
-        dprintf(server->client_fd[i]->fd, "%s", NSG_221);
+        dprintf(server->client_fd[i]->fd, "%s", MSG_221);
         close(server->client_fd[i]->fd);
         FD_CLR(server->client_fd[i]->fd, server->readfds);
         destroy_client(server->client_fd[i]);
