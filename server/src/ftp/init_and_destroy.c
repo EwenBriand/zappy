@@ -17,6 +17,9 @@ static int creat_tcp(int port)
     my_addr.sin_addr.s_addr = INADDR_ANY;
 
     int tcp_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (setsockopt(tcp_socket, SOL_SOCKET, SO_REUSEADDR, &(int){1},
+        sizeof(int)) < 0)
+        return -1;
     if (bind(tcp_socket, (struct sockaddr *) &my_addr, sizeof(my_addr)) == -1)
         return -1;
     listen(tcp_socket, 42);
