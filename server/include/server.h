@@ -43,5 +43,5 @@ int help();
 bool create_server(args_t *args);
 args_t *get_data_from_args(int ac, char **av);
 char *circular_read(int tcp_socket);
-
+char **get_args_from_command(char *str);
 // NINJA

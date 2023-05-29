@@ -11,7 +11,13 @@
 #include "ftp.h"
 #include "server.h"
 
+void send_to_gui(char *cmd, server_t *server)
+{
+    printf("sendin to gui: %s\n", cmd);
+    send(server->gui_fd, cmd, strlen(cmd), 0);
+}
+
 void msz_command(char **args, server_t *server)
 {
-    printf("msz command!!!!!!!!!!!!!!!!!\n");
+    send_to_gui("msz aaaaa\n", server);
 }

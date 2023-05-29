@@ -25,13 +25,10 @@ void setup_rdfs(server_t *server)
 void loop_server(server_t *server)
 {
     int nfds = 0;
-    printf("hello\n");
 
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(server);
-        printf("hello\n");
         nfds = select(server->max + 1, server->copy, NULL, NULL, NULL);
-        printf("hello2\n");
         if (nfds < 0)
             break;
 
