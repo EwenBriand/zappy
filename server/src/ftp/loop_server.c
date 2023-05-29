@@ -36,9 +36,6 @@ void loop_server(server_t *server)
 
         if (accept_client(server) == 84)
             break;
-
-        printf("hello3\n");
-
         read_client(server);
     }
 }

@@ -20,6 +20,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/ftp/read_client.c	\
 				src/circular_buf.c	\
 				src/commands/msz_command.c	\
+				src/commands/btc_command.c	\
 				src/commands/pnw_command.c	\
 				src/parser.c	\
 

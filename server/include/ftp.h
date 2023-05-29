@@ -90,6 +90,7 @@ typedef struct server_s {
     fd_set *readfds;
     fd_set *copy;
     int gui_fd;
+    args_t *args;
 } server_t;
 
 typedef struct call_command_s {
@@ -110,6 +111,9 @@ void send_to_gui(char *cmd, server_t *server);
 // commands:
 void pnw_command(char **args, server_t *server);
 void msz_command(char **args, server_t *server);
+void bct_command(char **args, server_t *server);
 static const call_command_t commands[] = {
-    {"msz", msz_command}, {"pnw", pnw_command}, {NULL, NULL}};
+    {"msz", msz_command},
+    {"bct", bct_command},
+    {"pnw", pnw_command}, {NULL, NULL}};
 /* C7BD7286_8BB1_4478_8F44_9B46CFC8ED37 */

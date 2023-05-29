@@ -40,6 +40,8 @@ server_t *init_server(args_t *args)
     FD_ZERO(server->readfds);
     FD_SET(server->fd, server->readfds);
     server->copy = malloc(sizeof(fd_set));
+    server->args = malloc(sizeof(args_t));
+    memcpy(server->args, args, sizeof(args_t));
     return server;
 }
 
