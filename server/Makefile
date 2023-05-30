@@ -7,7 +7,7 @@
 
 CPPFLAGS	=	-I ./include
 
-CFLAGS	=	-Wall -Wextra -g3
+CFLAGS	=	-Wall -Wextra -g3 -std=c11
 
 CLIENT		=	zappy_server
 
@@ -22,8 +22,12 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/msz_command.c	\
 				src/commands/btc_command.c	\
 				src/commands/pnw_command.c	\
+				src/commands/ppo_command.c	\
 				src/parser.c	\
 				src/commands/ia_server_communication/forward.c	\
+				src/commands/ia_server_communication/send_response_to_ia.c	\
+				src/ftp/init_dest_main.c	\
+				src/ftp/init_dest_player.c
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 

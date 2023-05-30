@@ -15,7 +15,7 @@
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
+#define _GNU_SOURCE
 #include "args.h"
 
 #define arr_append_n_bytes(arr, bytes, n, size) \

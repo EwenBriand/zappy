@@ -17,9 +17,12 @@ void send_to_gui(char *cmd, server_t *server)
     send(server->gui_fd, cmd, strlen(cmd), 0);
 }
 
-void msz_command(char **args, server_t *server)
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+
+void msz_command(char **args, main_t *server)
 {
     char cmd[100];
     sprintf(cmd, "msz_%d_%d\n", server->args->width, server->args->height);
-    send_to_gui(cmd, server);
+    // sprintf(cmd, "msz_%d_%d\n", 12, 12);
+    send_to_gui(cmd, server->server);
 }

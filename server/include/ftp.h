@@ -23,16 +23,19 @@
 #include "args.h"
 #include "error_code.h"
 #include "ai_command.h"
+// define to use asprintf
+#define _GNU_SOURCE
 
 #define GUI "helloGui\r\n"
-#define CURR_CLI server->client_fd[server->current_client_index]
+// #define CURR_CLI server->client_fd[server->current_client_index]
+#define CURR_CLI main->server->client_fd[main->server->current_client_index]
 
-#define CHECK_IF_GUI_SETUP(server, i, str)             \
+#define CHECK_IF_GUI_SETUP(main, i, str)             \
     do {                                               \
         if (strcmp(str, GUI) == 0) {                   \
             printf("GUI connected and setup!\n");      \
-            server->gui_fd = server->client_fd[i]->fd; \
-            msz_command(NULL, server);                 \
+            main->server->gui_fd = main->server->client_fd[i]->fd; \
+            msz_command(NULL, main);                 \
             return;                                    \
         }                                              \
     } while (0)
@@ -49,11 +52,11 @@
 
 //do the same with the ai_commands: call_server_form_ia
 
-#define CALL_AI_COMMAND(tab, server)                           \
+#define CALL_AI_COMMAND(tab, main)                           \
     do {                                                    \
         for (int i = 0; call_server_form_ia[i].command; i++) {         \
             if (strcmp(tab[0], call_server_form_ia[i].command) == 0) { \
-                call_server_form_ia[i].func(tab, server);              \
+                call_server_form_ia[i].func(tab, main);              \
                 return;                                     \
             }                                               \
         }                                                   \
@@ -80,19 +83,27 @@ typedef struct player_s {
     int orientation;
     int level;
     int inventory[7]; // use enum ressource
+    char *team;
     int food;
 } player_t;
 
 typedef struct tile_s {
-    // coord_t coord;
+    coord_t coord;
     int inventory[7]; // use enum ressource
 } tile_t;
 
 typedef struct map_s {
     int width;
     int height;
-    tile_t ***tiles; // 2D array
+    tile_t **tiles; // 2D array
+    // tile_t **map;
 } map_t;
+
+typedef struct egg_s {
+    coord_t coord;
+    char *team;
+    int orientation;
+} egg_t;
 
 typedef struct client_s {
     int fd;
@@ -107,34 +118,44 @@ typedef struct server_s {
     int port;
     int max;
     client_t **client_fd;
-    map_t *map;
+    // map_t *map;
     int current_client_index;
     fd_set *readfds;
     fd_set *copy;
     int gui_fd;
-    args_t *args;
+    // args_t *args;
 } server_t;
+
+typedef struct main_s {
+    server_t *server;
+    args_t *args;
+    map_t *map;
+} main_t;
 
 typedef struct call_command_s {
     char *command;
-    void (*func)(char **, server_t *);
+    void (*func)(char **, main_t *);
 } call_command_t;
 
-server_t *init_server(args_t *args);
-void destroy_server(server_t *server);
 int accept_client(server_t *server);
-void read_client(server_t *server);
-void loop_server(server_t *server);
-client_t *client_init(int fd);
+void read_client(main_t *main);
+void loop_server(main_t *main);
+
+void destroy_server(server_t *server);
+server_t *init_server(args_t *args);
 void destroy_client(client_t *client);
+client_t *client_init(int fd);
+void destroy_main(main_t *main);
+main_t *init_main(int argc, char **argv);
+player_t *init_player(egg_t *egg);
 
 void send_to_gui(char *cmd, server_t *server);
 
 // commands:
-void pnw_command(char **args, server_t *server);
-void msz_command(char **args, server_t *server);
-void bct_command(char **args, server_t *server);
-void ppo_command(char **args, server_t *server);
+void pnw_command(char **args, main_t *main);
+void msz_command(char **args, main_t *main);
+void bct_command(char **args, main_t *main);
+void ppo_command(char **args, main_t *main);
 static const call_command_t commands[] = {
     {"msz", msz_command},
     {"bct", bct_command},

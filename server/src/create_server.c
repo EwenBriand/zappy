@@ -6,7 +6,8 @@
 */
 
 #include "server.h"
-
+// include for strdup
+#include <string.h>
 bool is_digit(char *str)
 {
     for (int i = 0; str[i]; i++)

@@ -7,12 +7,13 @@
 
 #include "ai_command.h"
 
-void forward_command(char **args, server_t *server)
+void forward_command(char **args, main_t *main)
 {
     printf("FORWARD\n");
-    if (server->client_fd == -1)
-        return;
-
+    // printf
+    // main->server->current_client_index
+    printf("client_index :%d\n", main->server->current_client_index);
+    printf("pointer :%p\n", CURR_CLI->player);
     if (CURR_CLI->player->orientation == NORTH)
         CURR_CLI->player->coord.y -= 1;
     if (CURR_CLI->player->orientation == SOUTH)
@@ -22,13 +23,16 @@ void forward_command(char **args, server_t *server)
     if (CURR_CLI->player->orientation == WEST)
         CURR_CLI->player->coord.x -= 1;
 
-    send(CURR_CLI->fd, "ok", 2, 0);
+    // printf("x: %d\n", CURR_CLI->player->coord.x);
+
+    send_ok(main);
     char *cmd;
-    // asprintf(&cmd, "ppo_%d_%d_%d_%d\n", CURR_CLI->player->id,
-    //     CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
-    //     CURR_CLI->player->orientation);
-    pnw_command(args, server);
-    sleep(2);
-    asprintf(&cmd, "ppo_%d_%d_%d_%c\n", 0, 0, 0, 'E');
-    send_to_gui(cmd, server);
+    // pnw_command(args, main);
+    sleep(1);
+    asprintf(&cmd, "ppo_%d_%d_%d_%c\n", CURR_CLI->player->id,
+        CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
+        CURR_CLI->player->orientation);
+
+    // asprintf(&cmd, "ppo_%d_%d_%d_%c\n", 0, 0, 0, 'E');
+    send_to_gui(cmd, main->server);
 }
