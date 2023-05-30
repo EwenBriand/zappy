@@ -19,10 +19,7 @@ void send_to_gui(char *cmd, server_t *server)
 
 void msz_command(char **args, server_t *server)
 {
-    // send_to_gui("msz aaaaa\n", server);
-
     char cmd[100];
     sprintf(cmd, "msz_%d_%d\n", server->args->width, server->args->height);
-    // sprintf(cmd, "msz_%d_%d\n", 12, 12);
     send_to_gui(cmd, server);
 }

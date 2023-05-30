@@ -10,17 +10,17 @@
 
 void get_command(char *str, server_t *server, int i)
 {
-    printf("Client said: <%s>\n", str);
+    printf("Client said: [%s]\n", str);
     CHECK_IF_GUI_SETUP(server, i, str);
     char **tab = get_args_from_command(str);
-    CALL_COMMAND(tab, server);
+    CALL_AI_COMMAND(tab, server);
 }
 
 static void read_client2(server_t *server, int i)
 {
     char *buf = circular_read(server->client_fd[i]->fd);
     int val = strlen(buf);
-
+    server->current_client_index = i; //////// TODO: check if working
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
         // printf("LAST Client said: %s\n", buf);
         dprintf(server->client_fd[i]->fd, "%s", MSG_221);

@@ -18,7 +18,7 @@ char **get_args_from_command(char *str)
         token = strtok(NULL, buf);
     }
     args[i] = NULL;
-    // for (int i = 0; args[i]; i++)
-    //     printf("args: %s\n", args[i]);
+    for (int i = 0; args[i]; i++)
+        printf("args: [%s]\n", args[i]);
     return args;
 }

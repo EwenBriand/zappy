@@ -23,6 +23,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/btc_command.c	\
 				src/commands/pnw_command.c	\
 				src/parser.c	\
+				src/commands/ia_server_communication/forward.c	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 
