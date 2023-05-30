@@ -22,20 +22,21 @@ void setup_rdfs(server_t *server)
     *server->copy = *server->readfds;
 }
 
-void loop_server(server_t *server)
+void loop_server(main_t *main)
 {
     int nfds = 0;
 
     while (HANDLER != ERROR_VALUE) {
-        setup_rdfs(server);
-        nfds = select(server->max + 1, server->copy, NULL, NULL, NULL);
+        setup_rdfs(main->server);
+        nfds = select(
+            main->server->max + 1, main->server->copy, NULL, NULL, NULL);
         if (nfds < 0)
             break;
 
         printf("connected asked %i\n", nfds);
 
-        if (accept_client(server) == 84)
+        if (accept_client(main->server) == 84)
             break;
-        read_client(server);
+        read_client(main);
     }
 }

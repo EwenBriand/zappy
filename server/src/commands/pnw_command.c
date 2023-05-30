@@ -5,11 +5,11 @@
 ** pnw_command.c
 */
 
-
 #include "ftp.h"
 #include "server.h"
 
-void pnw_command(char **args, server_t *server)
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+void pnw_command(char **args, main_t *server)
 {
-    send_to_gui("pnw aaaaa\n", server);
+    send_to_gui("pnw aaaaa\n", server->server);
 }

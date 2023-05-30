@@ -60,6 +60,7 @@ typedef struct player_s {
     int orientation;  // use enum orientation
     int level;
     int inventory[7]; // use enum ressource
+    char *team;
     int food;
 } player_t;
 
@@ -71,8 +72,14 @@ typedef struct tile_s {
 typedef struct map_s {
     int width;
     int height;
-    tile_t **tiles;
+    tile_t **map;
 } map_t;
+
+typedef struct egg_s {
+    int coord[2];
+    char *team;
+    int orientation;
+} egg_t;
 
 typedef struct client_s {
     int fd;
@@ -90,30 +97,38 @@ typedef struct server_s {
     fd_set *readfds;
     fd_set *copy;
     int gui_fd;
-    args_t *args;
+    // args_t *args;
 } server_t;
+
+typedef struct main_s {
+    server_t *server;
+    args_t *args;
+    map_t *map;
+} main_t;
 
 typedef struct call_command_s {
     char *command;
-    void (*func)(char **, server_t *);
+    void (*func)(char **, main_t *);
 } call_command_t;
 
-server_t *init_server(args_t *args);
-void destroy_server(server_t *server);
 int accept_client(server_t *server);
-void read_client(server_t *server);
-void loop_server(server_t *server);
-client_t *client_init(int fd);
+void read_client(main_t *main);
+void loop_server(main_t *main);
+
+void destroy_server(server_t *server);
+server_t *init_server(args_t *args);
 void destroy_client(client_t *client);
+client_t *client_init(int fd);
+void destroy_main(main_t *main);
+main_t *init_main(int argc, char **argv);
+player_t *init_player(egg_t *egg);
 
 void send_to_gui(char *cmd, server_t *server);
 
 // commands:
-void pnw_command(char **args, server_t *server);
-void msz_command(char **args, server_t *server);
-void bct_command(char **args, server_t *server);
-static const call_command_t commands[] = {
-    {"msz", msz_command},
-    {"bct", bct_command},
-    {"pnw", pnw_command}, {NULL, NULL}};
+void pnw_command(char **args, main_t *server);
+void msz_command(char **args, main_t *server);
+void bct_command(char **args, main_t *server);
+static const call_command_t commands[] = {{"msz", msz_command},
+    {"bct", bct_command}, {"pnw", pnw_command}, {NULL, NULL}};
 /* C7BD7286_8BB1_4478_8F44_9B46CFC8ED37 */

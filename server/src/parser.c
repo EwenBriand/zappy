@@ -11,7 +11,7 @@ char **get_args_from_command(char *str)
 {
     char *buf = "_\n\r\0";
     char *token = strtok(str, buf);
-    char *args[100];
+    char **args = malloc(sizeof(char *) * 100);
     int i = 0;
     for (; token != NULL; i++) {
         args[i] = token;

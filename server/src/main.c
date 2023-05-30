@@ -24,17 +24,15 @@ int main(int argc, char **argv)
     //     return 84;
 
     signal(SIGINT, ctrl_c);
-    args_t *args = get_data_from_args(argc, argv);
-    server_t *server = init_server(args);
+    main_t *main = init_main(argc, argv);
 
-    if (server->fd == -1) {
-        destroy_server(server);
+    if (main->server->fd == -1) {
+        destroy_main(main);
         return ERROR_VALUE;
     }
-    loop_server(server);
+    loop_server(main);
 
-    close(server->fd);
-    destroy_server(server);
+    destroy_main(main);
 
     return (0);
 }

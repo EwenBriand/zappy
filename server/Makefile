@@ -23,6 +23,8 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/btc_command.c	\
 				src/commands/pnw_command.c	\
 				src/parser.c	\
+				src/ftp/init_dest_main.c	\
+				src/ftp/init_dest_player.c	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 

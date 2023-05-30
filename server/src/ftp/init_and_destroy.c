@@ -17,8 +17,9 @@ static int creat_tcp(int port)
     my_addr.sin_addr.s_addr = INADDR_ANY;
 
     int tcp_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (setsockopt(tcp_socket, SOL_SOCKET, SO_REUSEADDR, &(int){1},
-        sizeof(int)) < 0)
+    if (setsockopt(
+            tcp_socket, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int))
+        < 0)
         return -1;
     if (bind(tcp_socket, (struct sockaddr *) &my_addr, sizeof(my_addr)) == -1)
         return -1;
@@ -40,8 +41,8 @@ server_t *init_server(args_t *args)
     FD_ZERO(server->readfds);
     FD_SET(server->fd, server->readfds);
     server->copy = malloc(sizeof(fd_set));
-    server->args = malloc(sizeof(args_t));
-    memcpy(server->args, args, sizeof(args_t));
+    // server->args = malloc(sizeof(args_t));
+    // memcpy(server->args, args, sizeof(args_t));
     return server;
 }
 
@@ -65,6 +66,7 @@ client_t *client_init(int fd)
     client->name = NULL;
     client->connected = 0;
     client->data_socket = -1;
+    client->player = NULL;
     return client;
 }
 
