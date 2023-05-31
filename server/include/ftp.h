@@ -40,18 +40,6 @@
         }                                              \
     } while (0)
 
-// #define CALL_COMMAND(tab, server)                           \
-//     do {                                                    \
-//         for (int i = 0; commands[i].command; i++) {         \
-//             if (strcmp(tab[0], commands[i].command) == 0) { \
-//                 commands[i].func(tab, server);              \
-//                 return;                                     \
-//             }                                               \
-//         }                                                   \
-//     } while (0)
-
-//do the same with the ai_commands: call_server_form_ia
-
 #define CALL_AI_COMMAND(tab, main)                           \
     do {                                                    \
         for (int i = 0; call_server_form_ia[i].command; i++) {         \
@@ -60,6 +48,26 @@
                 return;                                     \
             }                                               \
         }                                                   \
+    } while (0)
+
+#define CHECK_COORD_PLAYER(main) \
+    do { \
+        if (CURR_CLI->player->orientation == NORTH) \
+        CURR_CLI->player->coord.y -= 1; \
+        if (CURR_CLI->player->coord.y < 0) \
+            CURR_CLI->player->coord.y = main->args->height - 1; \
+    if (CURR_CLI->player->orientation == SOUTH) \
+        CURR_CLI->player->coord.y += 1; \
+        if (CURR_CLI->player->coord.y >= main->args->height) \
+            CURR_CLI->player->coord.y = 0; \
+    if (CURR_CLI->player->orientation == EAST) \
+        CURR_CLI->player->coord.x += 1; \
+        if (CURR_CLI->player->coord.x >= main->args->width) \
+            CURR_CLI->player->coord.x = 0; \
+    if (CURR_CLI->player->orientation == WEST) \
+        CURR_CLI->player->coord.x -= 1; \
+        if (CURR_CLI->player->coord.x < 0) \
+            CURR_CLI->player->coord.x = main->args->width - 1; \
     } while (0)
 
 static const int ERROR_VALUE = 84;

@@ -8,7 +8,10 @@
 #include "Client.hpp"
 
 Client::Client(const std::string& hostname, int port)
-    : hostname(hostname), port(port), socketFD(-1) {}
+    : hostname(hostname), port(port), socketFD(-1)
+{
+
+}
 
 bool Client::connectToServer()
 {
@@ -28,7 +31,7 @@ bool Client::connectToServer()
         perror("Connection to the server failed");
         return false;
     }
-
+    std::cout << "Connected to server!" << std::endl;
     return true;
 }
 

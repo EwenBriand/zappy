@@ -22,11 +22,13 @@ void pnw_command(char **args, main_t *main)
     CURR_CLI->player->level = atoi(args[4]);
     CURR_CLI->player->id = atoi(args[5]);
     CURR_CLI->player->team = strdup(args[6]);
-    send_ok(main);
+    char *freq;
+    asprintf(&freq, "%d", main->args->freq);
+    send_response_to_ia(freq, main);
 
     asprintf(&cmd, "pnw_%d_%d_%d_%d_%d_%s\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation, CURR_CLI->player->level,
-        CURR_CLI->name);
+        CURR_CLI->player->team);
     send_to_gui(cmd, main->server);
 }

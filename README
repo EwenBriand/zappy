@@ -1,0 +1,10 @@
+protole:
+
+when GUI is connected to server:
+1. msz (width, height)
+2. bct (x, y, q0, q1, q2, q3, q4, q5, q6, q7) (all tiles content)
+
+connect an IA to server:
+
+1. pnw (player number, x, y, orientation, level, team name)
+2. ppo (player number, x, y, orientation)

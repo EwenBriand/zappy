@@ -11,12 +11,13 @@ RM	=	rm -f
 
 CPPFLAGS	=	-I ./include
 
-CFLAGS	=	-Wall -Wextra -g3
+CFLAGS	=	-Wall -Wextra -g3 -std=c++17
 
 CLIENT		=	zappy_ai
 
 SRC_CLIENT	=	src/main.cpp	\
 				src/Client.cpp	\
+				src/Ai.cpp		\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.cpp=.o)
 
@@ -38,7 +39,7 @@ debug: CFLAGS += -g3
 debug: re
 
 %.o: %.cpp
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(CPPFLAGS) -c $< -o $@ && \
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@ && \
 		echo -e "\033[1;32m[OK]\033[0m" $< || \
 		echo -e "\033[1;31m[KO]\033[0m" $<
 

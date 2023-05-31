@@ -6,6 +6,7 @@
 */
 
 #include "Client.hpp"
+#include "Ai.hpp"
 
 int main(int argc, char **argv)
 {
@@ -34,16 +35,8 @@ int main(int argc, char **argv)
                 return 1;
         }
     }
-
-    Client client(hostname, port);
-    if (!client.connectToServer()) {
-        std::cerr << "Could not connect to server" << std::endl;
-        return 1;
-    }
-    std::string messageFromServer = client.receiveData();
-    std::cout << "Message from server: " << messageFromServer << std::endl;
-
-    client.sendData("Hello from client!");
+    AI ai(hostname, port, teamName);
+    ai.Loop();
 
     return 0;
 }
