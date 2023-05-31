@@ -5,8 +5,35 @@
 ** init_dest_player
 */
 
+#include <stdlib.h>
+#include <time.h>
 #include "ftp.h"
 #include "server.h"
+
+egg_t *init_egg(main_t *main, int i)
+{
+    egg_t *new = malloc(sizeof(egg_t));
+
+    if (new == NULL)
+        return (NULL);
+
+    srand(time(NULL) + i);
+    new->coord.x = rand() % main->args->width;
+    new->coord.y = rand() % main->args->height;
+    new->team = strdup(main->args->name[i]);
+    new->orientation = rand() % 4;
+
+    printf("Egg created at %d %d with %d oritentation from %s team\n",
+        new->coord.x, new->coord.y, new->orientation, new->team);
+
+    return (new);
+}
+
+void destroy_egg(egg_t *egg)
+{
+    free(egg->team);
+    free(egg);
+}
 
 player_t *init_player(egg_t *egg)
 {
@@ -27,7 +54,7 @@ player_t *init_player(egg_t *egg)
     new->inventory[5] = 0;
     new->inventory[6] = 0;
     new->level = 1;
-    new->food = 126;
+    new->food = 1260;
     new->cmd_buf = malloc(sizeof(char *) * 11);
     for (int i = 0; i < 11; ++i)
         new->cmd_buf[i] == NULL;

@@ -53,16 +53,20 @@ static void destroy_map(map_t *map)
 main_t *init_main(int argc, char **argv)
 {
     main_t *main = malloc(sizeof(main_t));
+    int pos = 0;
 
-    if (main == NULL)
-        return (NULL);
     main->args = get_data_from_args(argc, argv);
-    if (main->args == NULL)
-        return (NULL);
     main->server = init_server(main->args);
     main->map = init_map(main->args);
-    if (main->server == NULL)
-        return (NULL);
+    main->eggs = malloc(sizeof(egg_t *) * 100);
+
+    for (int j = 0; main->args->clientsNb > j; ++j) {
+        for (int i = 0; list_len(main->args->name) > i; ++i)
+            main->eggs[pos++] = init_egg(main, i);
+    }
+
+    for (pos; pos < 100; ++pos)
+        main->eggs[pos] = NULL;
     return (main);
 }
 
@@ -71,6 +75,12 @@ void destroy_main(main_t *main)
     close(main->server->fd);
     destroy_server(main->server);
     destroy_map(main->map);
+    for (int i = 0; i < 100; ++i)
+        if (main->eggs[i] != NULL)
+            destroy_egg(main->eggs[i]);
+    free(main->eggs);
+    for (int i = 0; i < list_len(main->args->name); ++i)
+        free(main->args->name[i]);
     free(main->args);
     free(main);
 }

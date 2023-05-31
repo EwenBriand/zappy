@@ -21,3 +21,11 @@ int help()
 
     return 84;
 }
+
+int list_len(char **list)
+{
+    int i = 0;
+    for (; list[i]; i++)
+        ;
+    return i;
+}

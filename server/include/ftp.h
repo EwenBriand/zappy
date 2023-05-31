@@ -139,6 +139,7 @@ typedef struct main_s {
     server_t *server;
     args_t *args;
     map_t *map;
+    egg_t **eggs;
 } main_t;
 
 typedef struct call_command_s {
@@ -150,6 +151,8 @@ int accept_client(server_t *server);
 void read_client(main_t *main);
 void loop_server(main_t *main);
 
+int list_len(char **list);
+
 void destroy_server(server_t *server);
 server_t *init_server(args_t *args);
 void destroy_client(client_t *client);
@@ -158,6 +161,8 @@ void destroy_main(main_t *main);
 main_t *init_main(int argc, char **argv);
 void destroy_player(player_t *player);
 player_t *init_player(egg_t *egg);
+void destroy_egg(egg_t *egg);
+egg_t *init_egg(main_t *main, int i);
 
 void send_to_gui(char *cmd, server_t *server);
 
