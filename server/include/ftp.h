@@ -20,7 +20,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include "args.h"
+// #include "args.h"
 #include "struct.h"
 #include "tools.h"
 #include "ai_command.h"
@@ -46,6 +46,9 @@
 #define CALL_AI_COMMAND(tab, main)                                     \
     do {                                                               \
         for (int i = 0; call_server_form_ia[i].command; i++) {         \
+            printf("tab[0] = %s\n", tab[0]);                           \
+            printf("call_server_form_ia[i].command = %s\n",            \
+                call_server_form_ia[i].command);                       \
             if (strcmp(tab[0], call_server_form_ia[i].command) == 0) { \
                 call_server_form_ia[i].func(tab, main);                \
                 return;                                                \
@@ -77,8 +80,6 @@ static const int ERROR_VALUE = 84;
 static const int END_VALUE = 0;
 static const int MAX_CLI = 100;
 
-// enum coord { X, Y };
-
 enum orientation { NORTH, EAST, SOUTH, WEST };
 
 enum ressource { Q0, Q1, Q2, Q3, Q4, Q5, Q6 };
@@ -99,6 +100,7 @@ void destroy_egg(egg_t *egg);
 egg_t *init_egg(main_t *main, int i);
 
 void send_to_gui(char *cmd, server_t *server);
+void send_to_ia(char *cmd, main_t *main);
 
 // commands:
 void pnw_command(char **args, main_t *main);

@@ -5,6 +5,8 @@
 ** forward.c
 */
 
+#pragma GCC diagnostic ignored "-Wwrite-strings"
+
 #include "ai_command.h"
 
 void forward_command(char **args, main_t *main)
