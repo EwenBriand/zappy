@@ -26,8 +26,14 @@ SRC_CLIENT	=	src/main.c	\
 				src/parser.c	\
 				src/commands/ia_server_communication/forward.c	\
 				src/commands/ia_server_communication/send_response_to_ia.c	\
+				src/commands/ia_server_communication/inventory.c	\
+				src/commands/ia_server_communication/turn.c \
+				src/commands/ia_server_communication/take_object.c \
+				src/commands/ia_server_communication/player.c \
 				src/ftp/init_dest_main.c	\
-				src/ftp/init_dest_player.c
+				src/ftp/init_dest_player.c	\
+				src/tools.c	\
+
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 

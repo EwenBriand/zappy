@@ -5,9 +5,9 @@
 ** create_server.c
 */
 
-#include "server.h"
-// include for strdup
 #include <string.h>
+#include "server.h"
+
 bool is_digit(char *str)
 {
     for (int i = 0; str[i]; i++)
@@ -62,6 +62,7 @@ args_t *get_data_from_args(int ac, char **av)
         if (check_arg("-f"))
             args->freq = atoi(av[i + 1]);
     }
+    display_args(args);
     return args;
 }
 

@@ -8,12 +8,27 @@
 #include "ftp.h"
 #include "server.h"
 
+static void add_cmd_to_player(player_t *player, char *str)
+{
+    int i = list_len(player->cmd_buf);
+    if (i >= 10)
+        return;
+    player->cmd_buf[i] = strdup(str);
+    printf("Player stock: [%s\n", player->cmd_buf[i]);
+}
+
 void get_command(char *str, main_t *main, int i)
 {
-    printf("Client said: [%s]\n", str);
+    printf("Client said: [%s\n", str);
     CHECK_IF_GUI_SETUP(main, i, str);
-    char **tab = get_args_from_command(str);
-    CALL_AI_COMMAND(tab, main);
+    // if (main->server->client_fd[i]->player != NULL)
+    //     return add_cmd_to_player(main->server->client_fd[i]->player, str);
+    if (strlen(str) > 2) {
+        char **tab = get_args_from_command(str);
+        CALL_AI_COMMAND(tab, main);
+    } else {
+        dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
+    }
 }
 
 static void read_client2(main_t *main, int i)

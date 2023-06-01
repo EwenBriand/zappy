@@ -19,6 +19,12 @@ void send_to_gui(char *cmd, server_t *server)
     send(server->gui_fd, cmd, strlen(cmd), 0);
 }
 
+void send_to_ia(char *cmd, main_t *main)
+{
+    printf("sendin to ia: %s\n", cmd);
+    send(CURR_CLI->fd, cmd, strlen(cmd), 0);
+}
+
 void msz_command(char **args, main_t *server)
 {
     char cmd[100];
