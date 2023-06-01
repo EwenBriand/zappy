@@ -5,6 +5,8 @@
 ** msz_command.c
 */
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+
 #include <stdio.h>
 #include <stdlib.h>
 // #include "commands.h"
@@ -16,8 +18,6 @@ void send_to_gui(char *cmd, server_t *server)
     printf("sendin to gui: %s\n", cmd);
     send(server->gui_fd, cmd, strlen(cmd), 0);
 }
-
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 void msz_command(char **args, main_t *server)
 {

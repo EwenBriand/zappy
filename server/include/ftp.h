@@ -30,21 +30,21 @@
 // #define CURR_CLI server->client_fd[server->current_client_index]
 #define CURR_CLI main->server->client_fd[main->server->current_client_index]
 
-#define CHECK_IF_GUI_SETUP(main, i, str)             \
+#define CHECK_IF_GUI_SETUP(main, i, str)               \
     do {                                               \
         if (strcmp(str, GUI) == 0) {                   \
             printf("GUI connected and setup!\n");      \
             main->server->gui_fd = main->server->client_fd[i]->fd; \
-            msz_command(NULL, main);                 \
+            msz_command(NULL, main);                   \
             return;                                    \
         }                                              \
     } while (0)
 
-#define CALL_AI_COMMAND(tab, main)                           \
+#define CALL_AI_COMMAND(tab, main)                          \
     do {                                                    \
         for (int i = 0; call_server_form_ia[i].command; i++) {         \
             if (strcmp(tab[0], call_server_form_ia[i].command) == 0) { \
-                call_server_form_ia[i].func(tab, main);              \
+                call_server_form_ia[i].func(tab, main);                \
                 return;                                     \
             }                                               \
         }                                                   \
@@ -74,8 +74,6 @@ static const int ERROR_VALUE = 84;
 static const int END_VALUE = 0;
 static const int MAX_CLI = 100;
 
-// enum coord { X, Y };
-
 enum orientation { NORTH, EAST, SOUTH, WEST };
 
 enum ressource { Q0, Q1, Q2, Q3, Q4, Q5, Q6 };
@@ -104,7 +102,6 @@ typedef struct map_s {
     int width;
     int height;
     tile_t **tiles; // 2D array
-    // tile_t **map;
 } map_t;
 
 typedef struct egg_s {
@@ -126,12 +123,10 @@ typedef struct server_s {
     int port;
     int max;
     client_t **client_fd;
-    // map_t *map;
     int current_client_index;
     fd_set *readfds;
     fd_set *copy;
     int gui_fd;
-    // args_t *args;
 } server_t;
 
 typedef struct main_s {
