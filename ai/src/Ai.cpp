@@ -27,6 +27,14 @@ AI::~AI()
 {
 }
 
+void AI::UpdateInventory() {
+    client.sendData("Inventory\n");
+    usleep(500000);
+    std::string inventoryMessage = client.receiveData();
+    usleep(500000);
+    inventory.parse(inventoryMessage);
+}
+
 void AI::Loop()
 {
     while (alive) {
