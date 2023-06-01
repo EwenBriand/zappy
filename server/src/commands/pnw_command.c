@@ -15,13 +15,10 @@ void pnw_command(char **args, main_t *main)
     char *cmd;
     printf("PNW\n");
 
-    CURR_CLI->player = malloc(sizeof(player_t));
-    CURR_CLI->player->coord.x = atoi(args[1]);
-    CURR_CLI->player->coord.y = atoi(args[2]);
-    CURR_CLI->player->orientation = atoi(args[3]);
-    CURR_CLI->player->level = atoi(args[4]);
-    CURR_CLI->player->id = atoi(args[5]);
-    CURR_CLI->player->team = strdup(args[6]);
+    egg_t *egg = pop_egg(main->eggs);
+    if (egg == NULL)
+        return send_response_to_ia("KO no eggs available", main);
+    CURR_CLI->player = init_player(egg);
     char *freq;
     asprintf(&freq, "%d", main->args->freq);
     send_response_to_ia(freq, main);

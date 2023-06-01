@@ -47,12 +47,8 @@ player_t *init_player(egg_t *egg)
     new->orientation = egg->orientation;
     new->team = egg->team;
     new->inventory[0] = 10;
-    new->inventory[1] = 0;
-    new->inventory[2] = 0;
-    new->inventory[3] = 0;
-    new->inventory[4] = 0;
-    new->inventory[5] = 0;
-    new->inventory[6] = 0;
+    for (int i = 1; i < 7; ++i)
+        new->inventory[i] = 0;
     new->level = 1;
     new->food = 1260;
     new->cmd_buf = malloc(sizeof(char *) * 11);

@@ -38,5 +38,7 @@ void loop_server(main_t *main)
         if (accept_client(main->server) == 84)
             break;
         read_client(main);
+        // for all player exec ther current command
+        // send upd map to gui
     }
 }
