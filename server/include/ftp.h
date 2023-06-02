@@ -103,6 +103,7 @@ void send_to_gui(char *cmd, server_t *server);
 void send_to_ia(char *cmd, main_t *main);
 
 // commands:
+void execute_player_command(main_t *main);
 void pnw_command(char **args, main_t *main);
 void msz_command(char **args, main_t *main);
 void bct_command(char **args, main_t *main);

@@ -38,10 +38,12 @@ void destroy_egg(egg_t *egg)
 player_t *init_player(egg_t *egg)
 {
     player_t *new = malloc(sizeof(player_t));
+    static int id = 0;
 
     if (new == NULL)
         return (NULL);
 
+    new->id = id++;
     new->coord.x = egg->coord.x;
     new->coord.y = egg->coord.y;
     new->orientation = egg->orientation;
