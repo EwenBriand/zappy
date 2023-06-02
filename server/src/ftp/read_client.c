@@ -21,8 +21,8 @@ void get_command(char *str, main_t *main, int i)
 {
     printf("Client said: [%s\n", str);
     CHECK_IF_GUI_SETUP(main, i, str);
-    // if (main->server->client_fd[i]->player != NULL)
-    //     return add_cmd_to_player(main->server->client_fd[i]->player, str);
+    if (main->server->client_fd[i]->player != NULL)
+        return add_cmd_to_player(main->server->client_fd[i]->player, str);
     if (strlen(str) > 2) {
         char **tab = get_args_from_command(str);
         CALL_AI_COMMAND(tab, main);

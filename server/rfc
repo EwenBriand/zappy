@@ -1,0 +1,36 @@
+server to client:
+msz X Y = map size
+bct X Y q0 q1 q2 q3 q4 q5 q6 = content of a tile
+tna N = team name
+pnw #n X Y O L N = new player
+ppo #n X Y O = player position
+plv #n L = player level
+pin #n X Y q0 q1 q2 q3 q4 q5 q6 = player inventory
+pex #n = player expulse
+pbc #n M = player broadcast
+pic X Y L #n #n ... = start of incantation
+pie X Y R = end of incantation
+pfk #n = player fork
+pdr #n q = player drop
+pgt #n q = player take
+pdi #n = player death
+enw #e #n X Y = egg spawn
+eht #e = egg hatch
+ebo #e = egg broken
+edi #e = egg death
+sgt T = time unit
+seg N = end of game
+smg M = server message
+suc = command success
+sbp = command fail
+
+client to server:
+msz return map size
+bct X Y return content of a tile
+mct return content of all tiles
+tna return team name
+ppo #n return player position
+plv #n return player level
+pin #n return player inventory
+sgt return time unit
+sst T set time unit

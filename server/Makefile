@@ -33,7 +33,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/ftp/init_dest_main.c	\
 				src/ftp/init_dest_player.c	\
 				src/tools.c	\
-
+				src/commands/execute_player.c	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 
