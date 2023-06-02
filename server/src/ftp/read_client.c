@@ -14,18 +14,18 @@ static void add_cmd_to_player(player_t *player, char *str)
     if (i >= 10)
         return;
     player->cmd_buf[i] = strdup(str);
-    printf("Player stock: [%s\n", player->cmd_buf[i]);
+    printf("Player stock: [%s]\n", player->cmd_buf[i]);
 }
 
 void get_command(char *str, main_t *main, int i)
 {
-    printf("Client said: [%s\n", str);
-    CHECK_IF_GUI_SETUP(main, i, str);
+    printf("Client said2: [%s]\n", str);
+    check_if_gui_setup(main, i, str);
     if (main->server->client_fd[i]->player != NULL)
         return add_cmd_to_player(main->server->client_fd[i]->player, str);
     if (strlen(str) > 2) {
         char **tab = get_args_from_command(str);
-        CALL_AI_COMMAND(tab, main);
+        call_ai_command(tab, main);
     } else {
         dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
     }
@@ -37,7 +37,6 @@ static void read_client2(main_t *main, int i)
     int val = strlen(buf);
     main->server->current_client_index = i;
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
-        // printf("LAST Client said: %s\n", buf);
         dprintf(main->server->client_fd[i]->fd, "%s", MSG_221);
         close(main->server->client_fd[i]->fd);
         FD_CLR(main->server->client_fd[i]->fd, main->server->readfds);

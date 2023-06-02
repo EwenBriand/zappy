@@ -11,8 +11,8 @@
 
 void forward_command(char **args, main_t *main)
 {
-    printf("FORWARD\n");
-    CHECK_COORD_PLAYER(main);
+    printf(" lol FORWARD\n");
+    check_coord_player(main);
     send_ok(main);
     char *cmd;
     asprintf(&cmd, "ppo_%d_%d_%d_%d\n", CURR_CLI->player->id,

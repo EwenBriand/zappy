@@ -27,5 +27,6 @@ void pnw_command(char **args, main_t *main)
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation, CURR_CLI->player->level,
         CURR_CLI->player->team);
+    printf("cmd : %s\n", cmd);
     send_to_gui(cmd, main->server);
 }

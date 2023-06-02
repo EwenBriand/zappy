@@ -64,7 +64,7 @@
     #define MSG_530 "530 Not logged in.\r\n"
     #define MSG_532 "532 Need account for storing files.\r\n"
     #define MSG_550 "550 Requested file action not taken.\r\n"
-
+    #define MSG_551 "dead\r\n"
 #endif /* C7602E90_26E8_47E7_8293_3769BBDA77BD */
 
 #endif /* CD676203_77C1_432D_A697_DC650E6C6997 */

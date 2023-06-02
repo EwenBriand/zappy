@@ -30,51 +30,33 @@
 #define _GNU_SOURCE
 
 #define GUI "helloGui\r\n"
+#define GUI_FORMAT "helloGui\r"
+#define GUI_FORMAT2 "helloGui\n"
 // #define CURR_CLI server->client_fd[server->current_client_index]
 #define CURR_CLI main->server->client_fd[main->server->current_client_index]
 
-#define CHECK_IF_GUI_SETUP(main, i, str)                           \
-    do {                                                           \
-        if (strcmp(str, GUI) == 0) {                               \
-            printf("GUI connected and setup!\n");                  \
-            main->server->gui_fd = main->server->client_fd[i]->fd; \
-            msz_command(NULL, main);                               \
-            return;                                                \
-        }                                                          \
-    } while (0)
+typedef struct foodCost_s {
+    char *command;
+    int cost;
+} foodCost_t;
 
-#define CALL_AI_COMMAND(tab, main)                                     \
-    do {                                                               \
-        for (int i = 0; call_server_form_ia[i].command; i++) {         \
-            printf("tab[0] = %s\n", tab[0]);                           \
-            printf("call_server_form_ia[i].command = %s\n",            \
-                call_server_form_ia[i].command);                       \
-            if (strcmp(tab[0], call_server_form_ia[i].command) == 0) { \
-                call_server_form_ia[i].func(tab, main);                \
-                return;                                                \
-            }                                                          \
-        }                                                              \
-    } while (0)
+static foodCost_t foodCost[] = {
+    {"Forward", 7},
+    {"Right", 7},
+    {"Left", 7},
+    {"Look", 7},
+    {"Inventory", 1},
+    {"Broadcast", 7},
+    {"Connect_nbr", 0},
+    {"Fork", 42},
+    {"Eject", 7},
+    {"Take", 7},
+    {"Set", 7},
+    {"Incantation", 300},
+    {NULL, 0}
+};
 
-#define CHECK_COORD_PLAYER(main)                                \
-    do {                                                        \
-        if (CURR_CLI->player->orientation == NORTH)             \
-            CURR_CLI->player->coord.y -= 1;                     \
-        if (CURR_CLI->player->coord.y < 0)                      \
-            CURR_CLI->player->coord.y = main->args->height - 1; \
-        if (CURR_CLI->player->orientation == SOUTH)             \
-            CURR_CLI->player->coord.y += 1;                     \
-        if (CURR_CLI->player->coord.y >= main->args->height)    \
-            CURR_CLI->player->coord.y = 0;                      \
-        if (CURR_CLI->player->orientation == EAST)              \
-            CURR_CLI->player->coord.x += 1;                     \
-        if (CURR_CLI->player->coord.x >= main->args->width)     \
-            CURR_CLI->player->coord.x = 0;                      \
-        if (CURR_CLI->player->orientation == WEST)              \
-            CURR_CLI->player->coord.x -= 1;                     \
-        if (CURR_CLI->player->coord.x < 0)                      \
-            CURR_CLI->player->coord.x = main->args->width - 1;  \
-    } while (0)
+bool check_food(main_t *main, int cost, char *cmd);
 
 static const int ERROR_VALUE = 84;
 static const int END_VALUE = 0;
@@ -101,6 +83,9 @@ egg_t *init_egg(main_t *main, int i);
 
 void send_to_gui(char *cmd, server_t *server);
 void send_to_ia(char *cmd, main_t *main);
+void call_ai_command(char **tab, main_t *main);
+void check_if_gui_setup(main_t *main, int i, char *str);
+void check_coord_player(main_t *main);
 
 // commands:
 void execute_player_command(main_t *main);

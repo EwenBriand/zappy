@@ -11,8 +11,7 @@
 int list_len(void **list)
 {
     int i = 0;
-    for (; list[i]; i++)
-        ;
+    for (; list[i]; i++);
     return i;
 }
 

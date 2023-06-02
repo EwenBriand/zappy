@@ -15,10 +15,10 @@ void execute_current_command(main_t *main, int i)
     // setup food et time gestion
     if (list_len(main->server->client_fd[i]->player->cmd_buf) == 0)
         return;
-    if (strlen(main->server->client_fd[i]->player->cmd_buf) > 2) {
+    if (strlen(main->server->client_fd[i]->player->cmd_buf[0]) > 2) {
         char **tab = get_args_from_command(
             pop(main->server->client_fd[i]->player->cmd_buf));
-        CALL_AI_COMMAND(tab, main);
+        call_ai_command(tab, main);
     }
 }
 

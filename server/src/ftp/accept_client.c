@@ -26,6 +26,7 @@ int accept_client(server_t *server)
     int client = 0;
 
     if (FD_ISSET(server->fd, server->copy)) {
+        server->nbr_client_connected++;
         client = accept(
             server->fd, (struct sockaddr *) &client_addr, &client_addr_len);
         if (client < 0) {

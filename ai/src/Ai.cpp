@@ -27,29 +27,38 @@ AI::~AI()
 {
 }
 
-void AI::UpdateInventory() {
-    client.sendData("Inventory\n");
-    usleep(500000);
-    std::string inventoryMessage = client.receiveData();
-    usleep(500000);
-    inventory.parse(inventoryMessage);
-}
-
 void AI::Loop()
 {
+    int i = 0;
     while (alive) {
-        printf("Loop\n");
+        i++;
+        printf("Loop %d\n", i);
         // Forward();
-        Inventory();
-        printf("Inventory sent\n");
+        LookAround();
+        // Inventory();
+        // printf("Inventory sent\n");
+
         messageFromServer = client.receiveData();
         std::cout << "Message from server: " << messageFromServer << std::endl;
+        // if (messageFromServer.find("dead") != std::string::npos) {
+        //     alive = false;
+        //     break;
+        // }
     }
+}
+
+void AI::UpdateInventory() {
+    client.sendData("Inventory\n");
+    // usleep(500000);
+    std::string inventoryMessage = client.receiveData();
+    // usleep(500000);
+    // inventory.parse(inventoryMessage);
 }
 
 void AI::Forward()
 {
     BASESLEEP
+    std::cout << "Forward?" << std::endl;
     client.sendData("Forward\n");
 }
 

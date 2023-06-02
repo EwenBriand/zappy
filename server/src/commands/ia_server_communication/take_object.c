@@ -8,7 +8,7 @@
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
 #include "ai_command.h"
-
+#include "server.h"
 void take_object(char **args, main_t *main)
 {
     for (int i = 0; i < 7; i++) {
@@ -40,11 +40,6 @@ void take(char **args, main_t *main)
         take_object(args, main);
     else
         set(args, main);
-}
-
-void look_command(char **args, main_t *main)
-{
-
 }
 
 void connect_nbr_command(char **args, main_t *main)

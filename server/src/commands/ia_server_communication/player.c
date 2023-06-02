@@ -11,7 +11,7 @@
 
 void broadcast(char **args, main_t *main)
 {
-    char *cmd;
+    char *cmd = NULL;
 
     asprintf(&cmd, "pbc_%d_%s\n", CURR_CLI->player->id, args[0]);
     send_to_gui(cmd, main->server);
@@ -20,8 +20,7 @@ void broadcast(char **args, main_t *main)
 
 void connect_nbr(char **args, main_t *main)
 {
-    char *cmd;
-
+    char *cmd = NULL;
     // asprintf(&cmd, "%d\n", main->nb_client - main->nb_gui);
     send_to_ia(cmd, main);
 }

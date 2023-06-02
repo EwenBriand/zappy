@@ -9,6 +9,7 @@
 
 void send_ok(main_t *main)
 {
+    printf("sending ok\n");
     send(CURR_CLI->fd, "ok", 2, 0);
 }
 

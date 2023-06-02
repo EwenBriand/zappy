@@ -24,12 +24,15 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/pnw_command.c	\
 				src/commands/ppo_command.c	\
 				src/parser.c	\
+				src/send_response.c	\
 				src/commands/ia_server_communication/forward.c	\
 				src/commands/ia_server_communication/send_response_to_ia.c	\
 				src/commands/ia_server_communication/inventory.c	\
 				src/commands/ia_server_communication/turn.c \
 				src/commands/ia_server_communication/take_object.c \
 				src/commands/ia_server_communication/player.c \
+				src/commands/ia_server_communication/ai_utils.c \
+				src/commands/ia_server_communication/look_command.c \
 				src/ftp/init_dest_main.c	\
 				src/ftp/init_dest_player.c	\
 				src/tools.c	\

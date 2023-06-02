@@ -22,7 +22,6 @@ typedef struct player_s {
     int level;
     int inventory[7]; // use enum ressource
     char *team;
-    int food;
     char **cmd_buf;
 } player_t;
 
@@ -62,6 +61,7 @@ typedef struct server_s {
     fd_set *readfds;
     fd_set *copy;
     int gui_fd;
+    int nbr_client_connected;
     // args_t *args;
 } server_t;
 
