@@ -19,7 +19,7 @@ client(hostname, port), teamName(teamName)
     sleep(1);
     messageFromServer = client.receiveData();
     //TODO : remove frequency logique and put a 10 buffer inside the server.
-    std::cout << "Message from server: " << messageFromServer << std::endl;
+    std::cout << "Message from server start: " << messageFromServer << std::endl;
     freq = atoi(messageFromServer.c_str());
 }
 
@@ -30,63 +30,66 @@ AI::~AI()
 void AI::Loop()
 {
     while (alive) {
-        Forward();
-        usleep(500000);
+        printf("Loop\n");
+        // Forward();
+        Inventory();
+        printf("Inventory sent\n");
         messageFromServer = client.receiveData();
-        usleep(500000);
+        std::cout << "Message from server: " << messageFromServer << std::endl;
     }
 }
 
 void AI::Forward()
 {
     BASESLEEP
-    std::string cmb;
-    cmb = "Forward\n";
-    client.sendData(cmb);
+    client.sendData("Forward\n");
 }
 
 void AI::TurnRight()
 {
     BASESLEEP
-    std::string cmb;
-    cmb = "Right\n";
-    client.sendData(cmb);
+    client.sendData("Right\n");
 }
 
 void AI::TurnLeft()
 {
     BASESLEEP
-    std::string cmb;
-    cmb = "Left\n";
-    client.sendData(cmb);
+    client.sendData("Left\n");
 }
 
 void AI::LookAround()
 {
     BASESLEEP
-    std::string cmb;
-    cmb = "Look\n";
-    client.sendData(cmb);
+    client.sendData("Look\n");
+}
+
+void AI::Inventory()
+{
+    BASESLEEP
+    client.sendData("Inventory\n");
 }
 
 void AI::BroadcastText(std::string message)
 {
-
+    BASESLEEP
+    client.sendData("Broadcast " + message + "\n");
 }
 
 void AI::NumberOfTeamUnusedSlots()
 {
-
+    client.sendData("Connect_nbr\n");
 }
 
 void AI::ForkPlayer()
 {
-
+    FORKSLEEP
+    client.sendData("Fork\n");
 }
 
 void AI::EjectPlayer()
 {
-
+    BASESLEEP
+    client.sendData("Eject\n");
 }
 
 void AI::DeathOfPlater()
@@ -96,15 +99,18 @@ void AI::DeathOfPlater()
 
 void AI::TakeObject()
 {
-
+    BASESLEEP
+    client.sendData("Take Object\n");
 }
 
 void AI::SetObjectDown()
 {
-
+    BASESLEEP
+    client.sendData("Set Object Down\n");
 }
 
 void AI::StartIncantation()
 {
-
+    INCANTATIONSLEEP
+    client.sendData("Incantation\n");
 }

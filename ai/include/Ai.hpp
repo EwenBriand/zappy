@@ -13,7 +13,9 @@
     #include <getopt.h>
     #include <cerrno>
     #include "Client.hpp"
-    #define BASESLEEP usleep(7/freq);
+    #define BASESLEEP usleep(700000/freq);
+    #define INCANTATIONSLEEP usleep(3000000/freq);
+    #define FORKSLEEP usleep(42000000/freq);
 
 class AI {
     enum Direction {
@@ -31,6 +33,7 @@ class AI {
         void TurnRight();
         void TurnLeft();
         void LookAround();
+        void Inventory();
         void BroadcastText(std::string message);
         void NumberOfTeamUnusedSlots();
         void ForkPlayer();
