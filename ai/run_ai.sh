@@ -1,1 +1,0 @@
-make re && ./zappy_ai -p 8080 -n team1 -h 127.0.0.1
