@@ -107,8 +107,53 @@ void execute_player_command(main_t *main);
 void pnw_command(char **args, main_t *main);
 void msz_command(char **args, main_t *main);
 void bct_command(char **args, main_t *main);
+void tna_command(char **args, main_t *main);
 void ppo_command(char **args, main_t *main);
-static const call_command_t commands[] = {{"msz", msz_command},
-    {"bct", bct_command}, {"pnw", pnw_command}, {"ppo", ppo_command},
-    {NULL, NULL}};
-/* C7BD7286_8BB1_4478_8F44_9B46CFC8ED37 */
+void plv_command(char **args, main_t *main);
+void pin_command(char **args, main_t *main);
+void sgt_command(char **args, main_t *main);
+void pex_command(char **args, main_t *main);
+void pbc_command(char **args, main_t *main);
+void pic_command(char **args, main_t *main);
+void pie_command(char **args, main_t *main);
+void pfk_command(char **args, main_t *main);
+void pdr_command(char **args, main_t *main);
+void pgt_command(char **args, main_t *main);
+void pdi_command(char **args, main_t *main);
+void enw_command(char **args, main_t *main);
+void eht_command(char **args, main_t *main);
+void ebo_command(char **args, main_t *main);
+void edi_command(char **args, main_t *main);
+void sst_command(char **args, main_t *main);
+void seg_command(char **args, main_t *main);
+void smg_command(char **args, main_t *main);
+void suc_command(char **args, main_t *main);
+void sbp_command(char **args, main_t *main);
+
+// static const call_command_t commands[] = {{"msz", msz_command},
+//     {"bct", bct_command}, {"tna", tna_command}, {"pnw", pnw_command},
+//     {"ppo", ppo_command}, {"plv", plv_command}, {"pin", pin_command},
+//     {"sgt", sgt_command}, {"tna", tna_command}, {"pex", pex_command},
+//     {"pbc", pbc_command}, {"pic", pic_command}, {"pie", pie_command},
+//     {"pfk", pfk_command}, {"pdr", pdr_command}, {"pgt", pgt_command},
+//     {"pdi", pdi_command}, {"enw", enw_command}, {"eht", eht_command},
+//     {"ebo", ebo_command}, {"edi", edi_command}, {"seg", seg_command},
+//     {"smg", smg_command}, {"suc", suc_command}, {"sbp", sbp_command},
+//     {NULL, NULL}};
+
+// gui commands:
+void msz_gui_command(char **args, main_t *server);
+void bct_gui_command(char **args, main_t *server);
+void mct_gui_command(char **args, main_t *server);
+void tna_gui_command(char **args, main_t *server);
+void ppo_gui_command(char **args, main_t *server);
+void plv_gui_command(char **args, main_t *server);
+void pin_gui_command(char **args, main_t *server);
+void sgt_gui_command(char **args, main_t *server);
+void sst_gui_command(char **args, main_t *server);
+
+static const call_command_t commands_gui[] = {{"msz", msz_gui_command},
+    {"bct", bct_gui_command}, {"mct", mct_gui_command},
+    {"tna", tna_gui_command}, {"ppo", ppo_gui_command},
+    {"plv", plv_gui_command}, {"pin", pin_gui_command},
+    {"sgt", sgt_gui_command}, {"sst", sst_gui_command}, {NULL, NULL}};

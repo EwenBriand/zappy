@@ -19,11 +19,42 @@ SRC_CLIENT	=	src/main.c	\
 				src/ftp/loop_server.c	\
 				src/ftp/read_client.c	\
 				src/circular_buf.c	\
-				src/commands/msz_command.c	\
-				src/commands/btc_command.c	\
-				src/commands/pnw_command.c	\
-				src/commands/ppo_command.c	\
+				src/commands/server_gui/msz.c	\
+				src/commands/server_gui/btc.c	\
+				src/commands/server_gui/tna.c	\
+				src/commands/server_gui/pnw.c	\
+				src/commands/server_gui/ppo.c	\
+				src/commands/server_gui/plv.c	\
+				src/commands/server_gui/pin.c	\
+				src/commands/server_gui/pex.c	\
+				src/commands/server_gui/pbc.c	\
+				src/commands/server_gui/sgt.c	\
+				src/commands/server_gui/pic.c	\
+				src/commands/server_gui/pie.c	\
+				src/commands/server_gui/pfk.c	\
+				src/commands/server_gui/pdr.c	\
+				src/commands/server_gui/pgt.c	\
+				src/commands/server_gui/pdi.c	\
+				src/commands/server_gui/enw.c	\
+				src/commands/server_gui/eht.c	\
+				src/commands/server_gui/ebo.c	\
+				src/commands/server_gui/edi.c	\
+				src/commands/server_gui/sst.c	\
+				src/commands/server_gui/seg.c	\
+				src/commands/server_gui/smg.c	\
+				src/commands/server_gui/suc.c	\
+				src/commands/server_gui/sbp.c	\
 				src/parser.c	\
+				src/commands/gui_server/msz_gui.c	\
+				src/commands/gui_server/bct_gui.c	\
+				src/commands/gui_server/mct_gui.c	\
+				src/commands/gui_server/tna_gui.c	\
+				src/commands/gui_server/ppo_gui.c	\
+				src/commands/gui_server/plv_gui.c	\
+				src/commands/gui_server/pin_gui.c	\
+				src/commands/gui_server/sgt_gui.c	\
+				src/commands/gui_server/sst_gui.c	\
+				src/tools.c	\
 				src/commands/ia_server_communication/forward.c	\
 				src/commands/ia_server_communication/send_response_to_ia.c	\
 				src/commands/ia_server_communication/inventory.c	\
@@ -32,8 +63,8 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/ia_server_communication/player.c \
 				src/ftp/init_dest_main.c	\
 				src/ftp/init_dest_player.c	\
-				src/tools.c	\
 				src/commands/execute_player.c	\
+				src/commands/gui_commands.c	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)
 

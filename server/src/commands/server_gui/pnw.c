@@ -23,7 +23,7 @@ void pnw_command(char **args, main_t *main)
     asprintf(&freq, "%d", main->args->freq);
     send_response_to_ia(freq, main);
 
-    asprintf(&cmd, "pnw_%d_%d_%d_%d_%d_%s\n", CURR_CLI->player->id,
+    asprintf(&cmd, "pnw %d %d %d %d %d %s\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation, CURR_CLI->player->level,
         CURR_CLI->player->team);
