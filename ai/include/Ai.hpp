@@ -76,7 +76,7 @@ class AI {
         void NumberOfTeamUnusedSlots();
         void ForkPlayer();
         void EjectPlayer();
-        void DeathOfPlater();
+        void DeathOfPlayer();
         void TakeObject();
         void SetObjectDown();
         void StartIncantation();

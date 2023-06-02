@@ -67,13 +67,17 @@ int AI::FindFoodInVision()
     std::vector<std::string> vision = splitString(messageFromServer, ',');
 
     for (int i = 0; i < vision.size(); i++) {
-        if (vision[i].find("food") != std::string::npos)
-            return i;
+        std::vector<std::string> tileContents = splitString(vision[i], ' ');
+        for (const std::string &object : tileContents) {
+            if (object == "food")
+                return i;
+        }
     }
     return -1;
 }
 
-void AI::Loop() {
+void AI::Loop()
+{
     while (alive) {
         int directionToFood = FindFoodInVision();
         if (directionToFood != -1) {
@@ -137,7 +141,7 @@ void AI::EjectPlayer()
 
 }
 
-void AI::DeathOfPlater()
+void AI::DeathOfPlayer()
 {
 
 }
