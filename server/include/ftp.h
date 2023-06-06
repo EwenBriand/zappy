@@ -27,8 +27,8 @@
 
 #define _GNU_SOURCE
 
-#define GUI "helloGui\r\n"
-#define GUI_FORMAT "helloGui\r"
+#define GUI         "helloGui\r\n"
+#define GUI_FORMAT  "helloGui\r"
 #define GUI_FORMAT2 "helloGui\n"
 #define GUI_FORMAT3 "helloGui"
 
@@ -46,21 +46,10 @@ typedef struct foodCost_s {
     int cost;
 } foodCost_t;
 
-static foodCost_t foodCost[] = {
-    {"Forward", 7},
-    {"Right", 7},
-    {"Left", 7},
-    {"Look", 7},
-    {"Inventory", 1},
-    {"Broadcast", 7},
-    {"Connect_nbr", 0},
-    {"Fork", 42},
-    {"Eject", 7},
-    {"Take", 7},
-    {"Set", 7},
-    {"Incantation", 300},
-    {NULL, 0}
-};
+static foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7}, {"Left", 7},
+    {"Look", 7}, {"Inventory", 1}, {"Broadcast", 7}, {"Connect_nbr", 0},
+    {"Fork", 42}, {"Eject", 7}, {"Take", 7}, {"Set", 7}, {"Incantation", 300},
+    {NULL, 0}};
 
 bool check_food(main_t *main, int cost, char *cmd);
 
@@ -136,6 +125,8 @@ void plv_gui_command(char **args, main_t *server);
 void pin_gui_command(char **args, main_t *server);
 void sgt_gui_command(char **args, main_t *server);
 void sst_gui_command(char **args, main_t *server);
+
+void call_gui_command(main_t *main, int i, char **tab);
 
 static const call_command_t commands_gui[] = {{"msz", msz_gui_command},
     {"bct", bct_gui_command}, {"mct", mct_gui_command},
