@@ -35,12 +35,56 @@ void AI::UpdateInventory() {
     inventory.parse(inventoryMessage);
 }
 
+void AI::TurnToDirection(int desiredDirection)
+{
+    while (orientation != desiredDirection) {
+        if ((orientation + 1) % 4 == desiredDirection) {
+            TurnRight();
+            orientation = (orientation + 1) % 4;
+        } else {
+            TurnLeft();
+            orientation = (orientation - 1 + 4) % 4;
+        }
+    }
+}
+
+std::vector<std::string> AI::splitString(const std::string &str, char delim)
+{
+    std::vector<std::string> elems;
+    std::string elem;
+    std::istringstream elemStream(str);
+    while (std::getline(elemStream, elem, delim))
+        elems.push_back(elem);
+    return elems;
+}
+
+int AI::FindFoodInVision()
+{
+    LookAround();
+    usleep(500000);
+    messageFromServer = client.receiveData();
+    usleep(500000);
+    std::vector<std::string> vision = splitString(messageFromServer, ',');
+
+    for (int i = 0; i < vision.size(); i++) {
+        std::vector<std::string> tileContents = splitString(vision[i], ' ');
+        for (const std::string &object : tileContents) {
+            if (object == "food")
+                return i;
+        }
+    }
+    return -1;
+}
+
 void AI::Loop()
 {
     while (alive) {
-        Forward();
-        usleep(500000);
-        messageFromServer = client.receiveData();
+        int directionToFood = FindFoodInVision();
+        if (directionToFood != -1) {
+            TurnToDirection(directionToFood);
+            Forward();
+        } else
+            Forward();
         usleep(500000);
     }
 }
@@ -97,7 +141,7 @@ void AI::EjectPlayer()
 
 }
 
-void AI::DeathOfPlater()
+void AI::DeathOfPlayer()
 {
 
 }

@@ -12,6 +12,12 @@
     #include <unistd.h>
     #include <getopt.h>
     #include <cerrno>
+    #include <cstring>
+    #include <vector>
+    #include <sstream>
+    #include <cstdlib>
+    #include <ctime>
+    #include <chrono>
     #include "Client.hpp"
     #define BASESLEEP usleep(7/freq);
 
@@ -70,7 +76,7 @@ class AI {
         void NumberOfTeamUnusedSlots();
         void ForkPlayer();
         void EjectPlayer();
-        void DeathOfPlater();
+        void DeathOfPlayer();
         void TakeObject();
         void SetObjectDown();
         void StartIncantation();
@@ -89,6 +95,9 @@ class AI {
         InventoryContent inventory;
 
         void UpdateInventory();
+        void TurnToDirection(int desiredDirection);
+        std::vector<std::string> splitString(const std::string &str, char delimiter);
+        int FindFoodInVision();
 };
 
 #endif /* !IA_HPP_ */
