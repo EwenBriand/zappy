@@ -29,9 +29,7 @@ AI::~AI()
 void AI::UpdateInventory()
 {
     client.sendData("Inventory\n");
-    usleep(500000);
     std::string inventoryMessage = client.receiveData();
-    usleep(500000);
     inventory.parse(inventoryMessage);
 }
 
@@ -67,9 +65,7 @@ std::string AI::PrioritizeResources()
 int AI::FindResourceInVision()
 {
     LookAround();
-    usleep(500000);
     messageFromServer = client.receiveData();
-    usleep(500000);
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::string priorityResource = PrioritizeResources();
 
@@ -87,13 +83,14 @@ void AI::Loop()
 {
     int i = 0;
     while (alive) {
-        int directionToResource = FindResourceInVision();
-        if (directionToResource != -1) {
-            TurnToDirection(directionToResource);
-            Forward();
-        } else
-            Forward();
-        usleep(500000);
+        if (Waiter()) {
+            int directionToResource = FindResourceInVision();
+            if (directionToResource != -1) {
+                TurnToDirection(directionToResource);
+                Forward();
+            } else
+                Forward();
+        }
     }
 }
 
