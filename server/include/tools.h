@@ -12,3 +12,4 @@
 char *pop(char **list);
 int list_len(void **list);
 egg_t *pop_egg(egg_t **arr);
+char *my_itoa(int num);

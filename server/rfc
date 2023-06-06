@@ -1,9 +1,9 @@
 server to client:
-msz X Y = map size
-bct X Y q0 q1 q2 q3 q4 q5 q6 = content of a tile
+msz X Y = map size  OK
+bct X Y q0 q1 q2 q3 q4 q5 q6 = content of a tile   OK
 tna N = team name
-pnw #n X Y O L N = new player
-ppo #n X Y O = player position
+pnw #n X Y O L N = new player   OK
+ppo #n X Y O = player position  OK
 plv #n L = player level
 pin #n X Y q0 q1 q2 q3 q4 q5 q6 = player inventory
 pex #n = player expulse
@@ -19,6 +19,7 @@ eht #e = egg hatch
 ebo #e = egg broken
 edi #e = egg death
 sgt T = time unit
+sst T = set time unit
 seg N = end of game
 smg M = server message
 suc = command success

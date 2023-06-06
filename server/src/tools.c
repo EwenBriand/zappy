@@ -38,3 +38,11 @@ egg_t *pop_egg(egg_t **list)
     list[len - 1] = NULL;
     return popped;
 }
+
+char *my_itoa(int num)
+{
+    int len = snprintf(NULL, 0, "%d", num);
+    char *str = malloc(len + 1);
+    snprintf(str, len + 1, "%d", num);
+    return str;
+}

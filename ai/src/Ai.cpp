@@ -26,26 +26,66 @@ AI::~AI()
 {
 }
 
+void AI::UpdateInventory() {
+    client.sendData("Inventory\n");
+    usleep(500000);
+    std::string inventoryMessage = client.receiveData();
+    usleep(500000);
+    inventory.parse(inventoryMessage);
+}
+
+void AI::TurnToDirection(int desiredDirection)
+{
+    while (orientation != desiredDirection) {
+        if ((orientation + 1) % 4 == desiredDirection) {
+            TurnRight();
+            orientation = (orientation + 1) % 4;
+        } else {
+            TurnLeft();
+            orientation = (orientation - 1 + 4) % 4;
+        }
+    }
+}
+
+std::vector<std::string> AI::splitString(const std::string &str, char delim)
+{
+    std::vector<std::string> elems;
+    std::string elem;
+    std::istringstream elemStream(str);
+    while (std::getline(elemStream, elem, delim))
+        elems.push_back(elem);
+    return elems;
+}
+
+int AI::FindFoodInVision()
+{
+    LookAround();
+    usleep(500000);
+    messageFromServer = client.receiveData();
+    usleep(500000);
+    std::vector<std::string> vision = splitString(messageFromServer, ',');
+
+    for (int i = 0; i < vision.size(); i++) {
+        std::vector<std::string> tileContents = splitString(vision[i], ' ');
+        for (const std::string &object : tileContents) {
+            if (object == "food")
+                return i;
+        }
+    }
+    return -1;
+}
+
 void AI::Loop()
 {
     int i = 0;
     while (alive) {
-        if (Waiter()) {
-
-        i++;
-        printf("Loop %d\n", i);
-        // Forward();
-        LookAround();
-        // Inventory();
-        // printf("Inventory sent\n");
-
-        messageFromServer = client.receiveData();
-        std::cout << "Message from server: " << messageFromServer << std::endl;
-        // if (messageFromServer.find("dead") != std::string::npos) {
-        //     alive = false;
-        //     break;
-        // }
-        }
+        int directionToFood = FindFoodInVision();
+        if (directionToFood != -1) {
+            TurnToDirection(directionToFood);
+            Forward();
+        } else
+            Forward();
+        usleep(500000);
     }
 }
 
@@ -131,7 +171,7 @@ void AI::EjectPlayer()
     client.sendData("Eject\n");
 }
 
-void AI::DeathOfPlater()
+void AI::DeathOfPlayer()
 {
 
 }
