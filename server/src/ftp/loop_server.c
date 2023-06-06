@@ -33,9 +33,7 @@ void loop_server(main_t *main)
         if (nfds < 0)
             break;
 
-        printf("connected asked %i\n", nfds);
-
-        if (accept_client(main->server) == 84)
+        if (accept_client(main) == 84)
             break;
         read_client(main);
         execute_player_command(main);

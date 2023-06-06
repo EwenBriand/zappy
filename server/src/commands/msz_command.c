@@ -29,6 +29,5 @@ void msz_command(char **args, main_t *server)
 {
     char cmd[100];
     sprintf(cmd, "msz_%d_%d\n", server->args->width, server->args->height);
-    printf("cmd: %s\n", cmd);
     send_to_gui(cmd, server->server);
 }

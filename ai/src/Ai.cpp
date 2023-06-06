@@ -14,12 +14,11 @@ client(hostname, port), teamName(teamName)
         std::cerr << "Could not connect to server" << std::endl;
         return;
     }
+    start = std::chrono::system_clock::now();
+    WelcomeProtocol();
     std::cout << "waiting for server message..." << std::endl;
     client.sendData("pnw_0_0_0_1_1_" + teamName + "\n");
-    sleep(1);
     messageFromServer = client.receiveData();
-    //TODO : remove frequency logique and put a 10 buffer inside the server.
-    std::cout << "Message from server start: " << messageFromServer << std::endl;
     freq = atoi(messageFromServer.c_str());
 }
 
@@ -31,6 +30,8 @@ void AI::Loop()
 {
     int i = 0;
     while (alive) {
+        if (Waiter()) {
+
         i++;
         printf("Loop %d\n", i);
         // Forward();
@@ -44,51 +45,72 @@ void AI::Loop()
         //     alive = false;
         //     break;
         // }
+        }
     }
 }
 
-void AI::UpdateInventory() {
+void AI::WelcomeProtocol()
+{
+    messageFromServer = client.receiveData(); // get Welcome message
+    client.sendData(teamName + "\n"); //send team name
+    messageFromServer = client.receiveData(); // get team name
+    clientNbrRemain = atoi(messageFromServer.c_str()); // get client number
+    messageFromServer = client.receiveData(); // get map size
+    x = atoi(messageFromServer.substr(0, messageFromServer.find(" ")).c_str());
+    y = atoi(messageFromServer.substr(messageFromServer.find(" ") + 1, messageFromServer.find("\n")).c_str());
+}
+
+void AI::UpdateInventory()
+{
     client.sendData("Inventory\n");
-    // usleep(500000);
     std::string inventoryMessage = client.receiveData();
-    // usleep(500000);
-    // inventory.parse(inventoryMessage);
+}
+
+bool AI::Waiter()
+{
+    auto currentTime = std::chrono::system_clock::now();
+    auto elapsed_seconds = currentTime - start;
+    if (elapsed_seconds.count() >= timeToWait) {
+        start = std::chrono::system_clock::now();
+        return true;
+    }
+    return false;
 }
 
 void AI::Forward()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     std::cout << "Forward?" << std::endl;
     client.sendData("Forward\n");
 }
 
 void AI::TurnRight()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Right\n");
 }
 
 void AI::TurnLeft()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Left\n");
 }
 
 void AI::LookAround()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Look\n");
 }
 
 void AI::Inventory()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Inventory\n");
 }
 
 void AI::BroadcastText(std::string message)
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Broadcast " + message + "\n");
 }
 
@@ -99,13 +121,13 @@ void AI::NumberOfTeamUnusedSlots()
 
 void AI::ForkPlayer()
 {
-    FORKSLEEP
+    timeToWait = FORKSLEEP
     client.sendData("Fork\n");
 }
 
 void AI::EjectPlayer()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Eject\n");
 }
 
@@ -116,18 +138,18 @@ void AI::DeathOfPlater()
 
 void AI::TakeObject()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Take Object\n");
 }
 
 void AI::SetObjectDown()
 {
-    BASESLEEP
+    timeToWait = BASESLEEP;
     client.sendData("Set Object Down\n");
 }
 
 void AI::StartIncantation()
 {
-    INCANTATIONSLEEP
+    timeToWait = INCANTATIONSLEEP
     client.sendData("Incantation\n");
 }

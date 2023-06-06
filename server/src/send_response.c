@@ -18,14 +18,18 @@ void call_ai_command(char **tab, main_t *main)
     }
 }
 
-void check_if_gui_setup(main_t *main, int i, char *str)
+int check_if_gui_setup(main_t *main, int i, char *str)
 {
-    if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0 || strcmp(str, GUI_FORMAT2) == 0) {
+    if (strlen(str) == 0)
+        return 0;
+    if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
+    || strcmp(str, GUI_FORMAT2) == 0 || strcmp(str, GUI_FORMAT3) == 0) {
         printf("GUI connected and setup!\n");
         main->server->gui_fd = main->server->client_fd[i]->fd;
         msz_command(NULL, main);
-        return;
+        return 1;
     }
+    return 0;
 }
 
 void check_coord_player(main_t *main)

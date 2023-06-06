@@ -20,20 +20,26 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-// #include "args.h"
 #include "struct.h"
 #include "tools.h"
 #include "ai_command.h"
 #include "error_code.h"
 
-// define to use asprintf
 #define _GNU_SOURCE
 
 #define GUI "helloGui\r\n"
 #define GUI_FORMAT "helloGui\r"
 #define GUI_FORMAT2 "helloGui\n"
-// #define CURR_CLI server->client_fd[server->current_client_index]
+#define GUI_FORMAT3 "helloGui"
+
 #define CURR_CLI main->server->client_fd[main->server->current_client_index]
+
+static const int ERROR_VALUE = 84;
+static const int END_VALUE = 0;
+static const int MAX_CLI = 100;
+
+enum orientation { NORTH, EAST, SOUTH, WEST };
+enum ressource { Q0, Q1, Q2, Q3, Q4, Q5, Q6 };
 
 typedef struct foodCost_s {
     char *command;
@@ -58,15 +64,9 @@ static foodCost_t foodCost[] = {
 
 bool check_food(main_t *main, int cost, char *cmd);
 
-static const int ERROR_VALUE = 84;
-static const int END_VALUE = 0;
-static const int MAX_CLI = 100;
-
-enum orientation { NORTH, EAST, SOUTH, WEST };
-
-enum ressource { Q0, Q1, Q2, Q3, Q4, Q5, Q6 };
-
-int accept_client(server_t *server);
+void init_teams(main_t *main);
+team_t *get_team_by_name(main_t *main, char *team_name);
+int accept_client(main_t *main);
 void read_client(main_t *main);
 void loop_server(main_t *main);
 
@@ -84,7 +84,7 @@ egg_t *init_egg(main_t *main, int i);
 void send_to_gui(char *cmd, server_t *server);
 void send_to_ia(char *cmd, main_t *main);
 void call_ai_command(char **tab, main_t *main);
-void check_if_gui_setup(main_t *main, int i, char *str);
+int check_if_gui_setup(main_t *main, int i, char *str);
 void check_coord_player(main_t *main);
 
 // commands:

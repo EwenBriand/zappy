@@ -9,6 +9,7 @@
 
 #include "ai_command.h"
 #include "server.h"
+
 void take_object(char **args, main_t *main)
 {
     for (int i = 0; i < 7; i++) {

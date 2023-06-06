@@ -65,7 +65,7 @@ main_t *init_main(int argc, char **argv)
             main->eggs[pos++] = init_egg(main, i);
     }
 
-    for (pos; pos < 100; ++pos)
+    for (; pos < 100; ++pos)
         main->eggs[pos] = NULL;
     return (main);
 }

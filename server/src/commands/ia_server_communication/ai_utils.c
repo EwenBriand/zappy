@@ -30,3 +30,22 @@ bool check_food(main_t *main, int cost, char *cmd)
     return true;
 }
 
+char *get_object_name(int i)
+{
+    switch (i) {
+        case 0:
+            return ("food");
+        case 1:
+            return ("linemate");
+        case 2:
+            return ("deraumere");
+        case 3:
+            return ("sibur");
+        case 4:
+            return ("mendiane");
+        case 5:
+            return ("phiras");
+        case 6:
+            return ("thystame");
+    }
+}

@@ -13,9 +13,9 @@
     #include <getopt.h>
     #include <cerrno>
     #include "Client.hpp"
-    #define BASESLEEP usleep(700000/freq);
-    #define INCANTATIONSLEEP usleep(3000000/freq);
-    #define FORKSLEEP usleep(42000000/freq);
+    #define BASESLEEP 700000000/freq; //this is 7s
+    #define INCANTATIONSLEEP 30000000000/freq;
+    #define FORKSLEEP 4200000000/freq;
 
 class AI {
     enum Direction {
@@ -63,6 +63,7 @@ class AI {
     public:
         AI(const std::string &hostname, int port, const std::string teamName);
         ~AI();
+        void WelcomeProtocol();
         void Loop();
         void Forward();
         void TurnRight();
@@ -77,6 +78,7 @@ class AI {
         void TakeObject();
         void SetObjectDown();
         void StartIncantation();
+        bool Waiter();
 
     private:
         bool alive = true;
@@ -89,7 +91,13 @@ class AI {
         int freq;
         bool MoveX = 0;
         bool MoveY = 0;
+        int clientNbrRemain;
+        int x = 0;
+        int y = 0;
         InventoryContent inventory;
+        std::chrono::time_point<std::chrono::system_clock> start;
+        std::chrono::time_point<std::chrono::system_clock> end;
+        int timeToWait = 0;
 
         void UpdateInventory();
 };

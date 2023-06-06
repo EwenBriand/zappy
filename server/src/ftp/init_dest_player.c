@@ -21,8 +21,7 @@ egg_t *init_egg(main_t *main, int i)
     new->coord.x = rand() % main->args->width;
     new->coord.y = rand() % main->args->height;
     new->team = strdup(main->args->name[i]);
-    // new->orientation = rand() % 4; // TODO rand
-    new->orientation = 0;
+    new->orientation = rand() % 4; // TODO rand
 
     printf("Egg created at %d %d with %d oritentation from %s team\n",
         new->coord.x, new->coord.y, new->orientation, new->team);
@@ -46,7 +45,8 @@ player_t *init_player(egg_t *egg)
     new->coord.x = egg->coord.x;
     new->coord.y = egg->coord.y;
     new->orientation = egg->orientation;
-    new->team = egg->team;
+    // new->team = egg->team;
+    
     new->inventory[Q0] = 1260;
     for (int i = 1; i < 7; ++i)
         new->inventory[i] = 0;
@@ -60,7 +60,6 @@ player_t *init_player(egg_t *egg)
 
 void destroy_player(player_t *player)
 {
-    free(player->team);
     free(player);
     for (int i = 0; i < 11; ++i)
         if (player->cmd_buf[i] != NULL)

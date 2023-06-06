@@ -14,13 +14,10 @@ static void add_cmd_to_player(player_t *player, char *str)
     if (i >= 10)
         return;
     player->cmd_buf[i] = strdup(str);
-    printf("Player stock: [%s]\n", player->cmd_buf[i]);
 }
 
 void get_command(char *str, main_t *main, int i)
 {
-    printf("Client said2: [%s]\n", str);
-    check_if_gui_setup(main, i, str);
     if (main->server->client_fd[i]->player != NULL)
         return add_cmd_to_player(main->server->client_fd[i]->player, str);
     if (strlen(str) > 2) {
@@ -50,8 +47,6 @@ static void read_client2(main_t *main, int i)
 void read_client(main_t *main)
 {
     for (int i = 0; i < MAX_CLI - 1; i++) {
-        if (main->server->client_fd[i] != NULL)
-            printf("%i\n", main->server->client_fd[i]->fd);
         if (main->server->client_fd[i] != NULL
             && FD_ISSET(main->server->client_fd[i]->fd, main->server->copy)) {
             read_client2(main, i);

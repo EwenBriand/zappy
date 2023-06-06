@@ -25,12 +25,35 @@ void connect_nbr(char **args, main_t *main)
     send_to_ia(cmd, main);
 }
 
+void move_player_from_tile(main_t *main, int i)
+{
+    if (main->server->client_fd[i]->player->orientation == 0)
+        main->server->client_fd[i]->player->coord.y--;
+    else if (main->server->client_fd[i]->player->orientation == 1)
+        main->server->client_fd[i]->player->coord.x++;
+    else if (main->server->client_fd[i]->player->orientation == 2)
+        main->server->client_fd[i]->player->coord.y++;
+    else if (main->server->client_fd[i]->player->orientation == 3)
+        main->server->client_fd[i]->player->coord.x--;
+}
+
 void eject(char **args, main_t *main)
 {
     char *cmd;
 
-    asprintf(&cmd, "pex_%d\n", CURR_CLI->player->id);
-    send_to_gui(cmd, main->server);
+    CURR_CLI->player->coord.x;
+    for (int i = 0; i < main->server->nbr_client_connected; i++) {
+        if (main->server->client_fd[i]->player->coord.x
+                == CURR_CLI->player->coord.x &&
+            main->server->client_fd[i]->player->coord.y
+                == CURR_CLI->player->coord.y) {
+            asprintf(&cmd, "pex_%d\n", main->server->client_fd[i]->player->id);
+            send_to_gui(cmd, main->server);
+            move_player_from_tile(main, i);
+            dprintf(main->server->client_fd[i]->fd, "eject: %d\n",
+                CURR_CLI->player->orientation);
+        }
+    }
     send_ok(main);
 }
 

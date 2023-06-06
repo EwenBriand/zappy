@@ -9,15 +9,25 @@
 
 #include "ai_command.h"
 
+static void fill_string(int i, char **cmd, main_t *main)
+{
+    if (i == 0)
+        asprintf(cmd, "%s%s %d", *cmd, get_object_name(i),
+            CURR_CLI->player->inventory[i]);
+    else {
+        asprintf(cmd, "%s, %s %d", *cmd, get_object_name(i),
+            CURR_CLI->player->inventory[i]);
+    }
+}
+
 void inventory_command(char **args, main_t *main)
 {
-    char *cmd;
+    char *cmd = "[";
 
-    asprintf(&cmd, "%d_%d_%d_%d_%d_%d_%d\n", CURR_CLI->player->inventory[Q0],
-        CURR_CLI->player->inventory[Q1], CURR_CLI->player->inventory[Q2],
-        CURR_CLI->player->inventory[Q3], CURR_CLI->player->inventory[Q4],
-        CURR_CLI->player->inventory[Q5], CURR_CLI->player->inventory[Q6]);
-
+    for (int i = 0; i <= Q6; i++) {
+        fill_string(i, &cmd, main);
+    }
+    asprintf(&cmd, "%s]\n", cmd);
     send_to_ia(cmd, main);
 }
 

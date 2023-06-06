@@ -16,6 +16,9 @@ typedef struct call_server_form_ia_s {
     void (*func)(char **, main_t *);
 } call_server_form_ia_t;
 
+//tools
+char *get_object_name(int i);
+
 void forward_command(char **args, main_t *main);
 void send_ok(main_t *main);
 void send_ko(main_t *main);
