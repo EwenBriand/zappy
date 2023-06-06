@@ -18,14 +18,10 @@ void bct_gui_command(char **args, main_t *server)
     cmd[0] = "bct";
     cmd[0 + 1] = args[1];
     cmd[1 + 1] = args[2];
-    cmd[2 + 1] = my_itoa(server->map->tiles[x][y].inventory[0]);
-    cmd[3 + 1] = my_itoa(server->map->tiles[x][y].inventory[1]);
-    cmd[4 + 1] = my_itoa(server->map->tiles[x][y].inventory[2]);
-    cmd[5 + 1] = my_itoa(server->map->tiles[x][y].inventory[3]);
-    cmd[6 + 1] = my_itoa(server->map->tiles[x][y].inventory[4]);
-    cmd[7 + 1] = my_itoa(server->map->tiles[x][y].inventory[5]);
-    cmd[8 + 1] = my_itoa(server->map->tiles[x][y].inventory[6]);
-    cmd[9 + 1] = NULL;
+    for (int i = 0; i < 7; i++)
+        cmd[3 + i] = my_itoa(server->map->tiles[x][y]->inventory[i]);
+        // cmd[3 + i] = "1";
+    cmd[10] = NULL;
     bct_command(cmd, server);
     free(cmd);
 }

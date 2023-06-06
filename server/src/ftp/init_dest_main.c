@@ -8,15 +8,15 @@
 #include "ftp.h"
 #include "server.h"
 
-static tile_t new_tile(int x, int y)
+static tile_t *new_tile(int x, int y)
 {
-    tile_t new;
+    tile_t *new = malloc(sizeof(tile_t));
 
-    new.coord.x = x;
-    new.coord.y = y;
+    new->coord.x = x;
+    new->coord.y = y;
 
     for (int i = 0; i < 7; i++)
-        new.inventory[i] = 0;
+        new->inventory[i] = 0;
 
     return (new);
 }
@@ -29,11 +29,11 @@ static map_t *init_map(args_t *args)
         return (NULL);
     new->width = args->width;
     new->height = args->height;
-    new->tiles = malloc(sizeof(tile_t *) * args->height);
+    new->tiles = malloc(sizeof(tile_t **) * args->height);
     if (new->tiles == NULL)
         return (NULL);
     for (int i = 0; i < args->height; i++) {
-        new->tiles[i] = malloc(sizeof(tile_t) * args->width);
+        new->tiles[i] = malloc(sizeof(tile_t *) * args->width);
         if (new->tiles[i] == NULL)
             return (NULL);
         for (int j = 0; j < args->width; j++)

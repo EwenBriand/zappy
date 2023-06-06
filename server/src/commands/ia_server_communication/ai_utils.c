@@ -18,14 +18,16 @@ void client_killer(main_t *main)
 
 bool check_food(main_t *main, int cost, char *cmd)
 {
+    if (CURR_CLI->fd == main->server->gui_fd)
+        return true;
     if (strcmp(cmd, "pnw") == 0)
         return true;
     printf("cost: %d\n", cost);
-    if (CURR_CLI->player->inventory[Q0] < cost) {
-        printf("NOT ENOUGH FOOD\n");
-        client_killer(main);
-        return false;
-    }
+    // if (CURR_CLI->player->inventory[Q0] < cost) {
+    //     printf("NOT ENOUGH FOOD\n");
+    //     client_killer(main);
+    //     return false;
+    // }
     CURR_CLI->player->inventory[Q0] -= cost;
     return true;
 }

@@ -17,7 +17,7 @@ client(hostname, port), teamName(teamName)
     start = std::chrono::system_clock::now();
     WelcomeProtocol();
     std::cout << "waiting for server message..." << std::endl;
-    client.sendData("pnw_0_0_0_1_1_" + teamName + "\n");
+    client.sendData("pnw 0 0 0 1 1 " + teamName + "\n");
     messageFromServer = client.receiveData();
     freq = atoi(messageFromServer.c_str());
 }
@@ -108,11 +108,11 @@ void AI::WelcomeProtocol()
     y = atoi(messageFromServer.substr(messageFromServer.find(" ") + 1, messageFromServer.find("\n")).c_str());
 }
 
-void AI::UpdateInventory()
-{
-    client.sendData("Inventory\n");
-    std::string inventoryMessage = client.receiveData();
-}
+// void AI::UpdateInventory()
+// {
+//     client.sendData("Inventory\n");
+//     std::string inventoryMessage = client.receiveData();
+// }
 
 bool AI::Waiter()
 {

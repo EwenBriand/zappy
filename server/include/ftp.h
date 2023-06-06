@@ -73,8 +73,8 @@ egg_t *init_egg(main_t *main, int i);
 void send_to_gui(char *cmd, server_t *server);
 void send_to_ia(char *cmd, main_t *main);
 void call_ai_command(char **tab, main_t *main);
-int check_if_gui_setup(main_t *main, int i, char *str);
 void check_coord_player(main_t *main);
+// int check_if_gui_setup(char **args, main_t *main);
 
 // commands:
 void execute_player_command(main_t *main);

@@ -18,30 +18,17 @@ void call_ai_command(char **tab, main_t *main)
     }
 }
 
-int check_if_gui_setup(main_t *main, int i, char *str)
-{
-    if (strlen(str) == 0)
-        return 0;
-    if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
-        || strcmp(str, GUI_FORMAT2) == 0 || strcmp(str, GUI_FORMAT3) == 0) {
-        printf("GUI connected and setup!\n");
-        main->server->gui_fd = main->server->client_fd[i]->fd;
-        printf("gui fd = %d\n", main->server->gui_fd);
-        return 1;
-    }
-    return 0;
-}
+// irnt check_if_gui_setup(char **args, main_t *main)
+// {
+//     // if (strlen(str) == 0)
+//     //     return 0;
+//     // if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
+//     //     || strcmp(str, GUI_FORMAT2) == 0 || strcmp(str, GUI_FORMAT3) == 0) {
+//         printf("GUI connected and setup!\n");
 
-void check_coord_player(main_t *main)
-{
-    int movement[4][2] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-    int orientation = CURR_CLI->player->orientation;
-    int height = main->args->height;
-    int width = main->args->width;
+//         // printf("gui fd = %d\n", main->server->gui_fd);
+//     //     return 1;
+//     // }
+//     // return 0;
+// }
 
-    CURR_CLI->player->coord.y =
-        (CURR_CLI->player->coord.y + movement[orientation][0] + height)
-        % height;
-    CURR_CLI->player->coord.x =
-        (CURR_CLI->player->coord.x + movement[orientation][1] + width) % width;
-}

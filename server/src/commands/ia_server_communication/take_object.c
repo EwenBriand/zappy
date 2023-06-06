@@ -14,9 +14,9 @@ void take_object(char **args, main_t *main)
 {
     for (int i = 0; i < 7; i++) {
         if (main->map->tiles[CURR_CLI->player->coord.y]
-            [CURR_CLI->player->coord.x].inventory[i] > 0) {
+            [CURR_CLI->player->coord.x]->inventory[i] > 0) {
             main->map->tiles[CURR_CLI->player->coord.y]
-            [CURR_CLI->player->coord.x].inventory[i]--;
+            [CURR_CLI->player->coord.x]->inventory[i]--;
             CURR_CLI->player->inventory[i]++;
         }
     }
@@ -28,7 +28,7 @@ void set(char **args, main_t *main)
     for (int i = 0; i < 7; i++) {
         if (CURR_CLI->player->inventory[i] > 0) {
             main->map->tiles[CURR_CLI->player->coord.y]
-            [CURR_CLI->player->coord.x].inventory[i]++;
+            [CURR_CLI->player->coord.x]->inventory[i]++;
             CURR_CLI->player->inventory[i]--;
         }
     }

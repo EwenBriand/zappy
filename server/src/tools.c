@@ -7,7 +7,7 @@
 
 #include "tools.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 int list_len(void **list)
 {
     int i = 0;

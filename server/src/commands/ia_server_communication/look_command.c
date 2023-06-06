@@ -25,8 +25,8 @@ char *get_player_on_tile(main_t *main, int x, int y)
 void get_objects_on_tile(main_t *main, int x, int y, char **cmd)
 {
     for (int i = 0; i < 7; i++) {
-        if (main->map->tiles[y][x].inventory[i] > 0) {
-            for (int j = 0; j < main->map->tiles[y][x].inventory[i]; j++) {
+        if (main->map->tiles[y][x]->inventory[i] > 0) {
+            for (int j = 0; j < main->map->tiles[y][x]->inventory[i]; j++) {
                 asprintf(cmd, "%s %s", *cmd, get_object_name(i));
                 break;
             }

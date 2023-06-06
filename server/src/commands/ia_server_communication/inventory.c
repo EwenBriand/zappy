@@ -35,7 +35,7 @@ void incantation_command(char **args, main_t *main)
 {
     char *cmd;
 
-    asprintf(&cmd, "pie_%d_%d_%d\n", CURR_CLI->player->coord.x,
+    asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
         CURR_CLI->player->coord.y, 0);
     send_to_gui(cmd, main->server);
     send_ok(main);
@@ -45,7 +45,7 @@ void fork_command(char **args, main_t *main)
 {
     char *cmd;
 
-    asprintf(&cmd, "pfk_%d\n", CURR_CLI->player->id);
+    asprintf(&cmd, "pfk %d\n", CURR_CLI->player->id);
     send_to_gui(cmd, main->server);
     send_ok(main);
 }
