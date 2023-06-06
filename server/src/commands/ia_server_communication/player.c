@@ -13,7 +13,7 @@ void broadcast(char **args, main_t *main)
 {
     char *cmd = NULL;
 
-    asprintf(&cmd, "pbc_%d_%s\n", CURR_CLI->player->id, args[0]);
+    asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[0]);
     send_to_gui(cmd, main->server);
     send_ok(main);
 }
@@ -47,7 +47,7 @@ void eject(char **args, main_t *main)
                 == CURR_CLI->player->coord.x &&
             main->server->client_fd[i]->player->coord.y
                 == CURR_CLI->player->coord.y) {
-            asprintf(&cmd, "pex_%d\n", main->server->client_fd[i]->player->id);
+            asprintf(&cmd, "pex %d\n", main->server->client_fd[i]->player->id);
             send_to_gui(cmd, main->server);
             move_player_from_tile(main, i);
             dprintf(main->server->client_fd[i]->fd, "eject: %d\n",
@@ -61,7 +61,7 @@ void incantation(char **args, main_t *main)
 {
     char *cmd;
 
-    asprintf(&cmd, "pie_%d_%d_%d\n", CURR_CLI->player->coord.x,
+    asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
         CURR_CLI->player->coord.y, 0);
     send_to_gui(cmd, main->server);
     send_ok(main);

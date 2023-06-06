@@ -42,7 +42,7 @@ typedef struct tile_s {
 typedef struct map_s {
     int width;
     int height;
-    tile_t **tiles;
+    tile_t ***tiles;
 } map_t;
 
 typedef struct egg_s {

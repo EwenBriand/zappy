@@ -17,6 +17,7 @@ void plv_gui_command(char **args, main_t *server)
             && server->server->client_fd[i]->player != NULL
             && server->server->client_fd[i]->player->id == atoi(args[1]))
             plv_command((char *[]){"plv",
-                            my_itoa(server->server->client_fd[i]->player->level)},
-                server);
+                                   my_itoa(atoi(args[1])),
+                                   my_itoa(server->server->client_fd[i]->player->level)},
+                        server);
 }

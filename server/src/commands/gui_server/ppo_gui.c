@@ -15,12 +15,14 @@ void ppo_gui_command(char **args, main_t *server)
     for (int i = 0; i < MAX_CLI + 1; i++)
         if (server->server->client_fd[i] != NULL
             && server->server->client_fd[i]->player != NULL
-            && server->server->client_fd[i]->player->id == atoi(args[1]))
+            && server->server->client_fd[i]->player->id == atoi(args[1])) {
             ppo_command(
                 (char *[]){"ppo",
+                    my_itoa(atoi(args[1])),
                     my_itoa(server->server->client_fd[i]->player->coord.x),
                     my_itoa(server->server->client_fd[i]->player->coord.y),
                     my_itoa(
                         server->server->client_fd[i]->player->orientation)},
                 server);
+            }
 }

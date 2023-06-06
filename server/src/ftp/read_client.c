@@ -22,13 +22,17 @@ void get_command(char *str, main_t *main, int i)
         return add_cmd_to_player(main->server->client_fd[i]->player, str);
     if (strlen(str) > 2) {
         char **tab = get_args_from_command(str);
-        printf("from %i str = %s\n", main->server->client_fd[i]->fd, str);
-        if (main->server->client_fd[i]->fd == main->server->gui_fd) {
+        if (main->server->client_fd[i]->fd == main->server->gui_fd)
             return call_gui_command(main, i, tab);
-        } else
+        else if (strcmp(tab[0], "helloGui") == 0) {
+            // return check_if_gui_setup(tab, main);
+            main->server->gui_fd = CURR_CLI->fd;
+            return;
+        }
+        else
             call_ai_command(tab, main);
     } else {
-        dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
+        // dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
     }
 }
 

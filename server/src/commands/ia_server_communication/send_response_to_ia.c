@@ -10,12 +10,12 @@
 void send_ok(main_t *main)
 {
     printf("sending ok\n");
-    send(CURR_CLI->fd, "ok", 2, 0);
+    send(CURR_CLI->fd, "ok\n", 3, 0);
 }
 
 void send_ko(main_t *main)
 {
-    send(CURR_CLI->fd, "ko", 2, 0);
+    send(CURR_CLI->fd, "ko\n", 3, 0);
 }
 
 void send_response_to_ia(char *response, main_t *main)

@@ -13,6 +13,7 @@ void turn_right(char **args, main_t *main)
         CURR_CLI->player->orientation = 0;
     else
         CURR_CLI->player->orientation++;
+    send_ok(main);
 }
 
 void turn_left(char **args, main_t *main)
@@ -21,4 +22,5 @@ void turn_left(char **args, main_t *main)
         CURR_CLI->player->orientation = 3;
     else
         CURR_CLI->player->orientation--;
+    send_ok(main);
 }

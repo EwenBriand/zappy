@@ -15,15 +15,16 @@ static void manage_team(main_t *main, int i)
 static void accept_new_user_protocole(main_t *main, int i)
 {
     char *msg = "WELCOME\n";
-    char *buf = malloc(sizeof(char) * 8);
+    char *buf = malloc(sizeof(char) * 9);
     dprintf(main->server->client_fd[i]->fd, "%s", msg);
-    int len = read(main->server->client_fd[i]->fd, buf, 8);
-    if (check_if_gui_setup(main, i, buf))
-        return;
-    if (len) {
-        main->server->client_fd[i]->team_name = strdup(buf);
-        manage_team(main, i);
-    }
+    // int len = read(main->server->client_fd[i]->fd, buf, 8);
+    // buf[len] = '\0';
+    // if (check_if_gui_setup(main, i, buf))
+    //     return;
+    // if (len) {
+    //     main->server->client_fd[i]->team_name = strdup(buf);
+    //     manage_team(main, i);
+    // }
     dprintf(main->server->client_fd[i]->fd, "%i\n", i + 1);
     usleep(1000);
     dprintf(main->server->client_fd[i]->fd, "%d %d\n", main->map->width,
