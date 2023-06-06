@@ -26,7 +26,8 @@ AI::~AI()
 {
 }
 
-void AI::UpdateInventory() {
+void AI::UpdateInventory()
+{
     client.sendData("Inventory\n");
     usleep(500000);
     std::string inventoryMessage = client.receiveData();
@@ -57,18 +58,25 @@ std::vector<std::string> AI::splitString(const std::string &str, char delim)
     return elems;
 }
 
-int AI::FindFoodInVision()
+std::string AI::PrioritizeResources()
+{
+    // go implémenter la logique de priorité level up / survie içi
+    return "food";
+}
+
+int AI::FindResourceInVision()
 {
     LookAround();
     usleep(500000);
     messageFromServer = client.receiveData();
     usleep(500000);
     std::vector<std::string> vision = splitString(messageFromServer, ',');
+    std::string priorityResource = PrioritizeResources();
 
     for (int i = 0; i < vision.size(); i++) {
         std::vector<std::string> tileContents = splitString(vision[i], ' ');
         for (const std::string &object : tileContents) {
-            if (object == "food")
+            if (object == priorityResource)
                 return i;
         }
     }
@@ -79,9 +87,9 @@ void AI::Loop()
 {
     int i = 0;
     while (alive) {
-        int directionToFood = FindFoodInVision();
-        if (directionToFood != -1) {
-            TurnToDirection(directionToFood);
+        int directionToResource = FindResourceInVision();
+        if (directionToResource != -1) {
+            TurnToDirection(directionToResource);
             Forward();
         } else
             Forward();
