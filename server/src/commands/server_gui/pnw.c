@@ -14,16 +14,19 @@ void pnw_command(char **args, main_t *main)
 {
     char *cmd;
     char *freq;
+    int team = get_team_by_name(main, args[4]);
     printf("PNW\n");
 
-    egg_t *egg = pop_egg(main->eggs);
-    if (egg == NULL)
-        return send_response_to_ia("KO no eggs available", main);
-    CURR_CLI->player = init_player(egg);
-    CURR_CLI->team_name = strdup(egg->team);
-    CURR_CLI->teams = get_team_by_name(main, CURR_CLI->team_name);
-    asprintf(&freq, "%d", main->args->freq);
+    if (main->teams_list[team] == NULL
+        || main->teams_list[team]->current_player
+            >= main->teams_list[team]->max_player)
+        return send_response_to_ia("ko\n", main);
+    CURR_CLI->player = init_player_char(args);
+    CURR_CLI->team_name = strdup(args[4]);
+    CURR_CLI->teams = &main->teams_list[team];
+    asprintf(&freq, "%d\n", main->args->freq);
     send_response_to_ia(freq, main);
+    main->teams_list[team]->current_player++;
 
     asprintf(&cmd, "pnw %d %d %d %d %d %s\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,

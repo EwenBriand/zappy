@@ -25,11 +25,12 @@ void setup_rdfs(server_t *server)
 void loop_server(main_t *main)
 {
     int nfds = 0;
+    struct timeval timeout = {0, 0};
 
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(main->server);
         nfds = select(
-            main->server->max + 1, main->server->copy, NULL, NULL, NULL);
+            main->server->max + 1, main->server->copy, NULL, NULL, &timeout);
         if (nfds < 0)
             break;
 
@@ -37,6 +38,8 @@ void loop_server(main_t *main)
             break;
         read_client(main);
         execute_player_command(main);
+        add_ressources_if_its_time(main);
+
         // for all player exec ther current command
         // send upd map to gui
     }

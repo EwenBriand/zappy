@@ -16,12 +16,7 @@ void pnw_command(char **args, main_t *main)
     char *freq;
     printf("PNW\n");
 
-    egg_t *egg = pop_egg(main->eggs);
-    if (egg == NULL)
-        return send_response_to_ia("KO no eggs available", main);
-    CURR_CLI->player = init_player(egg);
-    CURR_CLI->team_name = strdup(egg->team);
-    CURR_CLI->teams = get_team_by_name(main, CURR_CLI->team_name);
+    CURR_CLI->player = init_player_pnw(args);
     asprintf(&freq, "%d", main->args->freq);
     send_response_to_ia(freq, main);
 

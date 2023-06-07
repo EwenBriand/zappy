@@ -59,6 +59,8 @@ main_t *init_main(int argc, char **argv)
     main->server = init_server(main->args);
     main->map = init_map(main->args);
     main->eggs = malloc(sizeof(egg_t *) * 100);
+    // get current time in seconds
+    main->time = time(NULL);
 
     for (int j = 0; main->args->clientsNb > j; ++j) {
         for (int i = 0; list_len(main->args->name) > i; ++i)
@@ -67,6 +69,7 @@ main_t *init_main(int argc, char **argv)
 
     for (; pos < 100; ++pos)
         main->eggs[pos] = NULL;
+    add_ressources(main);
     return (main);
 }
 

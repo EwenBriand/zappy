@@ -10,12 +10,7 @@
 #include <sys/select.h>
 #include "args.h"
 
-static const int directions[4][2] = {
-    {0, -1},
-    {1, 0},
-    {0, 1},
-    {-1, 0}
-};
+static const int directions[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
 
 #define DX directions[orientation][0]
 #define DY directions[orientation][1]
@@ -46,6 +41,7 @@ typedef struct map_s {
 } map_t;
 
 typedef struct egg_s {
+    int id;
     coord_t coord;
     char *team;
     int orientation;
@@ -64,14 +60,13 @@ typedef struct client_s {
     char *name;
     char *team_name;
     player_t *player;
-    team_t *teams;
+    team_t **teams;
 } client_t;
 
 typedef struct server_s {
     int fd;
     int port;
     int max;
-    team_t **teams_list;
     client_t **client_fd;
     int current_client_index;
     fd_set *readfds;
@@ -81,10 +76,12 @@ typedef struct server_s {
 } server_t;
 
 typedef struct main_s {
+    team_t **teams_list;
     server_t *server;
     args_t *args;
     map_t *map;
     egg_t **eggs;
+    int time;
 } main_t;
 
 typedef struct call_command_s {
