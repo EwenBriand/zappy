@@ -28,8 +28,8 @@ void call_ai_command(char **tab, main_t *main)
 // {
 //     // if (strlen(str) == 0)
 //     //     return 0;
-//     // if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
-//     //     || strcmp(str, GUI_FORMAT2) == 0 || strcmp(str, GUI_FORMAT3) == 0) {
+// if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
+//     || strcmp(str, GUI_FORMAT2) == 0 || strcmp(str, GUI_FORMAT3) == 0) {
 //         printf("GUI connected and setup!\n");
 
 //         // printf("gui fd = %d\n", main->server->gui_fd);
@@ -37,4 +37,3 @@ void call_ai_command(char **tab, main_t *main)
 //     // }
 //     // return 0;
 // }
-

@@ -32,6 +32,7 @@ class AI {
     };
 
     class InventoryContent {
+        int food;
         int linemate;
         int sibur;
         int deraumere;
@@ -39,13 +40,15 @@ class AI {
         int phiras;
         int thystame;
     public:
-        InventoryContent() : linemate(0), sibur(0), deraumere(0), mendiane(0), phiras(0), thystame(0) {}
+        InventoryContent() : food(10), linemate(0), sibur(0), deraumere(0), mendiane(0), phiras(0), thystame(0) {}
         void parse(std::string inventoryMessage) {
             std::string tmp;
             int i = 0;
             while (inventoryMessage[i] != '\0') {
                 if (inventoryMessage[i] == ' ') {
-                    if (tmp == "linemate") {
+                    if (tmp == "food") {
+                        food = atoi(inventoryMessage.substr(i + 1).c_str());
+                    } else if (tmp == "linemate") {
                         linemate = atoi(inventoryMessage.substr(i + 1).c_str());
                     } else if (tmp == "sibur") {
                         sibur = atoi(inventoryMessage.substr(i + 1).c_str());
@@ -109,7 +112,8 @@ class AI {
         void UpdateInventory();
         void TurnToDirection(int desiredDirection);
         std::vector<std::string> splitString(const std::string &str, char delimiter);
-        int FindFoodInVision();
+        std::string PrioritizeResources();
+        int FindResourceInVision();
 };
 
 #endif /* !IA_HPP_ */

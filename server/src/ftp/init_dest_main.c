@@ -35,7 +35,7 @@ static map_t *init_map(args_t *args)
     for (int i = 0; i < args->height; i++) {
         new->tiles[i] = malloc(sizeof(tile_t *) * args->width);
         if (new->tiles[i] == NULL)
-            return (NULL); 
+            return (NULL);
         for (int j = 0; j < args->width; j++)
             new->tiles[i][j] = new_tile(i, j);
     }
@@ -66,6 +66,7 @@ main_t *init_main(int argc, char **argv)
     main->server = init_server(main->args);
     main->map = init_map(main->args);
     main->eggs = malloc(sizeof(egg_t *) * 100);
+    main->time = time(NULL);
 
     for (int j = 0; main->args->nb_client_max > j; ++j) {
         for (int i = 0; list_len(main->args->name) > i; ++i)
@@ -74,6 +75,7 @@ main_t *init_main(int argc, char **argv)
 
     for (; pos < 100; ++pos)
         main->eggs[pos] = NULL;
+    add_ressources(main);
     return (main);
 }
 

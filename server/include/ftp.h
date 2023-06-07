@@ -54,21 +54,29 @@ static foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7}, {"Left", 7},
 bool check_food(main_t *main, int cost, char *cmd);
 
 void init_teams(main_t *main);
-team_t *get_team_by_name(main_t *main, char *team_name);
+int get_team_by_name(main_t *main, char *team_name);
 int accept_client(main_t *main);
 void read_client(main_t *main);
 void loop_server(main_t *main);
 
 void destroy_server(server_t *server);
 server_t *init_server(args_t *args);
+
 void destroy_client(client_t *client);
 client_t *client_init(int fd);
+
 void destroy_main(main_t *main);
 main_t *init_main(int argc, char **argv);
+
 void destroy_player(player_t *player);
+player_t *init_player_char(char **args);
 player_t *init_player(egg_t *egg);
+
 void destroy_egg(egg_t *egg);
 egg_t *init_egg(main_t *main, int i);
+
+void add_ressources(main_t *main);
+void add_ressources_if_its_time(main_t *main);
 
 void send_to_gui(char *cmd, server_t *server);
 void send_to_ia(char *cmd, main_t *main);
