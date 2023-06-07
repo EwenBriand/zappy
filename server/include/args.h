@@ -12,6 +12,6 @@ typedef struct args_s {
     int width;
     int height;
     char **name;
-    int clientsNb;
+    int nb_client_max;
     int freq;
 } args_t;

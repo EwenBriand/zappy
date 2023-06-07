@@ -46,8 +46,8 @@ player_t *init_player(egg_t *egg)
     new->coord.y = egg->coord.y;
     new->orientation = egg->orientation;
     // new->team = egg->team;
-    
-    new->inventory[Q0] = 1260;
+
+    new->inventory[Q0] = 12;
     for (int i = 1; i < 7; ++i)
         new->inventory[i] = 0;
     new->level = 1;

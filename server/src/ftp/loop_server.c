@@ -25,8 +25,10 @@ void setup_rdfs(server_t *server)
 void loop_server(main_t *main)
 {
     int nfds = 0;
-
+    // set a non blocking select
     while (HANDLER != ERROR_VALUE) {
+        printf("HELLO\n");
+
         setup_rdfs(main->server);
         nfds = select(
             main->server->max + 1, main->server->copy, NULL, NULL, NULL);

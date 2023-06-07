@@ -16,7 +16,7 @@ void init_teams(main_t *main)
     for (int j = 0; j < i; j++) {
         main->server->teams_list[j] = malloc(sizeof(team_t));
         main->server->teams_list[j]->name = strdup(main->args->name[j]);
-        main->server->teams_list[j]->max_player = main->args->clientsNb;
+        main->server->teams_list[j]->max_player = main->args->nb_client_max;
         // printf("main->server->teams_list[j]->name : %s\n", main->server->teams_list[j]->name);
     }
     main->server->teams_list[i] = NULL;

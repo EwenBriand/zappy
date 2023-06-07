@@ -18,20 +18,19 @@ void take_object(char **args, main_t *main)
             main->map->tiles[CURR_CLI->player->coord.y]
             [CURR_CLI->player->coord.x]->inventory[i]--;
             CURR_CLI->player->inventory[i]++;
+            pgt_command((char *[]){my_itoa(CURR_CLI->player->id),
+                my_itoa(i)}, main);
         }
     }
     send_ok(main);
 }
 
-void set(char **args, main_t *main)
+void set_command(char **args, main_t *main)
 {
-    for (int i = 0; i < 7; i++) {
-        if (CURR_CLI->player->inventory[i] > 0) {
-            main->map->tiles[CURR_CLI->player->coord.y]
-            [CURR_CLI->player->coord.x]->inventory[i]++;
-            CURR_CLI->player->inventory[i]--;
-        }
-    }
+    int quantity = atoi(args[2]);
+    for (int i = 0; i < quantity; i++)
+        pdr_command((char *[]){my_itoa(CURR_CLI->player->id), args[1]}, main);
+
     send_ok(main);
 }
 
@@ -39,11 +38,13 @@ void take(char **args, main_t *main)
 {
     if (strcmp(args[0], "food") == 0)
         take_object(args, main);
-    else
-        set(args, main);
 }
 
 void connect_nbr_command(char **args, main_t *main)
 {
+    char *cmd;
 
+    asprintf(&cmd, "%d\n", main->args->nb_client_max -
+        main->server->nbr_client_connected + 1);
+    send_to_ia(cmd, main);
 }

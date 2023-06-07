@@ -13,6 +13,6 @@
 void pdr_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "pdr #%d %d\n", atoi(args[1]), atoi(args[2]));
+    sprintf(cmd, "pdr %s %s\n", args[0], args[1]);
     send_to_gui(cmd, server->server);
 }
