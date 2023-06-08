@@ -28,9 +28,11 @@ AI::~AI()
 
 void AI::UpdateInventory()
 {
-    client.sendData("Inventory\n");
+    Inventory();
     std::string inventoryMessage = client.receiveData();
-    inventory.parse(inventoryMessage);
+    inventory.parse(inventoryMessage, [&](const std::string &str, char delim) {
+        return this->splitString(str, delim);
+    });
 }
 
 void AI::TurnToDirection(int desiredDirection)
@@ -58,7 +60,36 @@ std::vector<std::string> AI::splitString(const std::string &str, char delim)
 
 std::string AI::PrioritizeResources()
 {
-    // go implémenter la logique de priorité level up / survie içi
+    const std::array<std::array<int, 6>, 7> requirementLevels = {{
+        {1, 0, 0, 0, 0, 0},
+        {1, 1, 1, 0, 0, 0},
+        {2, 0, 1, 0, 2, 0},
+        {1, 1, 2, 0, 1, 0},
+        {1, 2, 1, 3, 0, 0},
+        {1, 2, 3, 0, 1, 0},
+        {2, 2, 2, 2, 2, 1}
+    }};
+    const std::array<std::string, 6> resourceNames = {"linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"};
+
+    if (inventory.getFood() < 2)
+        return "food";
+
+    for (size_t i = 0; i < resourceNames.size(); ++i) {
+        if (requirementLevels[level-1][i] > 0) {
+            if (resourceNames[i] == "linemate" && inventory.getLinemate() < requirementLevels[level-1][i])
+                return "linemate";
+            else if (resourceNames[i] == "deraumere" && inventory.getDeraumere() < requirementLevels[level-1][i])
+                return "deraumere";
+            else if (resourceNames[i] == "sibur" && inventory.getSibur() < requirementLevels[level-1][i])
+                return "sibur";
+            else if (resourceNames[i] == "mendiane" && inventory.getMendiane() < requirementLevels[level-1][i])
+                return "mendiane";
+            else if (resourceNames[i] == "phiras" && inventory.getPhiras() < requirementLevels[level-1][i])
+                return "phiras";
+            else if (resourceNames[i] == "thystame" && inventory.getThystame() < requirementLevels[level-1][i])
+                return "thystame";
+        }
+    }
     return "food";
 }
 
@@ -79,17 +110,53 @@ int AI::FindResourceInVision()
     return -1;
 }
 
+// void AI::CheckLevelUp()
+// {
+//     const std::array<std::array<int, 6>, 7> requirementLevels = {{
+//         {1, 0, 0, 0, 0, 0},
+//         {1, 1, 1, 0, 0, 0},
+//         {2, 0, 1, 0, 2, 0},
+//         {1, 1, 2, 0, 1, 0},
+//         {1, 2, 1, 3, 0, 0},
+//         {1, 2, 3, 0, 1, 0},
+//         {2, 2, 2, 2, 2, 1}
+//     }};
+
+//     if (inventory.getFood() >= requirementLevels[level-1][0] &&
+//         inventory.getLinemate() >= requirementLevels[level-1][1] &&
+//         inventory.getDeraumere() >= requirementLevels[level-1][2] &&
+//         inventory.getSibur() >= requirementLevels[level-1][3] &&
+//         inventory.getMendiane() >= requirementLevels[level-1][4] &&
+//         inventory.getPhiras() >= requirementLevels[level-1][5] &&
+//         inventory.getThystame() >= requirementLevels[level-1][6]) {
+//         StartIncantation();
+//         messageFromServer = client.receiveData();
+//         if (messageFromServer != "ok\n") {
+//             StartIncantation();
+//             messageFromServer = client.receiveData();
+//         } else {
+//             level++;
+//         }
+//     }
+// }
+
 void AI::Loop()
 {
     int i = 0;
     while (alive) {
         if (Waiter()) {
             int directionToResource = FindResourceInVision();
+            UpdateInventory();
             if (directionToResource != -1) {
                 TurnToDirection(directionToResource);
                 Forward();
-            } else
+                TakeObject();
+                UpdateInventory();
+                // CheckLevelUp();
+            } else {
+                // CheckLevelUp();
                 Forward();
+            }
         }
     }
 }
@@ -105,12 +172,6 @@ void AI::WelcomeProtocol()
     y = atoi(messageFromServer.substr(messageFromServer.find(" ") + 1, messageFromServer.find("\n")).c_str());
 }
 
-// void AI::UpdateInventory()
-// {
-//     client.sendData("Inventory\n");
-//     std::string inventoryMessage = client.receiveData();
-// }
-
 bool AI::Waiter()
 {
     auto currentTime = std::chrono::system_clock::now();
@@ -125,7 +186,7 @@ bool AI::Waiter()
 void AI::Forward()
 {
     timeToWait = BASESLEEP;
-    std::cout << "Forward?" << std::endl;
+    std::cout << "Forward" << std::endl;
     client.sendData("Forward\n");
 }
 
