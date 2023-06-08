@@ -26,6 +26,12 @@ egg_t *init_egg(main_t *main, int i)
     new->team = strdup(main->args->name[i]);
     new->orientation = rand() % 4; // TODO rand
     new->id = id++;
+    // jsp si on fait comme ca car ca laisse la possibiliter a un joueur de se
+    // connecter sans passer par l'oeuf ce qui fait qu'on a le nb de joueur au
+    // max et un oeuf en plus
+    // on peut peut etre ne pas add mtn et add a la connection du nouveau
+    // joueur dans l'oeuf
+    main->teams_list[i]->max_player++;
 
     printf("Egg created at %d %d with %d oritentation from %s team\n",
         new->coord.x, new->coord.y, new->orientation, new->team);
