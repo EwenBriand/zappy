@@ -18,12 +18,11 @@ void ppo_gui_command(char **args, main_t *server)
             && server->server->client_fd[i]->player->id == atoi(args[1])) {
             printf("ppo_gui_command\n");
             ppo_command(
-                (char *[]){"ppo",
-                    my_itoa(atoi(args[1])),
+                (char *[]){my_itoa(atoi(args[1])),
                     my_itoa(server->server->client_fd[i]->player->coord.x),
                     my_itoa(server->server->client_fd[i]->player->coord.y),
                     my_itoa(
                         server->server->client_fd[i]->player->orientation)},
                 server);
-            }
+        }
 }

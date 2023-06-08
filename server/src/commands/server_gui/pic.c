@@ -13,9 +13,9 @@
 void pic_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "pic %d %d %d", atoi(args[1]), atoi(args[2]), atoi(args[3]));
-    for (int i = 4; args[i]; i++)
-        sprintf(cmd + strlen(cmd), "#%d", atoi(args[i]));
+    sprintf(cmd, "pic %s %s %s ", args[0], args[1], args[2]);
+    for (int i = 3; args[i]; i++)
+        sprintf(cmd + strlen(cmd), "%s ", args[i]);
 
     sprintf(cmd + strlen(cmd), "\n");
     send_to_gui(cmd, server->server);

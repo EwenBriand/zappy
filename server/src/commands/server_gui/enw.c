@@ -13,7 +13,6 @@
 void enw_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "enw #%d #%d %d %d\n", atoi(args[1]), atoi(args[2]),
-        atoi(args[3]), atoi(args[4]));
+    sprintf(cmd, "enw %s %s %s %s\n", args[0], args[1], args[2], args[3]);
     send_to_gui(cmd, server->server);
 }

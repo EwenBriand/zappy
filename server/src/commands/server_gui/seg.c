@@ -13,6 +13,6 @@
 void seg_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "seg %s\n", args[1]);
+    sprintf(cmd, "seg %s\n", args[0]);
     send_to_gui(cmd, server->server);
 }
