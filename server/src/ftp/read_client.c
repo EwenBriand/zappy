@@ -28,6 +28,7 @@ void get_command(char *str, main_t *main, int i)
         } else if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
             || strcmp(str, GUI_FORMAT2) == 0
             || strcmp(str, GUI_FORMAT3) == 0) {
+            printf("GUI connected and setup!\n");
             // return check_if_gui_setup(tab, main);
             main->server->gui_fd = CURR_CLI->fd;
             return;

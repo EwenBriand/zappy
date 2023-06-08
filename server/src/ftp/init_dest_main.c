@@ -40,12 +40,6 @@ static map_t *init_map(args_t *args)
             new->tiles[i][j] = new_tile(i, j);
     }
 
-    //fill the map with resources // TODO DELETE ME
-    for (int i = 0; i < args->height; i++)
-        for (int j = 0; j < args->width; j++)
-            for (int k = 0; k < 7; k++)
-                new->tiles[i][j]->inventory[k] = rand() % 10;
-
     return (new);
 }
 
@@ -68,10 +62,11 @@ main_t *init_main(int argc, char **argv)
     main->eggs = malloc(sizeof(egg_t *) * 100);
     main->time = time(NULL);
 
-    for (int j = 0; main->args->nb_client_max > j; ++j) {
-        for (int i = 0; list_len(main->args->name) > i; ++i)
-            main->eggs[pos++] = init_egg(main, i);
-    }
+    // pas sur qu'il faut faire ca
+    // for (int j = 0; main->args->nb_client_max > j; ++j) {
+    //     for (int i = 0; list_len(main->args->name) > i; ++i)
+    //         main->eggs[pos++] = init_egg(main, i);
+    // }
 
     for (; pos < 100; ++pos)
         main->eggs[pos] = NULL;

@@ -17,7 +17,7 @@ void pnw_command(char **args, main_t *main)
     int team = get_team_by_name(main, args[4]);
     printf("PNW\n");
 
-    if (main->teams_list[team] == NULL
+    if (team == -1 || main->teams_list[team] == NULL
         || main->teams_list[team]->current_player
             >= main->teams_list[team]->max_player)
         return send_response_to_ia("ko\n", main);

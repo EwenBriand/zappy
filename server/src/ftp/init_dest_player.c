@@ -81,8 +81,8 @@ player_t *init_player_char(char **args)
     for (int i = 0; i < 11; ++i)
         new->cmd_buf[i] = NULL;
 
-    printf("Player %d created at %d %d with %d oritentation at level %d\n", new->id,
-        new->coord.x, new->coord.y, new->orientation, new->level);
+    printf("Player %d created at %d %d with %d oritentation at level %d\n",
+        new->id, new->coord.x, new->coord.y, new->orientation, new->level);
 
     return (new);
 }

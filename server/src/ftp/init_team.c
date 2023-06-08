@@ -32,5 +32,5 @@ int get_team_by_name(main_t *main, char *team_name)
         if (strcmp(main->teams_list[i]->name, team_name) == 0)
             return i;
     }
-    return NULL;
+    return -1;
 }
