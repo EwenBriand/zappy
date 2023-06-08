@@ -27,7 +27,7 @@ void pnw_command(char **args, main_t *main)
     send_response_to_ia(freq, main);
     main->teams_list[team]->current_player++;
 
-    asprintf(&cmd, "pnw %d %d %d %d %d %s\n", CURR_CLI->player->id,
+    asprintf(&cmd, "pnw #%d %d %d %d %d %s\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation, CURR_CLI->player->level,
         CURR_CLI->team_name);

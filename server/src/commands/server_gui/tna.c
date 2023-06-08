@@ -13,6 +13,6 @@
 void tna_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "tna %s\n", args[1]);
+    sprintf(cmd, "tna %s\n", args[0]);
     send_to_gui(cmd, server->server);
 }

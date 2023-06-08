@@ -14,7 +14,7 @@ void mct_gui_command(char **args, main_t *server)
 {
     for (int i = 0; i < server->map->height; i++)
         for (int j = 0; j < server->map->width; j++) {
-            bct_gui_command((char *[]){"bct", my_itoa(i), my_itoa(j)}, server);
+            bct_gui_command((char *[]){my_itoa(i), my_itoa(j)}, server);
         }
     printf("mct END \n");
 }
