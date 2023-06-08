@@ -39,6 +39,7 @@ static map_t *init_map(args_t *args)
         for (int j = 0; j < args->width; j++)
             new->tiles[i][j] = new_tile(i, j);
     }
+
     return (new);
 }
 
@@ -59,14 +60,17 @@ main_t *init_main(int argc, char **argv)
     main->server = init_server(main->args);
     main->map = init_map(main->args);
     main->eggs = malloc(sizeof(egg_t *) * 100);
+    main->time = time(NULL);
 
-    for (int j = 0; main->args->clientsNb > j; ++j) {
-        for (int i = 0; list_len(main->args->name) > i; ++i)
-            main->eggs[pos++] = init_egg(main, i);
-    }
+    // pas sur qu'il faut faire ca
+    // for (int j = 0; main->args->nb_client_max > j; ++j) {
+    //     for (int i = 0; list_len(main->args->name) > i; ++i)
+    //         main->eggs[pos++] = init_egg(main, i);
+    // }
 
     for (; pos < 100; ++pos)
         main->eggs[pos] = NULL;
+    add_ressources(main);
     return (main);
 }
 

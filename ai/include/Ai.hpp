@@ -89,9 +89,10 @@ class AI {
         void EjectPlayer();
         void DeathOfPlayer();
         void TakeObject();
-        void SetObjectDown();
+        void SetObjectDown(int object, int quantity);
         void StartIncantation();
         bool Waiter();
+        void AllPlayerLevel();
 
     private:
         bool alive = true;

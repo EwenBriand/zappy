@@ -12,12 +12,13 @@
 
 void plv_gui_command(char **args, main_t *server)
 {
-    for (int i = 0; i < MAX_CLI + 1; i++)
+    for (int i = 0; i < server->server->nbr_client_connected; i++)
         if (server->server->client_fd[i] != NULL
             && server->server->client_fd[i]->player != NULL
-            && server->server->client_fd[i]->player->id == atoi(args[1]))
-            plv_command((char *[]){"plv",
-                                   my_itoa(atoi(args[1])),
-                                   my_itoa(server->server->client_fd[i]->player->level)},
-                        server);
+            && server->server->client_fd[i]->player->id == atoi(args[1])) {
+            plv_command((char *[]) {
+                my_itoa(atoi(args[1])),
+                my_itoa(server->server->client_fd[i]->player->level)},
+                server);
+        }
 }

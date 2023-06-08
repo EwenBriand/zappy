@@ -27,7 +27,7 @@ void display_args(args_t *args)
     for (int i = 0; args->name[i]; i++)
         printf("name[%d]: %s\n", i, args->name[i]);
 
-    printf("clientsNb: %d\n", args->clientsNb);
+    printf("nb_client_max: %d\n", args->nb_client_max);
     printf("freq: %d\n", args->freq);
 }
 
@@ -58,7 +58,7 @@ args_t *get_data_from_args(int ac, char **av)
         if (strcmp(av[i], "-n") == 0)
             args->name = get_names(av + i + 1);
         if (check_arg("-c"))
-            args->clientsNb = atoi(av[i + 1]);
+            args->nb_client_max = atoi(av[i + 1]);
         if (check_arg("-f"))
             args->freq = atoi(av[i + 1]);
     }

@@ -13,7 +13,14 @@ void broadcast(char **args, main_t *main)
 {
     char *cmd = NULL;
 
-    asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[0]);
+    for (int i = 0; i < main->server->nbr_client_connected; i++) {
+        if (main->server->client_fd[i]->player->id != CURR_CLI->player->id
+            && main->server->client_fd[i]->player->id == main->server->gui_fd) {
+            asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[1]);
+        }
+    }
+
+    asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[1]);
     send_to_gui(cmd, main->server);
     send_ok(main);
 }

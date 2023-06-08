@@ -13,6 +13,6 @@
 void pgt_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "pgt #%d %d\n", atoi(args[1]), atoi(args[2]));
+    sprintf(cmd, "pgt %s %s\n", args[0], args[1]);
     send_to_gui(cmd, server->server);
 }

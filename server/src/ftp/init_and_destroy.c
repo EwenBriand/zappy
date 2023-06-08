@@ -6,7 +6,11 @@
 */
 
 #include "ftp.h"
-
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <fcntl.h>
 static int creat_tcp(int port)
 {
     struct sockaddr_in my_addr;
@@ -24,6 +28,8 @@ static int creat_tcp(int port)
     if (bind(tcp_socket, (struct sockaddr *) &my_addr, sizeof(my_addr)) == -1)
         return -1;
     listen(tcp_socket, 42);
+    // int flags = fcntl(tcp_socket, F_GETFL, 0);
+    // fcntl(tcp_socket, F_SETFL, flags | O_NONBLOCK);
     return tcp_socket;
 }
 

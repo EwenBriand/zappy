@@ -165,11 +165,11 @@ void AI::WelcomeProtocol()
 {
     messageFromServer = client.receiveData(); // get Welcome message
     client.sendData(teamName + "\n"); //send team name
-    messageFromServer = client.receiveData(); // get team name
-    clientNbrRemain = atoi(messageFromServer.c_str()); // get client number
+    clientNbrRemain = atoi(client.receiveData().c_str()); // get client number
     messageFromServer = client.receiveData(); // get map size
     x = atoi(messageFromServer.substr(0, messageFromServer.find(" ")).c_str());
     y = atoi(messageFromServer.substr(messageFromServer.find(" ") + 1, messageFromServer.find("\n")).c_str());
+    std::cout << "END OF WELCOME"<< std::endl;
 }
 
 bool AI::Waiter()
@@ -245,17 +245,26 @@ void AI::DeathOfPlayer()
 void AI::TakeObject()
 {
     timeToWait = BASESLEEP;
-    client.sendData("Take Object\n");
+    client.sendData("Take\n");
 }
 
-void AI::SetObjectDown()
+void AI::SetObjectDown(int object, int quantity)
 {
     timeToWait = BASESLEEP;
-    client.sendData("Set Object Down\n");
+    client.sendData("Set" + std::to_string(object) + " " + std::to_string(quantity) + "\n");
 }
 
 void AI::StartIncantation()
 {
     timeToWait = INCANTATIONSLEEP
     client.sendData("Incantation\n");
+}
+
+void AI::AllPlayerLevel()
+{
+    timeToWait = BASESLEEP;
+    char lvl[20];
+
+    std::sprintf(lvl, "%d", level);
+    client.sendData("PlayersLevel " + std::string(lvl) + "\n");
 }

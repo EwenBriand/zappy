@@ -34,6 +34,7 @@ void connect_nbr_command(char **args, main_t *main);
 void fork_command(char **args, main_t *main);
 void eject(char **args, main_t *main);
 void incantation_command(char **args, main_t *main);
+void set_command(char **args, main_t *main);
 
 static const call_server_form_ia_t call_server_form_ia[] = {
     {"Forward", forward_command},
@@ -41,12 +42,14 @@ static const call_server_form_ia_t call_server_form_ia[] = {
     {"Inventory", inventory_command},
     {"Right", turn_right},
     {"Left", turn_left},
-    {"Take object", take_object},
+    {"Take", take_object},
     {"Look", look_command},
+    {"Set", set_command},
     {"Broadcast", broadcast},
     {"Connect_nbr", connect_nbr_command},
     {"Fork", fork_command},
     {"Eject", eject},
     {"Incantation", incantation_command},
+    // {"PlayersLevel", players_level_command},
     {NULL, NULL}
 };

@@ -13,6 +13,6 @@
 void sst_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "sst %d\n", atoi(args[1]));
+    sprintf(cmd, "sst %s\n", args[1]);
     send_to_gui(cmd, server->server);
 }

@@ -13,7 +13,6 @@
 void pie_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(
-        cmd, "pie %d %d %d\n", atoi(args[1]), atoi(args[2]), atoi(args[3]));
+    sprintf(cmd, "pie %s %s %s\n", args[0], args[1], args[2]);
     send_to_gui(cmd, server->server);
 }

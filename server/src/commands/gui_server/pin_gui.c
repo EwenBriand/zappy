@@ -10,27 +10,31 @@
 #include "ftp.h"
 #include "server.h"
 
-void pin_gui_command(char **args, main_t *server)
+static int get_index_user(main_t *main, int id)
+{
+    for (int i = 0; i < main->server->nbr_client_connected; i++)
+        if (main->server->client_fd[i] != NULL
+            && main->server->client_fd[i]->player != NULL
+            && main->server->client_fd[i]->player->id == id)
+            return i;
+    return -1;
+}
+
+void pin_gui_command(char **args, main_t *main)
 {
     char **cmd = malloc(sizeof(char *) * 12);
-    cmd[0] = "pin";
-    cmd[1] = args[1];
-    cmd[2] = args[2];
-    cmd[3] = args[3];
 
-    for (int i = 0; i < MAX_CLI + 1; i++)
-        if (server->server->client_fd[i] != NULL
-            && server->server->client_fd[i]->player != NULL
-            && server->server->client_fd[i]->player->id == atoi(args[1])) {
-            cmd[3 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[0]);
-            cmd[4 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[1]);
-            cmd[5 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[2]);
-            cmd[6 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[3]);
-            cmd[7 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[4]);
-            cmd[8 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[5]);
-            cmd[9 + 1] = my_itoa(server->server->client_fd[i]->player->inventory[6]);
-            cmd[10 + 1] = NULL;
-        }
-    pin_command(cmd, server);
+    int index_user = get_index_user(main, atoi(args[1]));
+    if (index_user == -1)
+        return;
+
+    cmd[0] = my_itoa(main->server->client_fd[index_user]->player->id);
+    cmd[1] = my_itoa(main->server->client_fd[index_user]->player->coord.x);
+    cmd[2] = my_itoa(main->server->client_fd[index_user]->player->coord.y);
+
+    for (int i = 0; i < 7; i++)
+        cmd[3 + i] = my_itoa(main->server->client_fd[index_user]->player->inventory[i]);
+    cmd[10] = NULL;
+    pin_command(cmd, main);
     free(cmd);
 }

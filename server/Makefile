@@ -66,6 +66,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/ia_server_communication/look_command.c \
 				src/ftp/init_dest_main.c	\
 				src/ftp/init_dest_player.c	\
+				src/ftp/add_ressources.c	\
 				src/ftp/init_team.c	\
 				src/commands/execute_player.c	\
 				src/commands/gui_commands.c	\

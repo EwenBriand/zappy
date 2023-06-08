@@ -13,6 +13,6 @@
 void eht_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "eht #%d\n", atoi(args[1]));
+    sprintf(cmd, "eht %s\n", args[0]);
     send_to_gui(cmd, server->server);
 }

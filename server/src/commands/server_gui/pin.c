@@ -13,9 +13,9 @@
 void pin_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "pin #%d %d %d %d %d %d %d %d %d %d\n", atoi(args[1]),
-        atoi(args[2]), atoi(args[3]), atoi(args[4]), atoi(args[5]),
-        atoi(args[6]), atoi(args[7]), atoi(args[8]), atoi(args[9]),
-        atoi(args[10]));
+    sprintf(cmd, "pin %s %s %s %s %s %s %s %s %s %s\n", args[0],
+        args[1], args[2], args[3], args[4],
+        args[5], args[6], args[7], args[8],
+        args[9]);
     send_to_gui(cmd, server->server);
 }
