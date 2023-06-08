@@ -27,6 +27,8 @@ typedef struct player_s {
     int level;
     int inventory[7];
     char **cmd_buf;
+    int time;
+    int command_time;
 } player_t;
 
 typedef struct tile_s {
