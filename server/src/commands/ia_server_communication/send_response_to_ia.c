@@ -10,6 +10,9 @@
 void send_ok(main_t *main)
 {
     printf("sending ok\n");
+
+    if (CURR_CLI->fd == -1)
+        return;
     send(CURR_CLI->fd, "ok\n", 3, 0);
 }
 

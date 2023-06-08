@@ -14,9 +14,8 @@ void pnw_command(char **args, main_t *main)
 {
     char *cmd;
     char *freq;
-    int team = get_team_by_name(main, args[4]);
-    printf("PNW\n");
 
+    int team = get_team_by_name(main, args[6]);
     if (team == -1 || main->teams_list[team] == NULL
         || main->teams_list[team]->current_player
             >= main->teams_list[team]->max_player)
@@ -33,4 +32,5 @@ void pnw_command(char **args, main_t *main)
         CURR_CLI->player->orientation, CURR_CLI->player->level,
         CURR_CLI->team_name);
     send_to_gui(cmd, main->server);
+    printf("PNW\n");
 }
