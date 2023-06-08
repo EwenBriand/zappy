@@ -40,8 +40,5 @@ void loop_server(main_t *main)
         read_client(main);
         execute_player_command(main);
         add_ressources_if_its_time(main);
-
-        // for all player exec ther current command
-        // send upd map to gui
     }
 }

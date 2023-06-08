@@ -13,6 +13,6 @@
 void edi_command(char **args, main_t *server)
 {
     char cmd[100];
-    sprintf(cmd, "edi #%d\n", atoi(args[1]));
+    sprintf(cmd, "edi %d\n", atoi(args[1]));
     send_to_gui(cmd, server->server);
 }
