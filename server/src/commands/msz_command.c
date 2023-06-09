@@ -15,7 +15,7 @@
 
 void send_to_gui(char *cmd, server_t *server)
 {
-    printf("sendin to gui: %s\n", cmd);
+    printf("sending to gui: [%s]\n", cmd);
     send(server->gui_fd, cmd, strlen(cmd), 0);
 }
 

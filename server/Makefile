@@ -22,7 +22,6 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/server_gui/msz.c	\
 				src/commands/server_gui/btc.c	\
 				src/commands/server_gui/tna.c	\
-				src/commands/server_gui/pnw.c	\
 				src/commands/server_gui/ppo.c	\
 				src/commands/server_gui/plv.c	\
 				src/commands/server_gui/pin.c	\
@@ -44,6 +43,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/server_gui/smg.c	\
 				src/commands/server_gui/suc.c	\
 				src/commands/server_gui/sbp.c	\
+				src/commands/server_gui/pnw.c	\
 				src/parser.c	\
 				src/send_response.c	\
 				src/commands/gui_server/msz_gui.c	\

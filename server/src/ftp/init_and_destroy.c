@@ -28,8 +28,6 @@ static int creat_tcp(int port)
     if (bind(tcp_socket, (struct sockaddr *) &my_addr, sizeof(my_addr)) == -1)
         return -1;
     listen(tcp_socket, 42);
-    // int flags = fcntl(tcp_socket, F_GETFL, 0);
-    // fcntl(tcp_socket, F_SETFL, flags | O_NONBLOCK);
     return tcp_socket;
 }
 
@@ -68,10 +66,11 @@ client_t *client_init(int fd)
     client_t *client = malloc(sizeof(client_t));
 
     client->fd = fd;
-    client->name = NULL;
+    client->team_name = NULL;
     client->connected = 0;
     client->data_socket = -1;
     client->player = NULL;
+    client->is_welcome_protocole_done = false;
     return client;
 }
 
@@ -80,6 +79,7 @@ void destroy_client(client_t *client)
     close(client->fd);
     if (client->player != NULL)
         destroy_player(client->player);
-    free(client->name);
+    if (client->team_name != NULL)
+        free(client->team_name);
     free(client);
 }

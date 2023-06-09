@@ -69,8 +69,9 @@ void destroy_main(main_t *main);
 main_t *init_main(int argc, char **argv);
 
 void destroy_player(player_t *player);
-player_t *init_player_char(char **args);
+player_t *init_player_char(main_t *main);
 player_t *init_player(egg_t *egg);
+int *get_random_pos(main_t *main, int *pos);
 
 void destroy_egg(egg_t *egg);
 egg_t *init_egg(main_t *main, int i);
@@ -86,6 +87,7 @@ void send_to_ia(char *cmd, main_t *main);
 void call_ai_command(char **tab, main_t *main);
 void check_coord_player(main_t *main);
 // int check_if_gui_setup(char **args, main_t *main);
+void welcome_protocole(main_t *main, char **tab);
 
 // commands:
 void execute_player_command(main_t *main);

@@ -8,7 +8,7 @@
 #include "ftp.h"
 #include "server.h"
 
-static int *get_random_pos(main_t *main, int *pos)
+int *get_random_pos(main_t *main, int *pos)
 {
     pos[0] = rand() % (main->args->width);
     pos[1] = rand() % (main->args->height);

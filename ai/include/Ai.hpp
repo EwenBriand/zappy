@@ -50,20 +50,8 @@ class AI {
         int thystame;
     public:
         InventoryContent() : food(10), linemate(0), sibur(0), deraumere(0), mendiane(0), phiras(0), thystame(0) {}
-        void parse(std::string inventoryMessage, const std::function<std::vector<std::string>(const std::string &, char)> &splitString) {
-            std::vector<std::string> items = splitString(inventoryMessage, ',');
-            for (const auto &item : items) {
-                std::string name = splitString(item, ' ')[0];
-                int value = std::stoi(splitString(item, ' ')[1]);
-                if (name == "food") food = value;
-                else if (name == "linemate") linemate = value;
-                else if (name == "sibur") sibur = value;
-                else if (name == "deraumere") deraumere = value;
-                else if (name == "mendiane") mendiane = value;
-                else if (name == "phiras") phiras = value;
-                else if (name == "thystame") thystame = value;
-            }
-        }
+        void parse(const std::string inventoryMessage);
+        void assignValue(const std::string &name, int value);
         int getFood() { return food; }
         int getLinemate() { return linemate; }
         int getSibur() { return sibur; }
@@ -71,6 +59,13 @@ class AI {
         int getMendiane() { return mendiane; }
         int getPhiras() { return phiras; }
         int getThystame() { return thystame; }
+        void setFood(int food) { this->food = food; }
+        void setLinemate(int linemate) { this->linemate = linemate; }
+        void setSibur(int sibur) { this->sibur = sibur; }
+        void setDeraumere(int deraumere) { this->deraumere = deraumere; }
+        void setMendiane(int mendiane) { this->mendiane = mendiane; }
+        void setPhiras(int phiras) { this->phiras = phiras; }
+        void setThystame(int thystame) { this->thystame = thystame; }
     };
 
     public:
