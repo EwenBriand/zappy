@@ -26,13 +26,57 @@ AI::~AI()
 {
 }
 
+void AI::InventoryContent::parse(std::string inventoryMessage)
+{
+    if(inventoryMessage.size() < 2) return;
+    inventoryMessage = inventoryMessage.substr(1, inventoryMessage.size() - 2);
+    std::string delimiter = ", ";
+    size_t pos = 0;
+    std::string item;
+
+    while ((pos = inventoryMessage.find(delimiter)) != std::string::npos) {
+        item = inventoryMessage.substr(0, pos);
+        inventoryMessage.erase(0, pos + delimiter.length());
+
+        std::string name;
+        int value;
+        std::stringstream ss(item);
+        ss >> name >> value;
+
+        assignValue(name, value);
+    }
+    std::string name;
+    int value;
+    std::stringstream ss(inventoryMessage);
+    ss >> name >> value;
+
+    assignValue(name, value);
+}
+
+void AI::InventoryContent::assignValue(const std::string &name, int value)
+{
+    if (name == "food") {
+        setFood(value);
+    } else if (name == "linemate") {
+        setLinemate(value);
+    } else if (name == "sibur") {
+        setSibur(value);
+    } else if (name == "deraumere") {
+        setDeraumere(value);
+    } else if (name == "mendiane") {
+        setMendiane(value);
+    } else if (name == "phiras") {
+        setPhiras(value);
+    } else if (name == "thystame") {
+        setThystame(value);
+    }
+}
+
 void AI::UpdateInventory()
 {
     Inventory();
     std::string inventoryMessage = client.receiveData();
-    inventory.parse(inventoryMessage, [&](const std::string &str, char delim) {
-        return this->splitString(str, delim);
-    });
+    inventory.parse(inventoryMessage);
 }
 
 void AI::TurnToDirection(int desiredDirection)
@@ -227,7 +271,7 @@ void AI::NumberOfTeamUnusedSlots()
 
 void AI::ForkPlayer()
 {
-    timeToWait = FORKSLEEP
+    timeToWait = FORKSLEEP;
     client.sendData("Fork\n");
 }
 
@@ -256,7 +300,7 @@ void AI::SetObjectDown(int object, int quantity)
 
 void AI::StartIncantation()
 {
-    timeToWait = INCANTATIONSLEEP
+    timeToWait = INCANTATIONSLEEP;
     client.sendData("Incantation\n");
 }
 
