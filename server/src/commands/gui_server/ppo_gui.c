@@ -16,7 +16,6 @@ void ppo_gui_command(char **args, main_t *server)
         if (server->server->client_fd[i] != NULL
             && server->server->client_fd[i]->player != NULL
             && server->server->client_fd[i]->player->id == atoi(args[1])) {
-            printf("ppo_gui_command\n");
             ppo_command(
                 (char *[]){my_itoa(atoi(args[1])),
                     my_itoa(server->server->client_fd[i]->player->coord.x),

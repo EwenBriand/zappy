@@ -23,7 +23,6 @@ void get_command(char *str, main_t *main, int i)
     if (strlen(str) > 2) {
         char **tab = get_args_from_command(str);
         if (main->server->client_fd[i]->fd == main->server->gui_fd) {
-            printf("GUI COMMAND: %s \n", str);
             return call_gui_command(main, i, tab);
         }
         // } else if (strcmp(str, GUI) == 0 || strcmp(str, GUI_FORMAT) == 0
@@ -37,7 +36,7 @@ void get_command(char *str, main_t *main, int i)
         //     call_ai_command(tab, main);
 
         welcome_protocole(main, tab);
-    
+
     } else {
         // dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
     }
