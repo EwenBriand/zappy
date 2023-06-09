@@ -15,7 +15,6 @@ void check_coord_player(main_t *main)
     int orientation = CURR_CLI->player->orientation;
     int height = main->args->height;
     int width = main->args->width;
-
     CURR_CLI->player->coord.y =
         (CURR_CLI->player->coord.y + movement[orientation][0] + height)
         % height;
@@ -34,6 +33,7 @@ void forward_command(char **args, main_t *main)
     asprintf(&cmd, "ppo %d %d %d %d\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation);
+    printf("cmd PPO: %s\n", cmd);
     send_to_gui(cmd, main->server);
     send_ok(main);
 }

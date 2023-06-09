@@ -7,10 +7,11 @@ import threading
 HOST = "127.0.0.1"
 PORT = "8080"
 TIMEOUT = 5
+tn = telnetlib.Telnet(HOST, PORT, TIMEOUT)
 
 def send(str):
     str = str + "\n"
-    tn.write(str)
+    tn.write(str.encode("utf-8"))
 
 def recieve():
     res = tn.read_very_eager().decode("utf-8")
@@ -26,11 +27,10 @@ def welcome():
 
 def getLine():
     cmd = input("Enter command: ")
+    # check is still connected
     send(cmd)
 
 welcome()
-
-tn = telnetlib.Telnet(HOST, PORT, TIMEOUT)
 
 while True:
     getLine()
