@@ -29,6 +29,7 @@ AI::~AI()
 void AI::InventoryContent::parse(std::string inventoryMessage)
 {
     if(inventoryMessage.size() < 2) return;
+    std::cout << "inventoryMessage from server : " << inventoryMessage << std::endl;
     inventoryMessage = inventoryMessage.substr(1, inventoryMessage.size() - 2);
     std::string delimiter = ", ";
     size_t pos = 0;
@@ -77,6 +78,13 @@ void AI::UpdateInventory()
     Inventory();
     std::string inventoryMessage = client.receiveData();
     inventory.parse(inventoryMessage);
+    std::cout << "food: " << inventory.getFood() << std::endl;
+    std::cout << "linemate: " << inventory.getLinemate() << std::endl;
+    std::cout << "sibur: " << inventory.getSibur() << std::endl;
+    std::cout << "deraumere: " << inventory.getDeraumere() << std::endl;
+    std::cout << "mendiane: " << inventory.getMendiane() << std::endl;
+    std::cout << "phiras: " << inventory.getPhiras() << std::endl;
+    std::cout << "thystame: " << inventory.getThystame() << std::endl;
 }
 
 void AI::TurnToDirection(int desiredDirection)
@@ -143,8 +151,11 @@ int AI::FindResourceInVision()
 {
     LookAround();
     messageFromServer = client.receiveData();
+    std::cout << "Look FromServer: " << messageFromServer << std::endl;
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::string priorityResource = PrioritizeResources();
+
+    std::cout << "priorityResource: " << priorityResource << std::endl;
 
     for (int i = 0; i < vision.size(); i++) {
         std::vector<std::string> tileContents = splitString(vision[i], ' ');
@@ -156,35 +167,34 @@ int AI::FindResourceInVision()
     return -1;
 }
 
-// void AI::CheckLevelUp()
-// {
-//     const std::array<std::array<int, 6>, 7> requirementLevels = {{
-//         {1, 0, 0, 0, 0, 0},
-//         {1, 1, 1, 0, 0, 0},
-//         {2, 0, 1, 0, 2, 0},
-//         {1, 1, 2, 0, 1, 0},
-//         {1, 2, 1, 3, 0, 0},
-//         {1, 2, 3, 0, 1, 0},
-//         {2, 2, 2, 2, 2, 1}
-//     }};
+void AI::CheckLevelUp()
+{
+    const std::array<std::array<int, 6>, 7> requirementLevels = {{
+        {1, 0, 0, 0, 0, 0},
+        {1, 1, 1, 0, 0, 0},
+        {2, 0, 1, 0, 2, 0},
+        {1, 1, 2, 0, 1, 0},
+        {1, 2, 1, 3, 0, 0},
+        {1, 2, 3, 0, 1, 0},
+        {2, 2, 2, 2, 2, 1}
+    }};
 
-//     if (inventory.getFood() >= requirementLevels[level-1][0] &&
-//         inventory.getLinemate() >= requirementLevels[level-1][1] &&
-//         inventory.getDeraumere() >= requirementLevels[level-1][2] &&
-//         inventory.getSibur() >= requirementLevels[level-1][3] &&
-//         inventory.getMendiane() >= requirementLevels[level-1][4] &&
-//         inventory.getPhiras() >= requirementLevels[level-1][5] &&
-//         inventory.getThystame() >= requirementLevels[level-1][6]) {
-//         StartIncantation();
-//         messageFromServer = client.receiveData();
-//         if (messageFromServer != "ok\n") {
-//             StartIncantation();
-//             messageFromServer = client.receiveData();
-//         } else {
-//             level++;
-//         }
-//     }
-// }
+    if (inventory.getFood() >= requirementLevels[level-1][0] &&
+        inventory.getLinemate() >= requirementLevels[level-1][1] &&
+        inventory.getDeraumere() >= requirementLevels[level-1][2] &&
+        inventory.getSibur() >= requirementLevels[level-1][3] &&
+        inventory.getMendiane() >= requirementLevels[level-1][4] &&
+        inventory.getPhiras() >= requirementLevels[level-1][5] &&
+        inventory.getThystame() >= requirementLevels[level-1][6]) {
+        StartIncantation();
+        messageFromServer = client.receiveData();
+        if (messageFromServer != "ok\n") {
+            StartIncantation();
+            messageFromServer = client.receiveData();
+        } else
+            level++;
+    }
+}
 
 void AI::Loop()
 {
@@ -198,9 +208,13 @@ void AI::Loop()
                 Forward();
                 TakeObject();
                 UpdateInventory();
-                // CheckLevelUp();
+                std::cout << "level avant: " << level << std::endl;
+                CheckLevelUp();
+                std::cout << "level après: " << level << std::endl;
             } else {
-                // CheckLevelUp();
+                std::cout << "level avant: " << level << std::endl;
+                CheckLevelUp();
+                std::cout << "level après: " << level << std::endl;
                 Forward();
             }
         }
@@ -242,46 +256,55 @@ void AI::Forward()
 void AI::TurnRight()
 {
     timeToWait = BASESLEEP;
+    std::cout << "Right" << std::endl;
     client.sendData("Right\n");
 }
 
 void AI::TurnLeft()
 {
     timeToWait = BASESLEEP;
+    std::cout << "Left" << std::endl;
     client.sendData("Left\n");
 }
 
 void AI::LookAround()
 {
     timeToWait = BASESLEEP;
+    std::cout << "Look" << std::endl;
     client.sendData("Look\n");
 }
 
 void AI::Inventory()
 {
     timeToWait = BASESLEEP;
+    std::cout << "Inventory" << std::endl;
     client.sendData("Inventory\n");
 }
 
 void AI::BroadcastText(std::string message)
 {
     timeToWait = BASESLEEP;
+    std::cout << "Broadcast" << std::endl;
     client.sendData("Broadcast " + message + "\n");
 }
 
 void AI::NumberOfTeamUnusedSlots()
 {
+    std::cout << "Connect_nbr" << std::endl;
     client.sendData("Connect_nbr\n");
 }
 
 void AI::ForkPlayer()
 {
-    timeToWait = FORKSLEEP client.sendData("Fork\n");
+    timeToWait = FORKSLEEP;
+    std::cout << "Fork" << std::endl;
+    client.sendData("Fork\n");
 }
 
 void AI::EjectPlayer()
 {
     timeToWait = BASESLEEP;
+    std::cout << "Eject" << std::endl;
     client.sendData("Eject\n");
 }
 
@@ -292,19 +315,23 @@ void AI::DeathOfPlayer()
 void AI::TakeObject()
 {
     timeToWait = BASESLEEP;
+    std::cout << "Take" << std::endl;
     client.sendData("Take\n");
 }
 
 void AI::SetObjectDown(int object, int quantity)
 {
     timeToWait = BASESLEEP;
+    std::cout << "Set" << std::endl;
     client.sendData("Set" + std::to_string(object) + " "
         + std::to_string(quantity) + "\n");
 }
 
 void AI::StartIncantation()
 {
-    timeToWait = INCANTATIONSLEEP client.sendData("Incantation\n");
+    timeToWait = INCANTATIONSLEEP;
+    std::cout << "Incantation" << std::endl;
+    client.sendData("Incantation\n");
 }
 
 void AI::AllPlayerLevel()

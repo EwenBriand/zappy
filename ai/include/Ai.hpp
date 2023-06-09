@@ -113,7 +113,7 @@ class AI {
         std::vector<std::string> splitString(const std::string &str, char delimiter);
         std::string PrioritizeResources();
         int FindResourceInVision();
-        // void CheckLevelUp();
+        void CheckLevelUp();
 };
 
 #endif /* !IA_HPP_ */
