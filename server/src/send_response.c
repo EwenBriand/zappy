@@ -22,6 +22,13 @@ void welcome_protocole(main_t *main, char **tab)
     usleep(1000);
     dprintf(CURR_CLI->fd, "%d %d\n", main->map->width,
         main->map->height);
+    // pnw_command((*char[]) {CURR_CLI->team_name}, main);
+    pnw_command(tab, main);
+    printf("CURR_CLI->team_name = %s\n", CURR_CLI->team_name);
+    if (CURR_CLI->player == NULL){
+        printf("CURR_CLI->player == NULL\n");
+        return;
+    }
 }
 
 void call_ai_command(char **tab, main_t *main)
@@ -29,13 +36,13 @@ void call_ai_command(char **tab, main_t *main)
     for (int i = 0; tab[i]; i++)
         printf("tab[%d] = %s\n", i, tab[i]);
 
-    if (CURR_CLI->is_welcome_protocole_done == false) {
-        printf("welcome protocole\n");
-        welcome_protocole(main, tab);
-        CURR_CLI->is_welcome_protocole_done = true;
-        send_ok(main);
-        return;
-    }
+    // if (CURR_CLI->is_welcome_protocole_done == false) {
+    //     printf("welcome protocole\n");
+    //     welcome_protocole(main, tab);
+    //     CURR_CLI->is_welcome_protocole_done = true;
+    //     send_ok(main);
+    //     return;
+    // }
 
     for (int i = 0; call_server_form_ia[i].command; i++) {
         if (strcmp(tab[0], call_server_form_ia[i].command) == 0

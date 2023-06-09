@@ -17,9 +17,9 @@ AI::AI(const std::string &hostname, int port, const std::string teamName)
     start = std::chrono::system_clock::now();
     WelcomeProtocol();
     std::cout << "waiting for server message..." << std::endl;
-    client.sendData("pnw 0 0 0 " + teamName + "\n");
-    messageFromServer = client.receiveData();
-    freq = atoi(messageFromServer.c_str());
+    // client.sendData("pnw 0 0 0 " + teamName + "\n");
+    // messageFromServer = client.receiveData();
+    freq = 100;
 }
 
 AI::~AI()
