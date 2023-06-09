@@ -7,8 +7,8 @@
 
 #include "Ai.hpp"
 
-AI::AI(const std::string &hostname, int port, const std::string teamName) :
-client(hostname, port), teamName(teamName)
+AI::AI(const std::string &hostname, int port, const std::string teamName)
+    : client(hostname, port), teamName(teamName)
 {
     if (!client.connectToServer()) {
         std::cerr << "Could not connect to server" << std::endl;
@@ -17,7 +17,7 @@ client(hostname, port), teamName(teamName)
     start = std::chrono::system_clock::now();
     WelcomeProtocol();
     std::cout << "waiting for server message..." << std::endl;
-    client.sendData("pnw 0 0 0 1 1 " + teamName + "\n");
+    client.sendData("pnw 0 0 0 " + teamName + "\n");
     messageFromServer = client.receiveData();
     freq = atoi(messageFromServer.c_str());
 }
@@ -60,33 +60,35 @@ std::vector<std::string> AI::splitString(const std::string &str, char delim)
 
 std::string AI::PrioritizeResources()
 {
-    const std::array<std::array<int, 6>, 7> requirementLevels = {{
-        {1, 0, 0, 0, 0, 0},
-        {1, 1, 1, 0, 0, 0},
-        {2, 0, 1, 0, 2, 0},
-        {1, 1, 2, 0, 1, 0},
-        {1, 2, 1, 3, 0, 0},
-        {1, 2, 3, 0, 1, 0},
-        {2, 2, 2, 2, 2, 1}
-    }};
-    const std::array<std::string, 6> resourceNames = {"linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"};
+    const std::array<std::array<int, 6>, 7> requirementLevels = {
+        {{1, 0, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0}, {2, 0, 1, 0, 2, 0},
+            {1, 1, 2, 0, 1, 0}, {1, 2, 1, 3, 0, 0}, {1, 2, 3, 0, 1, 0},
+            {2, 2, 2, 2, 2, 1}}};
+    const std::array<std::string, 6> resourceNames = {
+        "linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"};
 
     if (inventory.getFood() < 2)
         return "food";
 
     for (size_t i = 0; i < resourceNames.size(); ++i) {
-        if (requirementLevels[level-1][i] > 0) {
-            if (resourceNames[i] == "linemate" && inventory.getLinemate() < requirementLevels[level-1][i])
+        if (requirementLevels[level - 1][i] > 0) {
+            if (resourceNames[i] == "linemate"
+                && inventory.getLinemate() < requirementLevels[level - 1][i])
                 return "linemate";
-            else if (resourceNames[i] == "deraumere" && inventory.getDeraumere() < requirementLevels[level-1][i])
+            else if (resourceNames[i] == "deraumere"
+                && inventory.getDeraumere() < requirementLevels[level - 1][i])
                 return "deraumere";
-            else if (resourceNames[i] == "sibur" && inventory.getSibur() < requirementLevels[level-1][i])
+            else if (resourceNames[i] == "sibur"
+                && inventory.getSibur() < requirementLevels[level - 1][i])
                 return "sibur";
-            else if (resourceNames[i] == "mendiane" && inventory.getMendiane() < requirementLevels[level-1][i])
+            else if (resourceNames[i] == "mendiane"
+                && inventory.getMendiane() < requirementLevels[level - 1][i])
                 return "mendiane";
-            else if (resourceNames[i] == "phiras" && inventory.getPhiras() < requirementLevels[level-1][i])
+            else if (resourceNames[i] == "phiras"
+                && inventory.getPhiras() < requirementLevels[level - 1][i])
                 return "phiras";
-            else if (resourceNames[i] == "thystame" && inventory.getThystame() < requirementLevels[level-1][i])
+            else if (resourceNames[i] == "thystame"
+                && inventory.getThystame() < requirementLevels[level - 1][i])
                 return "thystame";
         }
     }
@@ -164,12 +166,15 @@ void AI::Loop()
 void AI::WelcomeProtocol()
 {
     messageFromServer = client.receiveData(); // get Welcome message
-    client.sendData(teamName + "\n"); //send team name
+    client.sendData(teamName + "\n");         // send team name
     clientNbrRemain = atoi(client.receiveData().c_str()); // get client number
-    messageFromServer = client.receiveData(); // get map size
+    messageFromServer = client.receiveData();             // get map size
     x = atoi(messageFromServer.substr(0, messageFromServer.find(" ")).c_str());
-    y = atoi(messageFromServer.substr(messageFromServer.find(" ") + 1, messageFromServer.find("\n")).c_str());
-    std::cout << "END OF WELCOME"<< std::endl;
+    y = atoi(messageFromServer
+                 .substr(messageFromServer.find(" ") + 1,
+                     messageFromServer.find("\n"))
+                 .c_str());
+    std::cout << "END OF WELCOME" << std::endl;
 }
 
 bool AI::Waiter()
@@ -227,8 +232,7 @@ void AI::NumberOfTeamUnusedSlots()
 
 void AI::ForkPlayer()
 {
-    timeToWait = FORKSLEEP
-    client.sendData("Fork\n");
+    timeToWait = FORKSLEEP client.sendData("Fork\n");
 }
 
 void AI::EjectPlayer()
@@ -239,7 +243,6 @@ void AI::EjectPlayer()
 
 void AI::DeathOfPlayer()
 {
-
 }
 
 void AI::TakeObject()
@@ -251,13 +254,13 @@ void AI::TakeObject()
 void AI::SetObjectDown(int object, int quantity)
 {
     timeToWait = BASESLEEP;
-    client.sendData("Set" + std::to_string(object) + " " + std::to_string(quantity) + "\n");
+    client.sendData("Set" + std::to_string(object) + " "
+        + std::to_string(quantity) + "\n");
 }
 
 void AI::StartIncantation()
 {
-    timeToWait = INCANTATIONSLEEP
-    client.sendData("Incantation\n");
+    timeToWait = INCANTATIONSLEEP client.sendData("Incantation\n");
 }
 
 void AI::AllPlayerLevel()
