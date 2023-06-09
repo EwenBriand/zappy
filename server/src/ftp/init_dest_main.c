@@ -76,9 +76,12 @@ main_t *init_main(int argc, char **argv)
 
 void destroy_main(main_t *main)
 {
-    for (int i = 0; main->teams_list[i] != NULL; ++i)
-        destroy_teams(main->teams_list[i]);
-    free(main->teams_list);
+    printf("destroy main\n");
+    if (main->teams_list == NULL) {
+        for (int i = 0; main->teams_list[i] != NULL; ++i)
+            destroy_teams(main->teams_list[i]);
+        free(main->teams_list);
+    }
     close(main->server->fd);
     destroy_server(main->server);
     destroy_args(main->args);
@@ -87,6 +90,5 @@ void destroy_main(main_t *main)
         if (main->eggs[i] != NULL)
             destroy_egg(main->eggs[i]);
     free(main->eggs);
-    free(main->args);
     free(main);
 }
