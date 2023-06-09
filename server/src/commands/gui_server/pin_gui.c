@@ -33,8 +33,11 @@ void pin_gui_command(char **args, main_t *main)
     cmd[2] = my_itoa(main->server->client_fd[index_user]->player->coord.y);
 
     for (int i = 0; i < 7; i++)
-        cmd[3 + i] = my_itoa(main->server->client_fd[index_user]->player->inventory[i]);
+        cmd[3 + i] =
+            my_itoa(main->server->client_fd[index_user]->player->inventory[i]);
     cmd[10] = NULL;
     pin_command(cmd, main);
+    for (int i = 0; cmd[i]; i++)
+        free(cmd[i]);
     free(cmd);
 }

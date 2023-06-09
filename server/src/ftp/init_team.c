@@ -34,3 +34,12 @@ int get_team_by_name(main_t *main, char *team_name)
     }
     return -1;
 }
+
+void destroy_teams(main_t *main)
+{
+    for (int i = 0; main->teams_list[i] != NULL; i++) {
+        free(main->teams_list[i]->name);
+        free(main->teams_list[i]);
+    }
+    free(main->teams_list);
+}

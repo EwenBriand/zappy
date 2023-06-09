@@ -66,10 +66,10 @@ args_t *get_data_from_args(int ac, char **av)
     return args;
 }
 
-// bool create_server(args_t *args)
-// {
-//     printf("create_server\n");
-//     display_args(args);
-
-//     return 0;
-// }
+void destroy_args(args_t *args)
+{
+    for (int i = 0; args->name[i]; i++)
+        free(args->name[i]);
+    free(args->name);
+    free(args);
+}

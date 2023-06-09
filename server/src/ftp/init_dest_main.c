@@ -76,15 +76,17 @@ main_t *init_main(int argc, char **argv)
 
 void destroy_main(main_t *main)
 {
+    for (int i = 0; main->teams_list[i] != NULL; ++i)
+        destroy_teams(main->teams_list[i]);
+    free(main->teams_list);
     close(main->server->fd);
     destroy_server(main->server);
+    destroy_args(main->args);
     destroy_map(main->map);
     for (int i = 0; i < 100; ++i)
         if (main->eggs[i] != NULL)
             destroy_egg(main->eggs[i]);
     free(main->eggs);
-    for (int i = 0; i < list_len(main->args->name); ++i)
-        free(main->args->name[i]);
     free(main->args);
     free(main);
 }

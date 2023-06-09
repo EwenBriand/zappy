@@ -75,6 +75,9 @@ player_t *init_player(egg_t *egg);
 void destroy_egg(egg_t *egg);
 egg_t *init_egg(main_t *main, int i);
 
+void destroy_teams(main_t *main);
+void destroy_args(args_t *args);
+
 void add_ressources(main_t *main);
 void add_ressources_if_its_time(main_t *main);
 
@@ -140,6 +143,5 @@ static const call_command_t commands_gui[] = {{"msz", msz_gui_command},
     {"bct", bct_gui_command}, {"mct", mct_gui_command},
     {"tna", tna_gui_command}, {"ppo", ppo_gui_command},
     {"plv", plv_gui_command}, {"pin", pin_gui_command},
-    {"sgt", sgt_gui_command}, {"sst", sst_gui_command},
-    {"pdr", pdr_command}, {"pgt", pgt_command},
-    {NULL, NULL}};
+    {"sgt", sgt_gui_command}, {"sst", sst_gui_command}, {"pdr", pdr_command},
+    {"pgt", pgt_command}, {NULL, NULL}};

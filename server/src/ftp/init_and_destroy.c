@@ -5,12 +5,12 @@
 ** init_and_destroy
 */
 
-#include "ftp.h"
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <fcntl.h>
+#include "ftp.h"
 static int creat_tcp(int port)
 {
     struct sockaddr_in my_addr;
@@ -78,6 +78,8 @@ client_t *client_init(int fd)
 void destroy_client(client_t *client)
 {
     close(client->fd);
+    if (client->player != NULL)
+        destroy_player(client->player);
     free(client->name);
     free(client);
 }

@@ -25,7 +25,7 @@ void execute_current_command(main_t *main, int i)
 {
     int act_time = time(NULL);
     float div = main->args->freq / 100;
-    // setup food et time gestion
+
     if ((act_time - main->server->client_fd[i]->player->time) / div
         >= main->server->client_fd[i]->player->command_time / div) {
         if (list_len(main->server->client_fd[i]->player->cmd_buf) == 0)
