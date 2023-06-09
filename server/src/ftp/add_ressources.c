@@ -15,25 +15,25 @@ int *get_random_pos(main_t *main, int *pos)
     return (pos);
 }
 
-static void add_ressource_to_tile(tile_t *tile, int ressource)
+static void add_ressource_to_tile(main_t *main, int ressource)
 {
-    tile->inventory[ressource] += 1;
+    int *pos = malloc(sizeof(int) * 2);
+    pos = get_random_pos(main, pos);
+    main->map->tiles[pos[0]][pos[1]]->inventory[ressource] += 1;
+    free(pos);
 }
 
 void add_ressources(main_t *main)
 {
     float density[] = {0.5, 0.3, 0.15, 0.1, 0.1, 0.08, 0.05};
-    int *pos = malloc(sizeof(int) * 2);
     int ressource;
 
     for (int i = 0; i < 7; ++i) {
         ressource = main->args->width * main->args->height * density[i];
         for (int j = 0; j < ressource; ++j) {
-            pos = get_random_pos(main, pos);
-            add_ressource_to_tile(main->map->tiles[pos[0]][pos[1]], i);
+            add_ressource_to_tile(main, i);
         }
     }
-    free(pos);
 }
 
 void add_ressources_if_its_time(main_t *main)
