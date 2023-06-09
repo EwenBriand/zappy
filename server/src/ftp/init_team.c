@@ -25,12 +25,14 @@ void init_teams(main_t *main)
 
 int get_team_by_name(main_t *main, char *team_name)
 {
-    // loop inside the teams_list if the team exist return a reference to it
-    // else create it
     int i = 0;
     for (; main->teams_list[i] != NULL; i++) {
+        printf("main->teams_list[i]->name : %s || team_name : %s\n", main->teams_list[i]->name, team_name);
         if (strcmp(main->teams_list[i]->name, team_name) == 0)
             return i;
     }
     return -1;
 }
+
+// loop inside the teams_list if the team exist return a reference to it
+// else create it

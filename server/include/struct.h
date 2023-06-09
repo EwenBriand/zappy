@@ -8,6 +8,7 @@
 #pragma once
 
 #include <sys/select.h>
+#include <stdbool.h>
 #include "args.h"
 
 static const int directions[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
@@ -59,10 +60,10 @@ typedef struct client_s {
     int fd;
     int data_socket;
     int connected;
-    char *name;
     char *team_name;
     player_t *player;
     team_t **teams;
+    bool is_welcome_protocole_done;
 } client_t;
 
 typedef struct server_s {

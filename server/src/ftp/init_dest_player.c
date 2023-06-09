@@ -58,7 +58,6 @@ player_t *init_player(egg_t *egg)
     new->time = 0;
     new->command_time = 0;
     // new->team = egg->team;
-
     new->inventory[Q0] = 1260;
     for (int i = 1; i < 7; ++i)
         new->inventory[i] = 0;
@@ -70,16 +69,19 @@ player_t *init_player(egg_t *egg)
     return (new);
 }
 
-player_t *init_player_char(char **args)
+player_t *init_player_char(main_t *main)
 {
     player_t *new = malloc(sizeof(player_t));
 
     if (new == NULL)
         return (NULL);
     new->id = id_act++;
-    new->coord.x = atoi(args[1]);
-    new->coord.y = atoi(args[2]);
-    new->orientation = atoi(args[3]);
+    int *pos = malloc(sizeof(int) * 2);
+
+    get_random_pos(main, pos);
+    new->coord.x = pos[0];
+    new->coord.y = pos[1];
+    new->orientation = rand() % 4;
     new->time = 0;
     new->command_time = 0;
 
@@ -93,7 +95,7 @@ player_t *init_player_char(char **args)
 
     printf("Player %d created at %d %d with %d oritentation at level %d\n",
         new->id, new->coord.x, new->coord.y, new->orientation, new->level);
-
+    free(pos);
     return (new);
 }
 

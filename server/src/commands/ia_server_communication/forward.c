@@ -30,10 +30,10 @@ void forward_command(char **args, main_t *main)
 {
     printf("FORWARD\n");
     check_coord_player(main);
-    send_ok(main);
     char *cmd;
     asprintf(&cmd, "ppo %d %d %d %d\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation);
     send_to_gui(cmd, main->server);
+    send_ok(main);
 }
