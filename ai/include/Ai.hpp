@@ -93,6 +93,8 @@ class AI {
         bool alive = true;
         Client client;
         std::string teamName;
+        std::string hostname;
+        int port;
         int level = 1;
         int food = 10;
         std::string messageFromServer;
@@ -114,6 +116,7 @@ class AI {
         std::string PrioritizeResources();
         int FindResourceInVision();
         void CheckLevelUp();
+        void ForkPlayerEgg();
 };
 
 #endif /* !IA_HPP_ */

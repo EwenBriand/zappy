@@ -10,6 +10,8 @@
 AI::AI(const std::string &hostname, int port, const std::string teamName)
     : client(hostname, port), teamName(teamName)
 {
+    this->hostname = hostname;
+    this->port = port;
     if (!client.connectToServer()) {
         std::cerr << "Could not connect to server" << std::endl;
         return;
@@ -179,13 +181,12 @@ void AI::CheckLevelUp()
         {2, 2, 2, 2, 2, 1}
     }};
 
-    if (inventory.getFood() >= requirementLevels[level-1][0] &&
-        inventory.getLinemate() >= requirementLevels[level-1][1] &&
-        inventory.getDeraumere() >= requirementLevels[level-1][2] &&
-        inventory.getSibur() >= requirementLevels[level-1][3] &&
-        inventory.getMendiane() >= requirementLevels[level-1][4] &&
-        inventory.getPhiras() >= requirementLevels[level-1][5] &&
-        inventory.getThystame() >= requirementLevels[level-1][6]) {
+    if (inventory.getLinemate() >= requirementLevels[level-1][0] &&
+        inventory.getDeraumere() >= requirementLevels[level-1][1] &&
+        inventory.getSibur() >= requirementLevels[level-1][2] &&
+        inventory.getMendiane() >= requirementLevels[level-1][3] &&
+        inventory.getPhiras() >= requirementLevels[level-1][4] &&
+        inventory.getThystame() >= requirementLevels[level-1][5]) {
         StartIncantation();
         messageFromServer = client.receiveData();
         if (messageFromServer != "ok\n") {
@@ -193,6 +194,27 @@ void AI::CheckLevelUp()
             messageFromServer = client.receiveData();
         } else
             level++;
+    }
+}
+
+void AI::ForkPlayerEgg()
+{
+    NumberOfTeamUnusedSlots();
+    messageFromServer = client.receiveData();
+    std::cout << "Connect_nbr FromServer: " << messageFromServer << std::endl;
+    if (messageFromServer == "0\n")
+        return;
+    ForkPlayer();
+    messageFromServer = client.receiveData();
+    std::cout << "Fork FromServer: " << messageFromServer << std::endl;
+    if (messageFromServer == "ok\n") {
+        std::string command = "./zappy_ai -p " + std::to_string(this->port) + " -n " + teamName + " -h " + this->hostname;
+        std::cout << "command for Fork : " << command << std::endl;
+        int status = system(command.c_str());
+        if (status < 0) {
+            std::cerr << "Error executing system call" << std::endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
@@ -217,6 +239,8 @@ void AI::Loop()
                 std::cout << "level après: " << level << std::endl;
                 Forward();
             }
+            if (i % 50 == 0)
+                ForkPlayerEgg();
         }
     }
 }
