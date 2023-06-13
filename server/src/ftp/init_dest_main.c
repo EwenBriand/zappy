@@ -59,7 +59,6 @@ main_t *init_main(int argc, char **argv)
     main->args = get_data_from_args(argc, argv);
     main->server = init_server(main->args);
     main->map = init_map(main->args);
-    main->eggs = malloc(sizeof(egg_t *) * 100);
     main->time = time(NULL);
 
     // pas sur qu'il faut faire ca
@@ -68,8 +67,6 @@ main_t *init_main(int argc, char **argv)
     //         main->eggs[pos++] = init_egg(main, i);
     // }
 
-    for (; pos < 100; ++pos)
-        main->eggs[pos] = NULL;
     add_ressources(main);
     return (main);
 }
@@ -86,9 +83,6 @@ void destroy_main(main_t *main)
     destroy_server(main->server);
     destroy_args(main->args);
     destroy_map(main->map);
-    for (int i = 0; i < 100; ++i)
-        if (main->eggs[i] != NULL)
-            destroy_egg(main->eggs[i]);
-    free(main->eggs);
+
     free(main);
 }

@@ -48,5 +48,7 @@ char *get_object_name(int i)
             return ("phiras");
         case 6:
             return ("thystame");
+        default:
+            return ("");
     }
 }

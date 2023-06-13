@@ -54,6 +54,7 @@ typedef struct team_s {
     char *name;
     int max_player;
     int current_player;
+    egg_t **eggs;
 } team_t;
 
 typedef struct client_s {
@@ -83,7 +84,6 @@ typedef struct main_s {
     server_t *server;
     args_t *args;
     map_t *map;
-    egg_t **eggs;
     int time;
 } main_t;
 

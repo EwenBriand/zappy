@@ -33,8 +33,8 @@ void loop_server(main_t *main)
     // win condition
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(main->server);
-        nfds = pselect(main->server->max + 1, main->server->copy, NULL, NULL,
-            &timeout, &mask);
+        nfds = select(main->server->max + 1, main->server->copy, NULL, NULL,
+            &timeout);
         if (nfds < 0)
             break;
 

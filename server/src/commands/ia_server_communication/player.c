@@ -47,8 +47,7 @@ void move_player_from_tile(main_t *main, int i)
 void eject(char **args, main_t *main)
 {
     char *cmd;
-
-    CURR_CLI->player->coord.x;
+    int ejected = 0;
     for (int i = 0; i < main->server->nbr_client_connected; i++) {
         if (main->server->client_fd[i]->player->coord.x
                 == CURR_CLI->player->coord.x &&
@@ -59,9 +58,13 @@ void eject(char **args, main_t *main)
             move_player_from_tile(main, i);
             dprintf(main->server->client_fd[i]->fd, "eject: %d\n",
                 CURR_CLI->player->orientation);
+            ejected++;
         }
     }
-    send_ok(main);
+    if (ejected == 0)
+        send_ko(main);
+    else
+        send_ok(main);
 }
 
 void incantation(char **args, main_t *main)

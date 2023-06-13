@@ -12,8 +12,8 @@
 
 void bct_gui_command(char **args, main_t *server)
 {
-    int x = atoi(args[1]);
-    int y = atoi(args[2]);
+    int x = atoi(args[0]);
+    int y = atoi(args[1]);
     char **cmd = malloc(sizeof(char *) * 11);
     cmd[0] = strdup("bct");
     cmd[1] = strdup(args[0]);
@@ -25,6 +25,8 @@ void bct_gui_command(char **args, main_t *server)
         else
             cmd[j++] = my_itoa(server->map->tiles[x][y]->inventory[i]);
     cmd[j] = NULL;
+
+
     bct_command(cmd, server);
     for (int i = 0; cmd[i]; i++)
         free(cmd[i]);

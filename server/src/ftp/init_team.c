@@ -18,6 +18,9 @@ void init_teams(main_t *main)
         main->teams_list[j]->name = strdup(main->args->name[j]);
         main->teams_list[j]->max_player = main->args->nb_client_max;
         main->teams_list[j]->current_player = 0;
+        main->teams_list[j]->eggs = malloc(sizeof(egg_t *) * 100);
+        for (int pos = 0; pos < 100; ++pos)
+            main->teams_list[j]->eggs[pos] = NULL;
         printf("main->teams_list[j]->name : %s\n", main->teams_list[j]->name);
     }
     main->teams_list[i] = NULL;
@@ -40,6 +43,10 @@ void destroy_teams(main_t *main)
     for (int i = 0; main->teams_list[i] != NULL; i++) {
         free(main->teams_list[i]->name);
         free(main->teams_list[i]);
+    for (int i = 0; i < 100; ++i)
+            if (main->teams_list[i]->eggs[i] != NULL)
+                destroy_egg(main->teams_list[i]->eggs[i]);
+    free(main->teams_list[i]->eggs);
     }
     free(main->teams_list);
 }

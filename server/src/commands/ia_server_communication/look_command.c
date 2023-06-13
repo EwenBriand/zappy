@@ -52,7 +52,6 @@ void look_command(char **args, main_t *main)
             int nx = x + (DX * i) + (DY * j);
             int ny = y + (DY * i) + (DX * j);
             asprintf(&cmd, "%s%s", cmd, get_player_on_tile(main, nx, ny));
-            printf("LOOK EN FAIT \n");
             get_objects_on_tile(main, nx, ny, &cmd);
             asprintf(&cmd, "%s,", cmd);
         }

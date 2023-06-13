@@ -7,7 +7,7 @@
 
 CPPFLAGS	=	-I ./include
 
-CFLAGS	=	-Wall -Wextra -g3 -std=c11
+CFLAGS	=	-Wall -Wextra -g3 -std=c17
 
 CLIENT		=	zappy_server
 

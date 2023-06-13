@@ -48,6 +48,7 @@ void execute_player_command(main_t *main)
     for (int i = 0; i < MAX_CLI - 1; i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL) {
+            main->server->current_client_index = i;
             execute_current_command(main, i);
         }
     }
