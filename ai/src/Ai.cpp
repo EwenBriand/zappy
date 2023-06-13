@@ -208,11 +208,13 @@ void AI::ForkPlayerEgg()
     messageFromServer = client.receiveData();
     std::cout << "Fork FromServer: " << messageFromServer << std::endl;
     if (messageFromServer == "ok\n") {
-        std::string command = "./zappy_ai -p " + std::to_string(this->port) + " -n " + teamName + " -h " + this->hostname;
-        std::cout << "command for Fork : " << command << std::endl;
-        int status = system(command.c_str());
-        if (status < 0) {
-            std::cerr << "Error executing system call" << std::endl;
+        pid_t pid = fork();
+        if (pid == 0) {
+            AI newAI(this->hostname, this->port, this->teamName);
+            newAI.Loop();
+            exit(0);
+        } else if (pid < 0) {
+            std::cerr << "Erreur lors du fork" << std::endl;
             exit(EXIT_FAILURE);
         }
     }
@@ -239,7 +241,7 @@ void AI::Loop()
                 std::cout << "level après: " << level << std::endl;
                 Forward();
             }
-            if (i % 50 == 0)
+            if (i % 150 == 0)
                 ForkPlayerEgg();
         }
     }
