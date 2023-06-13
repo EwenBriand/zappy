@@ -11,7 +11,8 @@
 
 static char *fill_string(int i, char *cmd, main_t *main)
 {
-    printf("main->server->current_client_index : %d\n",main->server->current_client_index);
+    printf("main->server->current_client_index : %d\n",
+        main->server->current_client_index);
     printf("CURR_CLI->player->inventory[i] : %p\n",
         main->server->client_fd[main->server->current_client_index]->player);
     if (i == 0) {
@@ -39,6 +40,8 @@ void inventory_command(char **args, main_t *main)
 void incantation_command(char **args, main_t *main)
 {
     char *cmd;
+    start_incantation(args, main);
+    sleep(10);
     asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
         CURR_CLI->player->coord.y, 0);
     send_to_gui(cmd, main->server);
@@ -53,4 +56,3 @@ void fork_command(char **args, main_t *main)
     send_to_gui(cmd, main->server);
     send_ok(main);
 }
-
