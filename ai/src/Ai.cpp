@@ -289,8 +289,8 @@ void AI::Loop()
                 std::cout << "level après: " << level << std::endl;
                 Forward();
             }
-            if (i % 150 == 0)
-                ForkPlayerEgg();
+            // if (i % 150 == 0)
+            //     ForkPlayerEgg();
         }
     }
 }
