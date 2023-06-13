@@ -162,6 +162,10 @@ int AI::FindResourceInVision()
     for (int i = 0; i < vision.size(); i++) {
         std::vector<std::string> tileContents = splitString(vision[i], ' ');
         for (const std::string &object : tileContents) {
+            if (i == 0 && incantationSoon && object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1) {
+                EjectPlayer();
+                return -1;
+            }
             if (object == priorityResource)
                 return i;
         }
@@ -169,7 +173,7 @@ int AI::FindResourceInVision()
     return -1;
 }
 
-void AI::CheckLevelUp()
+void AI::CheckInventoryAndSetObjects()
 {
     const std::array<std::array<int, 6>, 7> requirementLevels = {{
         {1, 0, 0, 0, 0, 0},
@@ -187,13 +191,57 @@ void AI::CheckLevelUp()
         inventory.getMendiane() >= requirementLevels[level-1][3] &&
         inventory.getPhiras() >= requirementLevels[level-1][4] &&
         inventory.getThystame() >= requirementLevels[level-1][5]) {
+        incantationSoon = true;
+        FindResourceInVision();
+        if (level == 1)
+            SetObjectDown(1, 1);
+        else if (level == 2) {
+            SetObjectDown(1, 1);
+            SetObjectDown(2, 1);
+            SetObjectDown(3, 1);
+        } else if (level == 3) {
+            SetObjectDown(1, 2);
+            SetObjectDown(3, 1);
+            SetObjectDown(5, 2);
+        } else if (level == 4) {
+            SetObjectDown(1, 1);
+            SetObjectDown(2, 1);
+            SetObjectDown(3, 2);
+            SetObjectDown(5, 1);
+        } else if (level == 5) {
+            SetObjectDown(1, 1);
+            SetObjectDown(2, 2);
+            SetObjectDown(3, 1);
+            SetObjectDown(4, 3);
+        } else if (level == 6) {
+            SetObjectDown(1, 1);
+            SetObjectDown(2, 2);
+            SetObjectDown(3, 3);
+            SetObjectDown(5, 1);
+        } else if (level == 7) {
+            SetObjectDown(1, 2);
+            SetObjectDown(2, 2);
+            SetObjectDown(3, 2);
+            SetObjectDown(4, 2);
+            SetObjectDown(5, 2);
+            SetObjectDown(6, 1);
+        }
+    }
+}
+
+void AI::CheckLevelUp()
+{
+    CheckInventoryAndSetObjects();
+    if (incantationSoon) {
         StartIncantation();
         messageFromServer = client.receiveData();
         if (messageFromServer != "ok\n") {
             StartIncantation();
             messageFromServer = client.receiveData();
-        } else
+        } else {
             level++;
+            incantationSoon = false;
+        }
     }
 }
 
@@ -348,7 +396,8 @@ void AI::TakeObject()
 void AI::SetObjectDown(int object, int quantity)
 {
     timeToWait = BASESLEEP;
-    std::cout << "Set" << std::endl;
+    std::cout << "Set" + std::to_string(object) + " "
+        + std::to_string(quantity) + "\n" << std::endl;
     client.sendData("Set" + std::to_string(object) + " "
         + std::to_string(quantity) + "\n");
 }

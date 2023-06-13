@@ -12,7 +12,7 @@
 
 static int get_index_user(main_t *main, int id)
 {
-    for (int i = 0; i < main->server->nbr_client_connected; i++)
+    for (int i = 0; i < MAX_CLI; i++)
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->id == id)

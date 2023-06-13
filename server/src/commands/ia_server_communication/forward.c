@@ -11,7 +11,7 @@
 
 void check_coord_player(main_t *main)
 {
-    int movement[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+    int movement[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
     int orientation = CURR_CLI->player->orientation;
     int height = main->args->height;
     int width = main->args->width;

@@ -51,5 +51,5 @@ Module.symvers
 Mkfile.old
 dkms.conf
 .vscode
-zappy_server
-zappy_ai
+server/zappy_server
+server/zappy_ai

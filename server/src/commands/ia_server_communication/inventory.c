@@ -11,7 +11,8 @@
 
 static char *fill_string(int i, char *cmd, main_t *main)
 {
-    printf("main->server->current_client_index : %d\n",main->server->current_client_index);
+    printf("main->server->current_client_index : %d\n",
+        main->server->current_client_index);
     printf("CURR_CLI->player->inventory[i] : %p\n",
         main->server->client_fd[main->server->current_client_index]->player);
     if (i == 0) {
@@ -64,4 +65,3 @@ void fork_command(char **args, main_t *main)
     send_to_gui(cmd, main->server);
     send_ok(main);
 }
-
