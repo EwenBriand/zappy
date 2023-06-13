@@ -97,6 +97,7 @@ class AI {
         int port;
         int level = 1;
         int food = 10;
+        bool incantationSoon = false;
         std::string messageFromServer;
         int orientation = NORTH;
         int freq;
@@ -115,6 +116,7 @@ class AI {
         std::vector<std::string> splitString(const std::string &str, char delimiter);
         std::string PrioritizeResources();
         int FindResourceInVision();
+        void CheckInventoryAndSetObjects();
         void CheckLevelUp();
         void ForkPlayerEgg();
 };
