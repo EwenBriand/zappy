@@ -10,6 +10,7 @@
 
 void win_cond(main_t *main)
 {
+    return;
     for(int i = 0; main->teams_list[i]; ++i)
         if (main->teams_list[i]->current_player >= 6)
             main->teams_list[i]->win = true;

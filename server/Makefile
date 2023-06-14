@@ -65,6 +65,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/ia_server_communication/ai_utils.c \
 				src/commands/ia_server_communication/look_command.c \
 				src/commands/ia_server_communication/start_incantation.c \
+				src/commands/ia_server_communication/broadcast.c \
 				src/ftp/init_dest_main.c	\
 				src/ftp/init_dest_player.c	\
 				src/game/add_ressources.c	\

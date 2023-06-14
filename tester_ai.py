@@ -2,7 +2,7 @@ import telnetlib
 import time
 import asyncio
 import threading
-
+import random
 # Telnet connection settings
 HOST = "127.0.0.1"
 PORT = "8080"
@@ -20,7 +20,7 @@ def recieve():
 
 def welcome():
     recieve() #welcome msg
-    send("team1")
+    send("team" + str(random.randint(1, 4))) #team name
     time.sleep(1) # Wait for the command to execute
     recieve() #cli nbr
     recieve() #map
