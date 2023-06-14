@@ -40,11 +40,13 @@ void execute_current_command(main_t *main, int i)
             char **tab = get_args_from_command(
                 pop(main->server->client_fd[i]->player->cmd_buf));
             call_ai_command(tab, main);
-            main->server->client_fd[i]->player->time = time(NULL);
-            main->server->client_fd[i]->player->command_time =
-                get_command_time(tab[0]);
-            printf("command %s take time: %d\n", tab[0],
-                main->server->client_fd[i]->player->command_time);
+            if (main->server->client_fd[i] != NULL) {
+                main->server->client_fd[i]->player->time = time(NULL);
+                main->server->client_fd[i]->player->command_time =
+                    get_command_time(tab[0]);
+                printf("command %s take time: %d\n", tab[0],
+                    main->server->client_fd[i]->player->command_time);
+            }
         }
     }
 }

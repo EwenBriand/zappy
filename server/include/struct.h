@@ -27,6 +27,7 @@ typedef struct player_s {
     int orientation;
     int level;
     int inventory[7];
+    int living_time;
     char **cmd_buf;
     int time;
     int command_time;

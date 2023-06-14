@@ -9,6 +9,7 @@
 
 void call_gui_command(main_t *main, int i, char **tab)
 {
+    printf("GUI COMMAND: %s\n", tab[0]);
     for (int i = 0; commands_gui[i].command; i++) {
         if (strcmp(tab[0], commands_gui[i].command) == 0) {
             commands_gui[i].func(tab, main);

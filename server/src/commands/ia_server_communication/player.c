@@ -15,7 +15,8 @@ void broadcast(char **args, main_t *main)
 
     for (int i = 0; i < main->server->nbr_client_connected; i++) {
         if (main->server->client_fd[i]->player->id != CURR_CLI->player->id
-            && main->server->client_fd[i]->player->id == main->server->gui_fd) {
+            && main->server->client_fd[i]->player->id
+                == main->server->gui_fd) {
             asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[1]);
         }
     }
@@ -49,9 +50,11 @@ void eject(char **args, main_t *main)
     char *cmd;
     int ejected = 0;
     for (int i = 0; i < main->server->nbr_client_connected; i++) {
-        if (main->server->client_fd[i]->player->coord.x
-                == CURR_CLI->player->coord.x &&
-            main->server->client_fd[i]->player->coord.y
+        if (main->server->client_fd[i] != NULL
+            && main->server->client_fd[i]->player != NULL
+            && main->server->client_fd[i]->player->coord.x
+                == CURR_CLI->player->coord.x
+            && main->server->client_fd[i]->player->coord.y
                 == CURR_CLI->player->coord.y) {
             asprintf(&cmd, "pex %d\n", main->server->client_fd[i]->player->id);
             send_to_gui(cmd, main->server);
@@ -76,4 +79,3 @@ void incantation(char **args, main_t *main)
     send_to_gui(cmd, main->server);
     send_ok(main);
 }
-

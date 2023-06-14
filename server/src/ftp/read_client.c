@@ -36,12 +36,14 @@ static void read_client2(main_t *main, int i)
     char *buf = circular_read(main->server->client_fd[i]->fd);
     int val = strlen(buf);
     main->server->current_client_index = i;
+
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
         dprintf(main->server->client_fd[i]->fd, "%s", MSG_221);
         close(main->server->client_fd[i]->fd);
         FD_CLR(main->server->client_fd[i]->fd, main->server->readfds);
         destroy_client(main->server->client_fd[i]);
         main->server->client_fd[i] = NULL;
+        main->server->nbr_client_connected--;
     } else {
         get_command(buf, main, i);
     }

@@ -53,3 +53,5 @@ dkms.conf
 .vscode
 server/zappy_server
 ai/zappy_ai
+zappy_server
+zappy_ai
