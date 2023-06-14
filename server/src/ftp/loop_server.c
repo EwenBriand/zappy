@@ -27,10 +27,7 @@ void loop_server(main_t *main)
 {
     int nfds = 0;
     struct timeval timeout = {0, 0};
-    sigset_t mask;
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGINT);
-    // win condition
+
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(main->server);
         nfds = select(
@@ -44,8 +41,8 @@ void loop_server(main_t *main)
         if (!main->this_is_the_end) {
             execute_player_command(main);
             add_ressources_if_its_time(main);
+            win_cond(main);
         } else
             printf("This is the END\nHOLD your breath and count to ten\n");
-        win_cond(main);
     }
 }

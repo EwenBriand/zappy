@@ -32,8 +32,12 @@ void take_object(char **args, main_t *main)
 void set_command(char **args, main_t *main)
 {
     int quantity = atoi(args[2]);
-    for (int i = 0; i < quantity; i++)
+    for (int i = 0; i < quantity; i++) {
+        CURR_CLI->player->inventory[atoi(args[1])]--;
+        main->map->tiles[CURR_CLI->player->coord.y][CURR_CLI->player->coord.x]
+            ->inventory[atoi(args[1])]++;
         pdr_command((char *[]){my_itoa(CURR_CLI->player->id), args[1]}, main);
+    }
 
     send_ok(main);
 }

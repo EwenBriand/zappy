@@ -33,7 +33,7 @@ egg_t *init_egg(main_t *main, int i)
 
     dprintf(main->server->gui_fd, "pfk -1\n");
     dprintf(main->server->gui_fd, "enw %d %d %d %d\n", new->id, -1,
-            new->coord.x, new->coord.y);
+        new->coord.x, new->coord.y);
 
     return (new);
 }
@@ -56,8 +56,9 @@ player_t *init_player(egg_t *egg)
     new->orientation = egg->orientation;
     new->time = 0;
     new->command_time = 0;
-    // new->team = egg->team;
-    new->inventory[Q0] = 1260;
+    new->living_time = 126;
+
+    new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
         new->inventory[i] = 0;
     new->level = 1;
@@ -72,7 +73,7 @@ player_t *init_player_char(main_t *main)
 {
     player_t *new = malloc(sizeof(player_t));
 
-    if (new == NULL){
+    if (new == NULL) {
         return (NULL);
     }
     new->id = id_act++;
@@ -84,10 +85,11 @@ player_t *init_player_char(main_t *main)
     new->orientation = rand() % 4;
     new->time = 0;
     new->command_time = 0;
+    new->living_time = 126;
 
-    new->inventory[Q0] = 1260;
+    new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
-        new->inventory[i] = 8;
+        new->inventory[i] = 0;
     new->level = 1;
     new->cmd_buf = malloc(sizeof(char *) * 11);
     for (int i = 0; i < 11; ++i)

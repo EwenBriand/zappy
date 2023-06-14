@@ -64,12 +64,6 @@ main_t *init_main(int argc, char **argv)
     main->time = time(NULL);
     main->this_is_the_end = false;
 
-    // pas sur qu'il faut faire ca
-    // for (int j = 0; main->args->nb_client_max > j; ++j) {
-    //     for (int i = 0; list_len(main->args->name) > i; ++i)
-    //         main->eggs[pos++] = init_egg(main, i);
-    // }
-
     add_ressources(main);
     return (main);
 }

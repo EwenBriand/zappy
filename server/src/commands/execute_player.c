@@ -10,10 +10,6 @@
 #include "struct.h"
 #include "ai_command.h"
 
-static const foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7},
-    {"Left", 7}, {"Look", 7}, {"Inventory", 1}, {"Broadcast", 7},
-    {"Connect_nbr", 0}, {"Fork", 42}, {"Eject", 7}, {"Take", 7}, {"Set", 7},
-    {"Incantation", 10}, {NULL, 0}};
 
 int get_command_time(char *name)
 {
@@ -40,11 +36,13 @@ void execute_current_command(main_t *main, int i)
             char **tab = get_args_from_command(
                 pop(main->server->client_fd[i]->player->cmd_buf));
             call_ai_command(tab, main);
-            main->server->client_fd[i]->player->time = time(NULL);
-            main->server->client_fd[i]->player->command_time =
-                get_command_time(tab[0]);
-            printf("command %s take time: %d\n", tab[0],
-                main->server->client_fd[i]->player->command_time);
+            if (main->server->client_fd[i] != NULL) {
+                main->server->client_fd[i]->player->time = time(NULL);
+                main->server->client_fd[i]->player->command_time =
+                    get_command_time(tab[0]);
+                printf("command %s take time: %d\n", tab[0],
+                    main->server->client_fd[i]->player->command_time);
+            }
         }
     }
 }

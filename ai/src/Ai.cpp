@@ -20,13 +20,57 @@ AI::AI(const std::string &hostname, int port, const std::string teamName)
     WelcomeProtocol();
     std::cout << "waiting for server message..." << std::endl;
     // client.sendData("pnw 0 0 0 " + teamName + "\n");
-    // messageFromServer = client.receiveData();
     freq = 100;
 }
 
 AI::~AI()
 {
 }
+
+void AI::Loop()
+{
+    int i = 0;
+    // messageFromServer = client.receiveData(); //KEEP IT
+    while (alive) {
+        // if (Waiter()) {
+            int directionToResource = FindResourceInVision();
+            HandleIncomingMessages();
+            UpdateInventory();
+            if (directionToResource != -1) {
+                TurnToDirection(directionToResource);
+                Forward();
+                TakeObject();
+                if (messageFromServer == "ok\n")
+                    UpdateInventory();
+                std::cout << "level avant: " << level << std::endl;
+                CheckLevelUp();
+                std::cout << "level après: " << level << std::endl;
+            } else {
+                std::cout << "level avant: " << level << std::endl;
+                CheckLevelUp();
+                std::cout << "level après: " << level << std::endl;
+                Forward();
+            }
+            // if (i % 150 == 0)
+            //     ForkPlayerEgg();
+        // }
+    }
+}
+
+void AI::WelcomeProtocol()
+{
+    messageFromServer = client.receiveData(); // get Welcome message
+    client.sendData(teamName + "\n");         // send team name
+    clientNbrRemain = atoi(client.receiveData().c_str()); // get client number
+    messageFromServer = client.receiveData();             // get map size
+    x = atoi(messageFromServer.substr(0, messageFromServer.find(" ")).c_str());
+    y = atoi(messageFromServer
+                 .substr(messageFromServer.find(" ") + 1,
+                     messageFromServer.find("\n"))
+                 .c_str());
+    std::cout << "END OF WELCOME" << std::endl;
+}
+
 
 void AI::InventoryContent::parse(std::string inventoryMessage)
 {
@@ -78,8 +122,7 @@ void AI::InventoryContent::assignValue(const std::string &name, int value)
 void AI::UpdateInventory()
 {
     Inventory();
-    std::string inventoryMessage = client.receiveData();
-    inventory.parse(inventoryMessage);
+    inventory.parse(messageFromServer);
     std::cout << "food: " << inventory.getFood() << std::endl;
     std::cout << "linemate: " << inventory.getLinemate() << std::endl;
     std::cout << "sibur: " << inventory.getSibur() << std::endl;
@@ -121,7 +164,7 @@ std::string AI::PrioritizeResources()
     const std::array<std::string, 6> resourceNames = {
         "linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"};
 
-    if (inventory.getFood() < 2)
+    if (inventory.getFood() < 4)
         return "food";
 
     for (size_t i = 0; i < resourceNames.size(); ++i) {
@@ -152,7 +195,6 @@ std::string AI::PrioritizeResources()
 int AI::FindResourceInVision()
 {
     LookAround();
-    messageFromServer = client.receiveData();
     std::cout << "Look FromServer: " << messageFromServer << std::endl;
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::string priorityResource = PrioritizeResources();
@@ -162,15 +204,48 @@ int AI::FindResourceInVision()
     for (int i = 0; i < vision.size(); i++) {
         std::vector<std::string> tileContents = splitString(vision[i], ' ');
         for (const std::string &object : tileContents) {
-            if (i == 0 && incantationSoon && object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1) {
-                EjectPlayer();
-                return -1;
-            }
+            // if (i == 0 && incantationSoon && object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1) {
+            //     // EjectPlayer();
+            //     return -1;
+            // }
             if (object == priorityResource)
+                return i;
+            if (object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1)
                 return i;
         }
     }
     return -1;
+}
+
+bool AI::CheckSameTileOtherAI()
+{
+    static const std::array<int, 7> requiredPlayersPerLevel = {1, 2, 2, 4, 4, 6, 6};
+    LookAround();
+    std::cout << "Look FromServer: " << messageFromServer << std::endl;
+    std::vector<std::string> vision = splitString(messageFromServer, ',');
+    std::vector<std::string> tileContents = splitString(vision[0], ' ');
+    int playerCount = std::count(tileContents.begin(), tileContents.end(), "player");
+
+    if (playerCount >= requiredPlayersPerLevel[this->level - 1]) {
+        return true;
+    }
+    return false;
+}
+
+int AI::InventoryContent::getResource(int i)
+{
+    if (i == 0)
+        return getLinemate();
+    else if (i == 1)
+        return getDeraumere();
+    else if (i == 2)
+        return getSibur();
+    else if (i == 3)
+        return getMendiane();
+    else if (i == 4)
+        return getPhiras();
+    else if (i == 5)
+        return getThystame();
 }
 
 void AI::CheckInventoryAndSetObjects()
@@ -185,46 +260,24 @@ void AI::CheckInventoryAndSetObjects()
         {2, 2, 2, 2, 2, 1}
     }};
 
-    if (inventory.getLinemate() >= requirementLevels[level-1][0] &&
-        inventory.getDeraumere() >= requirementLevels[level-1][1] &&
-        inventory.getSibur() >= requirementLevels[level-1][2] &&
-        inventory.getMendiane() >= requirementLevels[level-1][3] &&
-        inventory.getPhiras() >= requirementLevels[level-1][4] &&
-        inventory.getThystame() >= requirementLevels[level-1][5]) {
+    bool canLevelUp = true;
+    for (int i = 0; i < 6; i++) {
+        if (inventory.getResource(i) < requirementLevels[level-1][i]) {
+            canLevelUp = false;
+            break;
+        }
+    }
+    if (canLevelUp) {
         incantationSoon = true;
         FindResourceInVision();
-        if (level == 1)
-            SetObjectDown(1, 1);
-        else if (level == 2) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 1);
-            SetObjectDown(3, 1);
-        } else if (level == 3) {
-            SetObjectDown(1, 2);
-            SetObjectDown(3, 1);
-            SetObjectDown(5, 2);
-        } else if (level == 4) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 1);
-            SetObjectDown(3, 2);
-            SetObjectDown(5, 1);
-        } else if (level == 5) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 2);
-            SetObjectDown(3, 1);
-            SetObjectDown(4, 3);
-        } else if (level == 6) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 2);
-            SetObjectDown(3, 3);
-            SetObjectDown(5, 1);
-        } else if (level == 7) {
-            SetObjectDown(1, 2);
-            SetObjectDown(2, 2);
-            SetObjectDown(3, 2);
-            SetObjectDown(4, 2);
-            SetObjectDown(5, 2);
-            SetObjectDown(6, 1);
+        for (int i = 0; i < 6; i++) {
+            int requiredResource = requirementLevels[level-1][i];
+            if (requiredResource > 0) {
+                if (CheckSameTileOtherAI()) {
+                    SetObjectDown(i + 1, requiredResource);
+                    UpdateInventory();
+                }
+            }
         }
     }
 }
@@ -233,16 +286,42 @@ void AI::CheckLevelUp()
 {
     CheckInventoryAndSetObjects();
     if (incantationSoon) {
-        StartIncantation();
-        messageFromServer = client.receiveData();
-        std::cout << "messageFromServer :" << messageFromServer << std::endl;
-        if (messageFromServer != "ok\n") {
+        std::string levelUpMessage = "Ready level " + std::to_string(level+1);
+        BroadcastText(levelUpMessage);
+        if (CheckSameTileOtherAI()) {
             StartIncantation();
-            messageFromServer = client.receiveData();
-        } else {
-            level++;
-            std::cout << "Level UPPPPPPPPPPPPPP!: " << level << std::endl;
-            incantationSoon = false;
+        }
+        if (CheckSameTileOtherAI()) {
+            StartIncantation();
+            if (messageFromServer != "ok\n") {
+                StartIncantation();
+            } else {
+                level++;
+                incantationSoon = false;
+            }
+        }
+    }
+}
+
+void AI::HandleIncomingMessages()
+{
+    if (messageFromServer.substr(0, 8) == "message ") {
+        size_t commaPos = messageFromServer.find(",");
+        std::string directionStr = messageFromServer.substr(8, commaPos - 8);
+        std::string text = messageFromServer.substr(commaPos + 1);
+
+        int direction = std::stoi(directionStr);
+        std::cout << "Server broadcast direction " << direction << ": " << text << std::endl;
+
+        auto msg = splitString(text, ' ');
+        if (msg[0] == "Ready" && msg[2] == "level") {
+            int levelInMessage = std::stoi(msg[3]);
+            broadcastLevel = levelInMessage;
+            if (levelInMessage == level + 1 && incantationSoon) {
+                TurnToDirection(direction);
+                Forward();
+                LookAround();
+            }
         }
     }
 }
@@ -250,12 +329,10 @@ void AI::CheckLevelUp()
 void AI::ForkPlayerEgg()
 {
     NumberOfTeamUnusedSlots();
-    messageFromServer = client.receiveData();
     std::cout << "Connect_nbr FromServer: " << messageFromServer << std::endl;
     if (messageFromServer == "0\n")
         return;
     ForkPlayer();
-    messageFromServer = client.receiveData();
     std::cout << "Fork FromServer: " << messageFromServer << std::endl;
     if (messageFromServer == "ok\n") {
         pid_t pid = fork();
@@ -267,47 +344,6 @@ void AI::ForkPlayerEgg()
             exit(EXIT_FAILURE);
         }
     }
-}
-
-void AI::Loop()
-{
-    int i = 0;
-    while (alive) {
-        if (Waiter()) {
-            int directionToResource = FindResourceInVision();
-            UpdateInventory();
-            if (directionToResource != -1) {
-                TurnToDirection(directionToResource);
-                Forward();
-                TakeObject();
-                UpdateInventory();
-                std::cout << "level avant: " << level << std::endl;
-                CheckLevelUp();
-                std::cout << "level après: " << level << std::endl;
-            } else {
-                std::cout << "level avant: " << level << std::endl;
-                CheckLevelUp();
-                std::cout << "level après: " << level << std::endl;
-                Forward();
-            }
-            // if (i % 150 == 0)
-            //     ForkPlayerEgg();
-        }
-    }
-}
-
-void AI::WelcomeProtocol()
-{
-    messageFromServer = client.receiveData(); // get Welcome message
-    client.sendData(teamName + "\n");         // send team name
-    clientNbrRemain = atoi(client.receiveData().c_str()); // get client number
-    messageFromServer = client.receiveData();             // get map size
-    x = atoi(messageFromServer.substr(0, messageFromServer.find(" ")).c_str());
-    y = atoi(messageFromServer
-                 .substr(messageFromServer.find(" ") + 1,
-                     messageFromServer.find("\n"))
-                 .c_str());
-    std::cout << "END OF WELCOME" << std::endl;
 }
 
 bool AI::Waiter()
@@ -323,50 +359,52 @@ bool AI::Waiter()
 
 void AI::Forward()
 {
-    timeToWait = BASESLEEP;
     std::cout << "Forward" << std::endl;
     client.sendData("Forward\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::TurnRight()
 {
-    timeToWait = BASESLEEP;
     std::cout << "Right" << std::endl;
     client.sendData("Right\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::TurnLeft()
 {
-    timeToWait = BASESLEEP;
     std::cout << "Left" << std::endl;
     client.sendData("Left\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::LookAround()
 {
-    timeToWait = BASESLEEP;
     std::cout << "Look" << std::endl;
     client.sendData("Look\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::Inventory()
 {
-    timeToWait = BASESLEEP;
     std::cout << "Inventory" << std::endl;
     client.sendData("Inventory\n");
+    std::cout << "DATA SENT" << std::endl;
+    messageFromServer = client.receiveData();
 }
 
 void AI::BroadcastText(std::string message)
 {
-    timeToWait = BASESLEEP;
     std::cout << "Broadcast" << std::endl;
     client.sendData("Broadcast " + message + "\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::NumberOfTeamUnusedSlots()
 {
     std::cout << "Connect_nbr" << std::endl;
     client.sendData("Connect_nbr\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::ForkPlayer()
@@ -374,6 +412,7 @@ void AI::ForkPlayer()
     timeToWait = FORKSLEEP;
     std::cout << "Fork" << std::endl;
     client.sendData("Fork\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::EjectPlayer()
@@ -381,17 +420,21 @@ void AI::EjectPlayer()
     timeToWait = BASESLEEP;
     std::cout << "Eject" << std::endl;
     client.sendData("Eject\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::DeathOfPlayer()
 {
+    std::cout << "Dead" << std::endl;
+    client.sendData("Dead\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::TakeObject()
 {
-    timeToWait = BASESLEEP;
     std::cout << "Take" << std::endl;
     client.sendData("Take\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::SetObjectDown(int object, int quantity)
@@ -401,6 +444,7 @@ void AI::SetObjectDown(int object, int quantity)
         + std::to_string(quantity) + "\n" << std::endl;
     client.sendData("Set" + std::to_string(object) + " "
         + std::to_string(quantity) + "\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::StartIncantation()
@@ -408,6 +452,7 @@ void AI::StartIncantation()
     timeToWait = INCANTATIONSLEEP;
     std::cout << "Incantation" << std::endl;
     client.sendData("Incantation\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::AllPlayerLevel()
@@ -417,4 +462,5 @@ void AI::AllPlayerLevel()
 
     std::sprintf(lvl, "%d", level);
     client.sendData("PlayersLevel " + std::string(lvl) + "\n");
+    messageFromServer = client.receiveData();
 }

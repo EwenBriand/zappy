@@ -46,7 +46,5 @@ void msz_command(char **args, main_t *server)
 {
     char cmd[100];
     sprintf(cmd, "msz %d %d\n", server->args->width, server->args->height);
-    // sprintf(cmd, "msz_%d_%d\n", 12, 12);
-    // usleep(100000);
     send_to_gui(cmd, server->server);
 }
