@@ -52,6 +52,7 @@ class AI {
         InventoryContent() : food(10), linemate(0), sibur(0), deraumere(0), mendiane(0), phiras(0), thystame(0) {}
         void parse(const std::string inventoryMessage);
         void assignValue(const std::string &name, int value);
+        int getResource(int i);
         int getFood() { return food; }
         int getLinemate() { return linemate; }
         int getSibur() { return sibur; }
@@ -97,6 +98,7 @@ class AI {
         int port;
         int level = 1;
         int food = 10;
+        int broadcastLevel = 0;
         bool incantationSoon = false;
         std::string messageFromServer;
         int orientation = NORTH;
@@ -118,7 +120,9 @@ class AI {
         int FindResourceInVision();
         void CheckInventoryAndSetObjects();
         void CheckLevelUp();
+        void HandleIncomingMessages();
         void ForkPlayerEgg();
+        bool CheckSameTileOtherAI();
 };
 
 #endif /* !IA_HPP_ */
