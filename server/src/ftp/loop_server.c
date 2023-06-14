@@ -40,11 +40,12 @@ void loop_server(main_t *main)
 
         if (accept_client(main) == 84)
             break;
+        read_client(main);
         if (!main->this_is_the_end) {
-            read_client(main);
             execute_player_command(main);
             add_ressources_if_its_time(main);
-        }
+        } else
+            printf("This is the END\nHOLD your breath and count to ten\n");
         win_cond(main);
     }
 }
