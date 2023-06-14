@@ -44,7 +44,7 @@ void add_ressources_if_its_time(main_t *main)
     if ((act_time - main->time) / div >= 20 / div) {
         for (int i = 0; i < 7; ++i) {
             for (; 0 < main->map->deleted_element[i];
-                 --main->map->deleted_element[i]) {
+                --main->map->deleted_element[i]) {
                 printf("add %i to map\n", i);
                 add_ressource_to_tile(main, i);
             }

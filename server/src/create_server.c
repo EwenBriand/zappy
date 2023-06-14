@@ -5,7 +5,6 @@
 ** create_server.c
 */
 
-#include <string.h>
 #include "server.h"
 
 bool is_digit(char *str)

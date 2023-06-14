@@ -67,7 +67,8 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/ia_server_communication/start_incantation.c \
 				src/ftp/init_dest_main.c	\
 				src/ftp/init_dest_player.c	\
-				src/ftp/add_ressources.c	\
+				src/game/add_ressources.c	\
+				src/game/win_cond.c	\
 				src/ftp/init_team.c	\
 				src/commands/execute_player.c	\
 				src/commands/gui_commands.c	\

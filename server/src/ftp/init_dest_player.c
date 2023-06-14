@@ -87,7 +87,7 @@ player_t *init_player_char(main_t *main)
 
     new->inventory[Q0] = 1260;
     for (int i = 1; i < 7; ++i)
-        new->inventory[i] = 0;
+        new->inventory[i] = 8;
     new->level = 1;
     new->cmd_buf = malloc(sizeof(char *) * 11);
     for (int i = 0; i < 11; ++i)

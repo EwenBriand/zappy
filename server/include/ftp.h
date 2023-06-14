@@ -5,6 +5,8 @@
 ** ftp
 */
 #pragma once
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#define _GNU_SOURCE
 
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -25,7 +27,6 @@
 #include "ai_command.h"
 #include "error_code.h"
 
-#define _GNU_SOURCE
 
 #define GUI         "helloGui\r\n"
 #define GUI_FORMAT  "helloGui\r"
@@ -46,10 +47,6 @@ typedef struct foodCost_s {
     int cost;
 } foodCost_t;
 
-static foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7}, {"Left", 7},
-    {"Look", 7}, {"Inventory", 1}, {"Broadcast", 7}, {"Connect_nbr", 0},
-    {"Fork", 42}, {"Eject", 7}, {"Take", 7}, {"Set", 7}, {"Incantation", 10},
-    {NULL, 0}};
 
 bool check_food(main_t *main, int cost, char *cmd);
 
@@ -140,10 +137,17 @@ void sgt_gui_command(char **args, main_t *server);
 void sst_gui_command(char **args, main_t *server);
 
 void call_gui_command(main_t *main, int i, char **tab);
+void win_cond(main_t *main);
 
 static const call_command_t commands_gui[] = {{"msz", msz_gui_command},
-    {"bct", bct_gui_command}, {"mct", mct_gui_command},
-    {"tna", tna_gui_command}, {"ppo", ppo_gui_command},
-    {"plv", plv_gui_command}, {"pin", pin_gui_command},
-    {"sgt", sgt_gui_command}, {"sst", sst_gui_command}, {"pdr", pdr_command},
-    {"pgt", pgt_command}, {NULL, NULL}};
+                                                {"bct", bct_gui_command},
+                                                {"mct", mct_gui_command},
+                                                {"tna", tna_gui_command},
+                                                {"ppo", ppo_gui_command},
+                                                {"plv", plv_gui_command},
+                                                {"pin", pin_gui_command},
+                                                {"sgt", sgt_gui_command},
+                                                {"sst", sst_gui_command},
+                                                {"pdr", pdr_command},
+                                                {"pgt", pgt_command},
+                                                {NULL, NULL}};

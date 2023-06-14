@@ -11,10 +11,6 @@
 
 static char *fill_string(int i, char *cmd, main_t *main)
 {
-    printf("main->server->current_client_index : %d\n",
-        main->server->current_client_index);
-    printf("CURR_CLI->player->inventory[i] : %p\n",
-        main->server->client_fd[main->server->current_client_index]->player);
     if (i == 0) {
         asprintf(&cmd, "%s%s %d", cmd, get_object_name(i),
             CURR_CLI->player->inventory[i]);
@@ -30,21 +26,21 @@ void inventory_command(char **args, main_t *main)
     char *cmd = "[";
     for (int i = 0; i <= Q6; i++) {
         cmd = fill_string(i, cmd, main);
-        printf("cmd : %s\n", cmd);
     }
     asprintf(&cmd, "%s]\n", cmd);
+    printf("cmd : %s", cmd);
     send_to_ia(cmd, main);
     free(cmd);
 }
 
-static void fork_pie(char **args, main_t *main)
+static void fork_pie(char **args, main_t *main, bool res)
 {
     char *cmd;
     pid_t pid = fork();
     if (pid == 0) {
-        sleep(300 / (main->args->freq / 100));
+        sleep(10 / (main->args->freq / 100));
         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
-                CURR_CLI->player->coord.y, 1);
+                CURR_CLI->player->coord.y, res);
         send_to_gui(cmd, main->server);
         free(cmd);
         exit(0);
@@ -53,10 +49,10 @@ static void fork_pie(char **args, main_t *main)
 
 void incantation_command(char **args, main_t *main)
 {
-    start_incantation(args, main);
-    // pie need bool res = check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
-    fork_pie(args, main);
-    send_ok(main);
+    bool res = check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+    start_incantation(args, main, res);
+    fork_pie(args, main, res);
+    // send_ok(main);
 }
 
 void fork_command(char **args, main_t *main)

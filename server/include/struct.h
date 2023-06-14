@@ -56,6 +56,7 @@ typedef struct team_s {
     int max_player;
     int current_player;
     egg_t **eggs;
+    bool win;
 } team_t;
 
 typedef struct client_s {
@@ -64,7 +65,7 @@ typedef struct client_s {
     int connected;
     char *team_name;
     player_t *player;
-    team_t **teams;
+    int teams;
     bool is_welcome_protocole_done;
 } client_t;
 
@@ -86,6 +87,7 @@ typedef struct main_s {
     args_t *args;
     map_t *map;
     int time;
+    bool this_is_the_end;
 } main_t;
 
 typedef struct call_command_s {

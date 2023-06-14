@@ -22,7 +22,7 @@ void pnw_command(char **args, main_t *main)
             >= main->teams_list[team]->max_player)
         return send_response_to_ia("ko\n", main);
     CURR_CLI->player = init_player_char(main);
-    CURR_CLI->teams = &main->teams_list[team];
+    CURR_CLI->teams = team;
     main->teams_list[team]->current_player++;
     printf("player position %d, %d\n", CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
     asprintf(&cmd, "pnw #%d %d %d %d %d %s\n", CURR_CLI->player->id,

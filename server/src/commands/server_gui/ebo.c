@@ -23,7 +23,7 @@ void ebo_command(char **args, main_t *main)
         >= main->teams_list[team]->max_player)
         return send_response_to_ia("ko\n", main);
     CURR_CLI->player = init_player(main->teams_list[team]->eggs[atoi(args[1])]);
-    CURR_CLI->teams = &main->teams_list[team];
+    CURR_CLI->teams = team;
     main->teams_list[team]->current_player++;
     printf("EGG player position %d, %d\n", CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
 

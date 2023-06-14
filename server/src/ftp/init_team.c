@@ -16,9 +16,10 @@ static void init_one_team(main_t *main, int j)
     main->teams_list[j]->name = strdup(main->args->name[j]);
     main->teams_list[j]->max_player = main->args->nb_client_max;
     main->teams_list[j]->current_player = 0;
+    main->teams_list[j]->win = false;
     main->teams_list[j]->eggs = malloc(sizeof(egg_t *) * 100);
 
-// comment CA
+    // comment CA
     // for (int i = 0; i < main->args->nb_client_max; ++i) {
     //     main->teams_list[j]->eggs[pos++] = init_egg(main, j);
     // }

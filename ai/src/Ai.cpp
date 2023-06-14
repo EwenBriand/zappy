@@ -262,7 +262,6 @@ void AI::ForkPlayerEgg()
         if (pid == 0) {
             AI newAI(this->hostname, this->port, this->teamName);
             newAI.Loop();
-            exit(0);
         } else if (pid < 0) {
             std::cerr << "Erreur lors du fork" << std::endl;
             exit(EXIT_FAILURE);
