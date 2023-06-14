@@ -11,10 +11,10 @@
 char *get_player_on_tile(main_t *main, int x, int y)
 {
     char *cmd = NULL;
-    for (int i = 0; i < MAX_CLI; i++) {
-        if (main->server->client_fd[i]->player == NULL)
-            continue;
-        if (main->server->client_fd[i]->player->coord.x == x
+    for (int i = 0; i < main->server->nbr_client_connected; i++) {
+        if (main->server->client_fd[i] != NULL
+            && main->server->client_fd[i]->player != NULL
+            && main->server->client_fd[i]->player->coord.x == x
             && main->server->client_fd[i]->player->coord.y == y) {
             asprintf(&cmd, "player");
         }

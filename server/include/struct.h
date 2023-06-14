@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <sys/select.h>
 #include <stdbool.h>
+#include <sys/select.h>
 #include "args.h"
 
 static const int directions[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
@@ -41,6 +41,7 @@ typedef struct map_s {
     int width;
     int height;
     tile_t ***tiles;
+    int deleted_element[7];
 } map_t;
 
 typedef struct egg_s {

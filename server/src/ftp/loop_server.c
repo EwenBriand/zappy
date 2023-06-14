@@ -33,8 +33,8 @@ void loop_server(main_t *main)
     // win condition
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(main->server);
-        nfds = select(main->server->max + 1, main->server->copy, NULL, NULL,
-            &timeout);
+        nfds = select(
+            main->server->max + 1, main->server->copy, NULL, NULL, &timeout);
         if (nfds < 0)
             break;
 
@@ -42,6 +42,6 @@ void loop_server(main_t *main)
             break;
         read_client(main);
         execute_player_command(main);
-        // add_ressources_if_its_time(main);
+        add_ressources_if_its_time(main);
     }
 }
