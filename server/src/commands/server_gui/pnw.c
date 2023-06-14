@@ -16,6 +16,7 @@ void pnw_command(char **args, main_t *main)
     char *freq;
 
     int team = get_team_by_name(main, args[0]);
+    printf("team : %d\n", team);
     if (team == -1 || main->teams_list[team] == NULL
         || main->teams_list[team]->current_player
             >= main->teams_list[team]->max_player)

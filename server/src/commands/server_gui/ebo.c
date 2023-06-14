@@ -10,12 +10,13 @@
 #include "ftp.h"
 #include "server.h"
 
+// 0 : id team_id
+// 1 : id_egg
+
 void ebo_command(char **args, main_t *main)
 {
-    // 0 : id team_id
-    // 1 : id_egg
     char *cmd = NULL;
-
+    printf("EBO\n");
     int team = atoi(args[0]);
     if (team == -1 || main->teams_list[team] == NULL ||
         main->teams_list[team]->current_player
@@ -26,7 +27,8 @@ void ebo_command(char **args, main_t *main)
     main->teams_list[team]->current_player++;
     printf("EGG player position %d, %d\n", CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
 
-    sprintf(cmd, "ebo %d\n", main->teams_list[team]->eggs[atoi(args[1])]->id);
+    asprintf(&cmd, "ebo %d\n", main->teams_list[team]->eggs[atoi(args[1])]->id);
+    printf("cmd = %s\n", cmd);
     send_to_gui(cmd, main->server);
     send_ok(main);
     destroy_egg(main->teams_list[team]->eggs[atoi(args[1])]);
