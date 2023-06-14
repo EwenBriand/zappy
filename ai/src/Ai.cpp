@@ -235,11 +235,13 @@ void AI::CheckLevelUp()
     if (incantationSoon) {
         StartIncantation();
         messageFromServer = client.receiveData();
+        std::cout << "messageFromServer :" << messageFromServer << std::endl;
         if (messageFromServer != "ok\n") {
             StartIncantation();
             messageFromServer = client.receiveData();
         } else {
             level++;
+            std::cout << "Level UPPPPPPPPPPPPPP!: " << level << std::endl;
             incantationSoon = false;
         }
     }
