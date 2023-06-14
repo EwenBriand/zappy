@@ -162,15 +162,48 @@ int AI::FindResourceInVision()
     for (int i = 0; i < vision.size(); i++) {
         std::vector<std::string> tileContents = splitString(vision[i], ' ');
         for (const std::string &object : tileContents) {
-            if (i == 0 && incantationSoon && object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1) {
-                EjectPlayer();
-                return -1;
-            }
+            // if (i == 0 && incantationSoon && object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1) {
+            //     // EjectPlayer();
+            //     return -1;
+            // }
             if (object == priorityResource)
+                return i;
+            if (object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1)
                 return i;
         }
     }
     return -1;
+}
+
+bool AI::CheckSameTileOtherAI()
+{
+    static const std::array<int, 7> requiredPlayersPerLevel = {1, 2, 2, 4, 4, 6, 6};    LookAround();
+    messageFromServer = client.receiveData();
+    std::cout << "Look FromServer: " << messageFromServer << std::endl;
+    std::vector<std::string> vision = splitString(messageFromServer, ',');
+    std::vector<std::string> tileContents = splitString(vision[0], ' ');
+    int playerCount = std::count(tileContents.begin(), tileContents.end(), "player");
+
+    if (playerCount >= requiredPlayersPerLevel[this->level - 1]) {
+        return true;
+    }
+    return false;
+}
+
+int AI::InventoryContent::getResource(int i)
+{
+    if (i == 0)
+        return getLinemate();
+    else if (i == 1)
+        return getDeraumere();
+    else if (i == 2)
+        return getSibur();
+    else if (i == 3)
+        return getMendiane();
+    else if (i == 4)
+        return getPhiras();
+    else if (i == 5)
+        return getThystame();
 }
 
 void AI::CheckInventoryAndSetObjects()
@@ -185,46 +218,24 @@ void AI::CheckInventoryAndSetObjects()
         {2, 2, 2, 2, 2, 1}
     }};
 
-    if (inventory.getLinemate() >= requirementLevels[level-1][0] &&
-        inventory.getDeraumere() >= requirementLevels[level-1][1] &&
-        inventory.getSibur() >= requirementLevels[level-1][2] &&
-        inventory.getMendiane() >= requirementLevels[level-1][3] &&
-        inventory.getPhiras() >= requirementLevels[level-1][4] &&
-        inventory.getThystame() >= requirementLevels[level-1][5]) {
+    bool canLevelUp = true;
+    for (int i = 0; i < 6; i++) {
+        if (inventory.getResource(i) < requirementLevels[level-1][i]) {
+            canLevelUp = false;
+            break;
+        }
+    }
+    if (canLevelUp) {
         incantationSoon = true;
         FindResourceInVision();
-        if (level == 1)
-            SetObjectDown(1, 1);
-        else if (level == 2) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 1);
-            SetObjectDown(3, 1);
-        } else if (level == 3) {
-            SetObjectDown(1, 2);
-            SetObjectDown(3, 1);
-            SetObjectDown(5, 2);
-        } else if (level == 4) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 1);
-            SetObjectDown(3, 2);
-            SetObjectDown(5, 1);
-        } else if (level == 5) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 2);
-            SetObjectDown(3, 1);
-            SetObjectDown(4, 3);
-        } else if (level == 6) {
-            SetObjectDown(1, 1);
-            SetObjectDown(2, 2);
-            SetObjectDown(3, 3);
-            SetObjectDown(5, 1);
-        } else if (level == 7) {
-            SetObjectDown(1, 2);
-            SetObjectDown(2, 2);
-            SetObjectDown(3, 2);
-            SetObjectDown(4, 2);
-            SetObjectDown(5, 2);
-            SetObjectDown(6, 1);
+        for (int i = 0; i < 6; i++) {
+            int requiredResource = requirementLevels[level-1][i];
+            if (requiredResource > 0) {
+                if (CheckSameTileOtherAI()) {
+                    SetObjectDown(i + 1, requiredResource);
+                    UpdateInventory();
+                }
+            }
         }
     }
 }
@@ -233,14 +244,45 @@ void AI::CheckLevelUp()
 {
     CheckInventoryAndSetObjects();
     if (incantationSoon) {
-        StartIncantation();
-        messageFromServer = client.receiveData();
-        if (messageFromServer != "ok\n") {
+        std::string levelUpMessage = "Ready level " + std::to_string(level+1);
+        BroadcastText(levelUpMessage);
+        if (CheckSameTileOtherAI()) {
             StartIncantation();
             messageFromServer = client.receiveData();
-        } else {
-            level++;
-            incantationSoon = false;
+        }
+        if (CheckSameTileOtherAI()) {
+            StartIncantation();
+            messageFromServer = client.receiveData();
+            if (messageFromServer != "ok\n") {
+                StartIncantation();
+                messageFromServer = client.receiveData();
+            } else {
+                level++;
+                incantationSoon = false;
+            }
+        }
+    }
+}
+
+void AI::HandleIncomingMessages()
+{
+    if (messageFromServer.substr(0, 8) == "message ") {
+        size_t commaPos = messageFromServer.find(",");
+        std::string directionStr = messageFromServer.substr(8, commaPos - 8);
+        std::string text = messageFromServer.substr(commaPos + 1);
+
+        int direction = std::stoi(directionStr);
+        std::cout << "Server broadcast direction " << direction << ": " << text << std::endl;
+
+        auto msg = splitString(text, ' ');
+        if (msg[0] == "Ready" && msg[2] == "level") {
+            int levelInMessage = std::stoi(msg[3]);
+            broadcastLevel = levelInMessage;
+            if (levelInMessage == level + 1 && incantationSoon) {
+                TurnToDirection(direction);
+                Forward();
+                LookAround();
+            }
         }
     }
 }
@@ -271,15 +313,18 @@ void AI::ForkPlayerEgg()
 void AI::Loop()
 {
     int i = 0;
+    messageFromServer = client.receiveData();
     while (alive) {
         if (Waiter()) {
             int directionToResource = FindResourceInVision();
+            HandleIncomingMessages();
             UpdateInventory();
             if (directionToResource != -1) {
                 TurnToDirection(directionToResource);
                 Forward();
                 TakeObject();
-                UpdateInventory();
+                if (messageFromServer == "ok\n")
+                    UpdateInventory();
                 std::cout << "level avant: " << level << std::endl;
                 CheckLevelUp();
                 std::cout << "level après: " << level << std::endl;
@@ -289,8 +334,8 @@ void AI::Loop()
                 std::cout << "level après: " << level << std::endl;
                 Forward();
             }
-            if (i % 150 == 0)
-                ForkPlayerEgg();
+            // if (i % 150 == 0)
+            //     ForkPlayerEgg();
         }
     }
 }
