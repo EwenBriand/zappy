@@ -30,7 +30,7 @@ void add_ressources(main_t *main)
 
     for (int i = 0; i < 7; ++i) {
         ressource = main->args->width * main->args->height * density[i];
-        for (int j = 0; j < ressource; ++j) {
+        for (; 0 < ressource; --ressource) {
             add_ressource_to_tile(main, i);
         }
     }
@@ -40,11 +40,14 @@ void add_ressources_if_its_time(main_t *main)
 {
     int act_time = time(NULL);
     float div = main->args->freq / 100;
-    // printf("hello\n");
 
     if ((act_time - main->time) / div >= 20 / div) {
-        printf("add ressources\n");
-        add_ressources(main);
-        main->time = act_time;
+        for (int i = 0; i < 7; ++i) {
+            for (; 0 < main->map->deleted_element[i];
+                --main->map->deleted_element[i]) {
+                printf("add %i to map\n", i);
+                add_ressource_to_tile(main, i);
+            }
+        }
     }
 }

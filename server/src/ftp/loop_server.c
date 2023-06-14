@@ -33,15 +33,19 @@ void loop_server(main_t *main)
     // win condition
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(main->server);
-        nfds = select(main->server->max + 1, main->server->copy, NULL, NULL,
-            &timeout);
+        nfds = select(
+            main->server->max + 1, main->server->copy, NULL, NULL, &timeout);
         if (nfds < 0)
             break;
 
         if (accept_client(main) == 84)
             break;
         read_client(main);
-        execute_player_command(main);
-        // add_ressources_if_its_time(main);
+        if (!main->this_is_the_end) {
+            execute_player_command(main);
+            add_ressources_if_its_time(main);
+        } else
+            printf("This is the END\nHOLD your breath and count to ten\n");
+        win_cond(main);
     }
 }

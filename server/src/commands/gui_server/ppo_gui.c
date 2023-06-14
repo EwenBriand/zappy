@@ -12,7 +12,7 @@
 
 void ppo_gui_command(char **args, main_t *server)
 {
-    for (int i = 0; i < server->server->nbr_client_connected; i++)
+    for (int i = 0; i < MAX_CLI; i++)
         if (server->server->client_fd[i] != NULL
             && server->server->client_fd[i]->player != NULL
             && server->server->client_fd[i]->player->id == atoi(args[1])) {

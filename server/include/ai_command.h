@@ -35,7 +35,7 @@ void fork_command(char **args, main_t *main);
 void eject(char **args, main_t *main);
 void incantation_command(char **args, main_t *main);
 void set_command(char **args, main_t *main);
-
+void start_incantation(char **args, main_t *main, bool res);
 static const call_server_form_ia_t call_server_form_ia[] = {
     {"Forward", forward_command},
     {"pnw", pnw_command},

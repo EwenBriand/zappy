@@ -7,38 +7,49 @@
 
 #include "ftp.h"
 
+static foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7}, {"Left", 7},
+    {"Look", 7}, {"Inventory", 1}, {"Broadcast", 7}, {"Connect_nbr", 0},
+    {"Fork", 42}, {"Eject", 7}, {"Take", 7}, {"Set", 7}, {"Incantation", 10},
+    {NULL, 0}};
+
 void welcome_protocole(main_t *main, char **tab)
 {
+    printf("welcome protocole\n");
     if (strcmp(tab[0], GUI) == 0 || strcmp(tab[0], GUI_FORMAT) == 0
         || strcmp(tab[0], GUI_FORMAT2) == 0 || strcmp(tab[0], GUI_FORMAT3) == 0) {
         printf("GRAPHIC CONNECTED\n");
         main->server->gui_fd = CURR_CLI->fd;
         CURR_CLI->player = NULL;
-        printf("gui is = %d\n", main->server->gui_fd);
         return;
     }
-    printf("fd of player = %d\n", CURR_CLI->fd);
-    CURR_CLI->team_name = strdup(tab[0]);
-    int team_id = get_team_by_name(main, CURR_CLI->team_name);
+    int team_id = get_team_by_name(main, tab[0]);
+    if (team_id == -1) {
+        dprintf(CURR_CLI->fd, "ko team does not exist\n");
+        return;
+    }
 
+    CURR_CLI->team_name = strdup(tab[0]);
     printf("buf = %s\n", tab[0]);
     dprintf(CURR_CLI->fd, "%i\n", main->server->current_client_index);
     usleep(1000);
     dprintf(CURR_CLI->fd, "%d %d\n", main->map->width,
         main->map->height);
 
-// si la team a des oeufs
-    char *cmd = NULL; //ebo command
-    for (int i = 0; i < 100; i++)
-        if (main->teams_list[team_id]->eggs[i] != NULL) {
-            asprintf(&cmd, "ebo %d\n", team_id, i);
-            ebo_command(cmd, main);
-    }
-
+    // si la team a des oeufs
+    // char *cmd = NULL; //ebo command
+    // for (int i = 0; i < 100; i++)
+    //     if (main->teams_list[team_id]->eggs[i] != NULL) {
+    //         // asprintf(&cmd, "ebo %d %d\n", team_id, i);
+    //         printf("ebo %d %d\n", team_id, i);
+    //         ebo_command((char *[]){my_itoa(team_id), my_itoa(i)}, main);
+    // }
+    // printf("team_id dddddddd= %d\n", team_id);
     pnw_command(tab, main);
     if (CURR_CLI->player == NULL) {
+        printf("CURR_CLI->player == NULL\n");
         return;
     }
+    CURR_CLI->is_welcome_protocole_done = true;
 }
 
 void call_ai_command(char **tab, main_t *main)
@@ -46,13 +57,6 @@ void call_ai_command(char **tab, main_t *main)
     for (int i = 0; tab[i]; i++)
         printf("tab[%d] = %s\n", i, tab[i]);
 
-    // if (CURR_CLI->is_welcome_protocole_done == false) {
-    //     printf("welcome protocole\n");
-    //     welcome_protocole(main, tab);
-    //     CURR_CLI->is_welcome_protocole_done = true;
-    //     send_ok(main);
-    //     return;
-    // }
     printf("main->server->current_client_index = %d\n", main->server->current_client_index);
     if (CURR_CLI->fd == main->server->gui_fd) { // TODO FIX THIS AND GET WHY THE INDEX IS WRONG
         main->server->current_client_index++;

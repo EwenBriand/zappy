@@ -10,6 +10,11 @@
 #include "struct.h"
 #include "ai_command.h"
 
+static const foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7},
+    {"Left", 7}, {"Look", 7}, {"Inventory", 1}, {"Broadcast", 7},
+    {"Connect_nbr", 0}, {"Fork", 42}, {"Eject", 7}, {"Take", 7}, {"Set", 7},
+    {"Incantation", 10}, {NULL, 0}};
+
 int get_command_time(char *name)
 {
     printf("name: %s\n", name);
@@ -26,6 +31,7 @@ void execute_current_command(main_t *main, int i)
     int act_time = time(NULL);
     float div = main->args->freq / 100;
 
+    // lock if incantation
     if ((act_time - main->server->client_fd[i]->player->time) / div
         >= main->server->client_fd[i]->player->command_time / div) {
         if (list_len(main->server->client_fd[i]->player->cmd_buf) == 0)

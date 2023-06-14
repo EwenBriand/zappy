@@ -45,6 +45,7 @@ server_t *init_server(args_t *args)
     FD_ZERO(server->readfds);
     FD_SET(server->fd, server->readfds);
     server->copy = malloc(sizeof(fd_set));
+    server->nbr_client_connected = 0;
     server->gui_fd = -1;
     return server;
 }

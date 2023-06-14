@@ -38,27 +38,3 @@ int main(int argc, char **argv)
 
     return (0);
 }
-
-// int main()
-// {
-//     signal(SIGINT, ctrl_c);
-
-//     while (keep_running) {
-//         fd_set read_fds;
-//         FD_ZERO(&read_fds);
-//         // add file descriptors to read_fds
-//         struct timespec timeout = {0, 0};
-//         sigset_t mask;
-//         sigemptyset(&mask);
-//         sigaddset(&mask, SIGINT);
-//         int nfds = pselect(max_fd + 1, &read_fds, NULL, NULL, &timeout,
-//         &mask); if (nfds == -1) {
-//             perror("pselect");
-//             break;
-//         }
-//         // handle incoming data
-//     }
-
-//     printf("Exiting...\n");
-//     return 0;
-// }

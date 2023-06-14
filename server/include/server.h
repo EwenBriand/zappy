@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include "args.h"
 #include <time.h>
-
+#include <string.h>
 #define _GNU_SOURCE
 
 #define arr_append_n_bytes(arr, bytes, n, size) \
