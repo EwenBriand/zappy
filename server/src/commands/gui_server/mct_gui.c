@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "ftp.h"
 #include "server.h"
+#include "gui_command.h"
 
 void mct_gui_command(char **args, main_t *server)
 {

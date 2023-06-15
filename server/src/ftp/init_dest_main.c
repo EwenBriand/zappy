@@ -7,6 +7,7 @@
 
 #include "ftp.h"
 #include "server.h"
+#include "init_dest.h"
 
 static tile_t *new_tile(int x, int y)
 {
@@ -56,9 +57,9 @@ static void destroy_map(map_t *map)
 main_t *init_main(int argc, char **argv)
 {
     main_t *main = malloc(sizeof(main_t));
-    int pos = 0;
 
     main->args = get_data_from_args(argc, argv);
+    printf("main->arg->freq : %i\n", main->args->freq);
     main->server = init_server(main->args);
     main->map = init_map(main->args);
     main->time = time(NULL);
@@ -73,7 +74,7 @@ void destroy_main(main_t *main)
     printf("destroy main\n");
     if (main->teams_list == NULL) {
         for (int i = 0; main->teams_list[i] != NULL; ++i)
-            destroy_teams(main->teams_list[i]);
+            destroy_teams(main);
         free(main->teams_list);
     }
     close(main->server->fd);

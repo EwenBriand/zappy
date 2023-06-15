@@ -1,22 +1,8 @@
-./zappy_ai -p 8080 -n team1 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team1 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team2 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team2 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team3 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team4 -h 127.0.0.1 &
-./zappy_ai -p 8080 -n team1 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team1 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team2 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team2 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team3 -h 127.0.0.1 &
-sleep 3 &&
-./zappy_ai -p 8080 -n team4 -h 127.0.0.1
+teams=("team1" "team1" "team2" "team2" "team3" "team4" "team1" "team1" "team2" "team2" "team3" "team4" "team5" "team5")
+host="127.0.0.1"
+port=8080
+
+for team in "${teams[@]}"; do
+    ./zappy_ai -p "$port" -n "$team" -h "$host" &
+    sleep 1
+done

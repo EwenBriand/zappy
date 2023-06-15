@@ -6,6 +6,7 @@
 */
 
 #include "ai_command.h"
+#include "init_dest.h"
 
 void client_killer(main_t *main)
 {

@@ -61,6 +61,7 @@ args_t *get_data_from_args(int ac, char **av)
         if (check_arg("-f"))
             args->freq = atoi(av[i + 1]);
     }
+    printf("args->freq: %d\n", args->freq);
     return args;
 }
 

@@ -21,7 +21,7 @@ void bct_command(char **args, main_t *main)
     }
 
     if (buffer == NULL)
-        asprintf(&buffer, "bct 1 2 3 4 5 6 7 8 9\n");
+        buffer = "bct 1 2 3 4 5 6 7 8 9\n";
     printf("sendin to gui: %s\n", buffer);
     send_to_gui(buffer, main->server);
 }

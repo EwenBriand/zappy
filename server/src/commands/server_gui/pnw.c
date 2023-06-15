@@ -7,13 +7,13 @@
 
 #include "ftp.h"
 #include "server.h"
+#include "init_dest.h"
 
 // pnw #n X Y O L N\n
 
 void pnw_command(char **args, main_t *main)
 {
     char *cmd;
-    char *freq;
 
     int team = get_team_by_name(main, args[0]);
     printf("team : %d\n", team);
@@ -24,7 +24,8 @@ void pnw_command(char **args, main_t *main)
     CURR_CLI->player = init_player_char(main);
     CURR_CLI->teams = team;
     main->teams_list[team]->current_player++;
-    printf("player position %d, %d\n", CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+    printf("player position %d, %d\n", CURR_CLI->player->coord.x,
+        CURR_CLI->player->coord.y);
     asprintf(&cmd, "pnw #%d %d %d %d %d %s\n", CURR_CLI->player->id,
         CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
         CURR_CLI->player->orientation, CURR_CLI->player->level,
