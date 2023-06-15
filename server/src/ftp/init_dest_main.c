@@ -59,6 +59,7 @@ main_t *init_main(int argc, char **argv)
     int pos = 0;
 
     main->args = get_data_from_args(argc, argv);
+    printf("main->arg->freq : %i\n", main->args->freq);
     main->server = init_server(main->args);
     main->map = init_map(main->args);
     main->time = time(NULL);

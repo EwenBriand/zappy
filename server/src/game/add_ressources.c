@@ -38,13 +38,22 @@ void add_ressources(main_t *main)
 
 void add_ressources_if_its_time(main_t *main)
 {
+    // printf("main->args->freq %d\n", main->args->freq);
     int act_time = time(NULL);
-    float div = main->args->freq / 100;
+    // float div = main->args->freq / 100;
+    // printf("main->args->freq2 %d\n", main->args->freq);
+    // printf("act_time %d\n", act_time - main->time);
+    // printf("div %f\n", 20 * ((float) main->args->freq / 100));
 
-    if ((act_time - main->time) / div >= 20 / div) {
+    if ((act_time - main->time) >= 20 * ((float) main->args->freq / 100)) {
+        // printf("main->args->freq %f\n", (float) main->args->freq / 100);
+        // printf("add ressources time past %i obj %i div %f freq %d\n",
+        //     act_time - main->time, 20 * div, (float) div,
+        // (int) main->args->freq);
+        // exit(0);
         for (int i = 0; i < 7; ++i) {
             for (; 0 < main->map->deleted_element[i];
-                --main->map->deleted_element[i]) {
+                 --main->map->deleted_element[i]) {
                 printf("add %i to map\n", i);
                 add_ressource_to_tile(main, i);
             }

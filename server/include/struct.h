@@ -31,6 +31,8 @@ typedef struct player_s {
     char **cmd_buf;
     int time;
     int command_time;
+    char *act_cmd;
+    int status_cmd;
 } player_t;
 
 typedef struct tile_s {

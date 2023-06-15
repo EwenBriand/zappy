@@ -57,6 +57,7 @@ player_t *init_player(egg_t *egg)
     new->time = 0;
     new->command_time = 0;
     new->living_time = 126;
+    new->status_cmd = 0;
 
     new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
@@ -85,6 +86,7 @@ player_t *init_player_char(main_t *main)
     new->orientation = rand() % 4;
     new->time = 0;
     new->command_time = 0;
+    new->status_cmd = 0;
     new->living_time = 126;
 
     new->inventory[Q0] = 9;

@@ -19,7 +19,11 @@ int get_all_lvl(main_t *main, int lvl)
     for (int i = 0; i < main->server->nbr_client_connected; i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
-            && main->server->client_fd[i]->player->level == lvl)
+            && main->server->client_fd[i]->player->level == lvl
+            && main->server->client_fd[i]->player->coord.x
+                == CURR_CLI->player->coord.x
+            && main->server->client_fd[i]->player->coord.y
+                == CURR_CLI->player->coord.y)
             nb_player_with_this_lvl++;
     }
     return (nb_player_with_this_lvl);
@@ -60,11 +64,12 @@ void start_incantation(char **args, main_t *main, bool res)
         send_ko(main);
         return;
     }
-    printf("old level %i\n", CURR_CLI->player->level);
-    CURR_CLI->player->level++;
-    printf("new level %i\n", CURR_CLI->player->level);
+    // lock_all(main);
+    // printf("old level %i\n", CURR_CLI->player->level);
+    // CURR_CLI->player->level++;
+    // printf("new level %i\n", CURR_CLI->player->level);
 
-    send_ok(main);
+    // send_ok(main);
     char *cmd;
     asprintf(&cmd, "pic %d %d %d %d\n", CURR_CLI->player->coord.x,
         CURR_CLI->player->coord.y, CURR_CLI->player->level,
