@@ -6,6 +6,7 @@
 */
 
 #include "ftp.h"
+#include "init_dest.h"
 
 static void accept_new_user_protocole(main_t *main, int i)
 {

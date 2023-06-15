@@ -48,31 +48,10 @@ typedef struct foodCost_s {
 
 bool check_food(main_t *main, int cost, char *cmd);
 
-void init_teams(main_t *main);
 int get_team_by_name(main_t *main, char *team_name);
 int accept_client(main_t *main);
 void read_client(main_t *main);
 void loop_server(main_t *main);
-
-void destroy_server(server_t *server);
-server_t *init_server(args_t *args);
-
-void destroy_client(client_t *client);
-client_t *client_init(int fd);
-
-void destroy_main(main_t *main);
-main_t *init_main(int argc, char **argv);
-
-void destroy_player(player_t *player);
-player_t *init_player_char(main_t *main);
-player_t *init_player(egg_t *egg);
-int *get_random_pos(main_t *main, int *pos);
-
-void destroy_egg(egg_t *egg);
-egg_t *init_egg(main_t *main, int i);
-
-void destroy_teams(main_t *main);
-void destroy_args(args_t *args);
 
 void add_ressources(main_t *main);
 void add_ressources_if_its_time(main_t *main);
@@ -83,6 +62,7 @@ void call_ai_command(char **tab, main_t *main);
 void check_coord_player(main_t *main);
 // int check_if_gui_setup(char **args, main_t *main);
 void welcome_protocole(main_t *main, char **tab);
+int *get_random_pos(main_t *main, int *pos);
 
 // commands:
 void execute_player_command(main_t *main);
@@ -123,28 +103,5 @@ void sbp_command(char **args, main_t *main);
 //     {"smg", smg_command}, {"suc", suc_command}, {"sbp", sbp_command},
 //     {NULL, NULL}};
 
-// gui commands:
-void msz_gui_command(char **args, main_t *server);
-void bct_gui_command(char **args, main_t *server);
-void mct_gui_command(char **args, main_t *server);
-void tna_gui_command(char **args, main_t *server);
-void ppo_gui_command(char **args, main_t *server);
-void plv_gui_command(char **args, main_t *server);
-void pin_gui_command(char **args, main_t *main);
-void sgt_gui_command(char **args, main_t *server);
-void sst_gui_command(char **args, main_t *server);
-
-void call_gui_command(main_t *main, int i, char **tab);
+void call_gui_command(main_t *main, char **tab);
 void win_cond(main_t *main);
-
-void lock_all(main_t *main);
-void clear_all(main_t *main);
-void unlock_all(main_t *main);
-void level_up_all(main_t *main);
-
-static const call_command_t commands_gui[] = {{"msz", msz_gui_command},
-    {"bct", bct_gui_command}, {"mct", mct_gui_command},
-    {"tna", tna_gui_command}, {"ppo", ppo_gui_command},
-    {"plv", plv_gui_command}, {"pin", pin_gui_command},
-    {"sgt", sgt_gui_command}, {"sst", sst_gui_command}, {"pdr", pdr_command},
-    {"pgt", pgt_command}, {NULL, NULL}};

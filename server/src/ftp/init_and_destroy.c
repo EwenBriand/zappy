@@ -11,6 +11,8 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include "ftp.h"
+#include "init_dest.h"
+
 static int creat_tcp(int port)
 {
     struct sockaddr_in my_addr;

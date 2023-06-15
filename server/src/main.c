@@ -12,6 +12,7 @@
 #include "ftp.h"
 #include "global.h"
 #include "server.h"
+#include "init_dest.h"
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 static void ctrl_c(int sig_no)

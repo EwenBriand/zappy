@@ -5,10 +5,12 @@
 ** ebo
 */
 
+#define __STDC_WANT_LIB_EXT2__ 1
 #include <stdio.h>
 #include <stdlib.h>
 #include "ftp.h"
 #include "server.h"
+#include "init_dest.h"
 
 // 0 : id team_id
 // 1 : id_egg
@@ -18,16 +20,19 @@ void ebo_command(char **args, main_t *main)
     char *cmd = NULL;
     printf("EBO\n");
     int team = atoi(args[0]);
-    if (team == -1 || main->teams_list[team] == NULL ||
-        main->teams_list[team]->current_player
-        >= main->teams_list[team]->max_player)
+    if (team == -1 || main->teams_list[team] == NULL
+        || main->teams_list[team]->current_player
+            >= main->teams_list[team]->max_player)
         return send_response_to_ia("ko\n", main);
-    CURR_CLI->player = init_player(main->teams_list[team]->eggs[atoi(args[1])]);
+    CURR_CLI->player =
+        init_player(main->teams_list[team]->eggs[atoi(args[1])]);
     CURR_CLI->teams = team;
     main->teams_list[team]->current_player++;
-    printf("EGG player position %d, %d\n", CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+    printf("EGG player position %d, %d\n", CURR_CLI->player->coord.x,
+        CURR_CLI->player->coord.y);
 
-    asprintf(&cmd, "ebo %d\n", main->teams_list[team]->eggs[atoi(args[1])]->id);
+    asprintf(
+        &cmd, "ebo %d\n", main->teams_list[team]->eggs[atoi(args[1])]->id);
     printf("cmd = %s\n", cmd);
     send_to_gui(cmd, main->server);
     send_ok(main);

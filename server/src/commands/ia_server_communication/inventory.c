@@ -6,7 +6,9 @@
 */
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
+#define __STDC_WANT_LIB_EXT2__ 1
 
+#include "incantation.h"
 #include "ai_command.h"
 
 static char *fill_string(int i, char *cmd, main_t *main)
@@ -33,27 +35,25 @@ void inventory_command(char **args, main_t *main)
     free(cmd);
 }
 
-static void fork_pie(char **args, main_t *main, bool res)
-{
-    char *cmd;
-    pid_t pid = fork();
-    if (pid == 0) {
-        sleep(10 / (main->args->freq / 100));
-        asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
-            CURR_CLI->player->coord.y, res);
-        send_to_gui(cmd, main->server);
-        free(cmd);
-        exit(0);
-    }
-}
+// static void fork_pie(char **args, main_t *main, bool res)
+// {
+//     char *cmd;
+//     pid_t pid = fork();
+//     if (pid == 0) {
+//         sleep(10 / (main->args->freq / 100));
+//         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
+//             CURR_CLI->player->coord.y, res);
+//         send_to_gui(cmd, main->server);
+//         free(cmd);
+//         exit(0);
+//     }
+// }
 
 void incantation_command(char **args, main_t *main)
 {
     bool res =
         check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
     start_incantation(args, main, res);
-    // fork_pie(args, main, res);
-    // send_ok(main);
 }
 
 void fork_command(char **args, main_t *main)

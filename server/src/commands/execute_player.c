@@ -6,6 +6,7 @@
 */
 
 #include "ftp.h"
+#include "incantation.h"
 #include "server.h"
 #include "struct.h"
 #include "ai_command.h"
@@ -28,7 +29,7 @@ int get_command_time(char *name)
 
 static void case_0(main_t *main, int i)
 {
-    if (list_len(main->server->client_fd[i]->player->cmd_buf) == 0)
+    if (list_len((void **) main->server->client_fd[i]->player->cmd_buf) == 0)
         return;
     main->server->client_fd[i]->player->status_cmd = 1;
     main->server->client_fd[i]->player->act_cmd =
