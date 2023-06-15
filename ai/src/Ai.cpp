@@ -121,7 +121,7 @@ std::string AI::PrioritizeResources()
     const std::array<std::string, 6> resourceNames = {
         "linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"};
 
-    if (inventory.getFood() < 2)
+    if (inventory.getFood() <= 4)
         return "food";
 
     for (size_t i = 0; i < resourceNames.size(); ++i) {
@@ -152,7 +152,6 @@ std::string AI::PrioritizeResources()
 int AI::FindResourceInVision()
 {
     LookAround();
-    messageFromServer = client.receiveData();
     std::cout << "Look FromServer: " << messageFromServer << std::endl;
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::string priorityResource = PrioritizeResources();
@@ -177,8 +176,8 @@ int AI::FindResourceInVision()
 
 bool AI::CheckSameTileOtherAI()
 {
-    static const std::array<int, 7> requiredPlayersPerLevel = {1, 2, 2, 4, 4, 6, 6};    LookAround();
-    messageFromServer = client.receiveData();
+    static const std::array<int, 7> requiredPlayersPerLevel = {1, 2, 2, 4, 4, 6, 6};
+    LookAround();
     std::cout << "Look FromServer: " << messageFromServer << std::endl;
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::vector<std::string> tileContents = splitString(vision[0], ' ');
@@ -248,14 +247,11 @@ void AI::CheckLevelUp()
         BroadcastText(levelUpMessage);
         if (CheckSameTileOtherAI()) {
             StartIncantation();
-            messageFromServer = client.receiveData();
         }
         if (CheckSameTileOtherAI()) {
             StartIncantation();
-            messageFromServer = client.receiveData();
             if (messageFromServer != "ok\n") {
                 StartIncantation();
-                messageFromServer = client.receiveData();
             } else {
                 level++;
                 incantationSoon = false;
@@ -290,12 +286,10 @@ void AI::HandleIncomingMessages()
 void AI::ForkPlayerEgg()
 {
     NumberOfTeamUnusedSlots();
-    messageFromServer = client.receiveData();
     std::cout << "Connect_nbr FromServer: " << messageFromServer << std::endl;
     if (messageFromServer == "0\n")
         return;
     ForkPlayer();
-    messageFromServer = client.receiveData();
     std::cout << "Fork FromServer: " << messageFromServer << std::endl;
     if (messageFromServer == "ok\n") {
         pid_t pid = fork();
@@ -369,6 +363,7 @@ void AI::Forward()
     timeToWait = BASESLEEP;
     std::cout << "Forward" << std::endl;
     client.sendData("Forward\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::TurnRight()
@@ -376,6 +371,7 @@ void AI::TurnRight()
     timeToWait = BASESLEEP;
     std::cout << "Right" << std::endl;
     client.sendData("Right\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::TurnLeft()
@@ -383,6 +379,7 @@ void AI::TurnLeft()
     timeToWait = BASESLEEP;
     std::cout << "Left" << std::endl;
     client.sendData("Left\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::LookAround()
@@ -390,6 +387,7 @@ void AI::LookAround()
     timeToWait = BASESLEEP;
     std::cout << "Look" << std::endl;
     client.sendData("Look\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::Inventory()
@@ -397,6 +395,7 @@ void AI::Inventory()
     timeToWait = BASESLEEP;
     std::cout << "Inventory" << std::endl;
     client.sendData("Inventory\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::BroadcastText(std::string message)
@@ -404,12 +403,14 @@ void AI::BroadcastText(std::string message)
     timeToWait = BASESLEEP;
     std::cout << "Broadcast" << std::endl;
     client.sendData("Broadcast " + message + "\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::NumberOfTeamUnusedSlots()
 {
     std::cout << "Connect_nbr" << std::endl;
     client.sendData("Connect_nbr\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::ForkPlayer()
@@ -417,6 +418,7 @@ void AI::ForkPlayer()
     timeToWait = FORKSLEEP;
     std::cout << "Fork" << std::endl;
     client.sendData("Fork\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::EjectPlayer()
@@ -424,6 +426,7 @@ void AI::EjectPlayer()
     timeToWait = BASESLEEP;
     std::cout << "Eject" << std::endl;
     client.sendData("Eject\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::DeathOfPlayer()
@@ -435,6 +438,7 @@ void AI::TakeObject()
     timeToWait = BASESLEEP;
     std::cout << "Take" << std::endl;
     client.sendData("Take\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::SetObjectDown(int object, int quantity)
@@ -444,6 +448,7 @@ void AI::SetObjectDown(int object, int quantity)
         + std::to_string(quantity) + "\n" << std::endl;
     client.sendData("Set" + std::to_string(object) + " "
         + std::to_string(quantity) + "\n");
+    messageFromServer = client.receiveData();
 }
 
 void AI::StartIncantation()
@@ -451,13 +456,5 @@ void AI::StartIncantation()
     timeToWait = INCANTATIONSLEEP;
     std::cout << "Incantation" << std::endl;
     client.sendData("Incantation\n");
-}
-
-void AI::AllPlayerLevel()
-{
-    timeToWait = BASESLEEP;
-    char lvl[20];
-
-    std::sprintf(lvl, "%d", level);
-    client.sendData("PlayersLevel " + std::string(lvl) + "\n");
+    messageFromServer = client.receiveData();
 }
