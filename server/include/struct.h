@@ -33,6 +33,8 @@ typedef struct player_s {
     int command_time;
     char *act_cmd;
     int status_cmd;
+    int *id_player_inc;
+    bool locked;
 } player_t;
 
 typedef struct tile_s {

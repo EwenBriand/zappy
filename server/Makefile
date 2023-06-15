@@ -71,6 +71,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/game/win_cond.c	\
 				src/ftp/init_team.c	\
 				src/commands/execute_player.c	\
+				src/commands/incant_tool.c	\
 				src/commands/gui_commands.c	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.c=.o)

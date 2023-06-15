@@ -27,7 +27,6 @@
 #include "ai_command.h"
 #include "error_code.h"
 
-
 #define GUI         "helloGui\r\n"
 #define GUI_FORMAT  "helloGui\r"
 #define GUI_FORMAT2 "helloGui\n"
@@ -46,7 +45,6 @@ typedef struct foodCost_s {
     char *command;
     int cost;
 } foodCost_t;
-
 
 bool check_food(main_t *main, int cost, char *cmd);
 
@@ -139,15 +137,14 @@ void sst_gui_command(char **args, main_t *server);
 void call_gui_command(main_t *main, int i, char **tab);
 void win_cond(main_t *main);
 
+void lock_all(main_t *main);
+void clear_all(main_t *main);
+void unlock_all(main_t *main);
+void level_up_all(main_t *main);
+
 static const call_command_t commands_gui[] = {{"msz", msz_gui_command},
-                                                {"bct", bct_gui_command},
-                                                {"mct", mct_gui_command},
-                                                {"tna", tna_gui_command},
-                                                {"ppo", ppo_gui_command},
-                                                {"plv", plv_gui_command},
-                                                {"pin", pin_gui_command},
-                                                {"sgt", sgt_gui_command},
-                                                {"sst", sst_gui_command},
-                                                {"pdr", pdr_command},
-                                                {"pgt", pgt_command},
-                                                {NULL, NULL}};
+    {"bct", bct_gui_command}, {"mct", mct_gui_command},
+    {"tna", tna_gui_command}, {"ppo", ppo_gui_command},
+    {"plv", plv_gui_command}, {"pin", pin_gui_command},
+    {"sgt", sgt_gui_command}, {"sst", sst_gui_command}, {"pdr", pdr_command},
+    {"pgt", pgt_command}, {NULL, NULL}};

@@ -40,7 +40,7 @@ static void fork_pie(char **args, main_t *main, bool res)
     if (pid == 0) {
         sleep(10 / (main->args->freq / 100));
         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
-                CURR_CLI->player->coord.y, res);
+            CURR_CLI->player->coord.y, res);
         send_to_gui(cmd, main->server);
         free(cmd);
         exit(0);
@@ -49,9 +49,10 @@ static void fork_pie(char **args, main_t *main, bool res)
 
 void incantation_command(char **args, main_t *main)
 {
-    bool res = check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+    bool res =
+        check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
     start_incantation(args, main, res);
-    fork_pie(args, main, res);
+    // fork_pie(args, main, res);
     // send_ok(main);
 }
 

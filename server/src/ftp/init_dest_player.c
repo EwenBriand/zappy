@@ -58,6 +58,8 @@ player_t *init_player(egg_t *egg)
     new->command_time = 0;
     new->living_time = 126;
     new->status_cmd = 0;
+    new->locked = false;
+    new->id_player_inc = NULL;
 
     new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
@@ -88,6 +90,8 @@ player_t *init_player_char(main_t *main)
     new->command_time = 0;
     new->status_cmd = 0;
     new->living_time = 126;
+    new->locked = false;
+    new->id_player_inc = NULL;
 
     new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)

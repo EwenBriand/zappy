@@ -15,8 +15,10 @@ static const int incantation[7][7] = {{1, 1, 0, 0, 0, 0, 0},
 
 int get_all_lvl(main_t *main, int lvl)
 {
-    int nb_player_with_this_lvl = 0;
-    for (int i = 0; i < main->server->nbr_client_connected; i++) {
+    int nb_player_with_this_lvl = 1;
+    for (int i = 0; i < main->server->nbr_client_connected
+         && nb_player_with_this_lvl < incantation[lvl - 1][0];
+         i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->level == lvl
@@ -50,10 +52,16 @@ bool check_tile(main_t *main, int x, int y)
             }
         }
     }
+    return (true);
+}
+
+void delete_ressources(main_t *main, int x, int y)
+{
+    int lvl = CURR_CLI->player->level;
+
     for (int i = 1; i < 7; i++)
         if (incantation[lvl - 1][i] != 0)
             main->map->tiles[y][x]->inventory[i] -= incantation[lvl - 1][i];
-    return (true);
 }
 
 void start_incantation(char **args, main_t *main, bool res)
@@ -64,7 +72,7 @@ void start_incantation(char **args, main_t *main, bool res)
         send_ko(main);
         return;
     }
-    // lock_all(main);
+    lock_all(main);
     // printf("old level %i\n", CURR_CLI->player->level);
     // CURR_CLI->player->level++;
     // printf("new level %i\n", CURR_CLI->player->level);
