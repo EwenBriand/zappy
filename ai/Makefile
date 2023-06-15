@@ -18,6 +18,13 @@ CLIENT		=	zappy_ai
 SRC_CLIENT	=	src/main.cpp	\
 				src/Client.cpp	\
 				src/Ai.cpp		\
+				src/Commands.cpp	\
+				src/Inventory.cpp	\
+				src/Utils.cpp	\
+				src/Broadcast.cpp	\
+				src/LevelUp.cpp	\
+				src/BaseLogic.cpp	\
+				src/Fork.cpp	\
 
 OBJ_CLIENT	=	$(SRC_CLIENT:.cpp=.o)
 
