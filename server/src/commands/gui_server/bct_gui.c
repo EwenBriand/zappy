@@ -12,20 +12,19 @@
 
 void bct_gui_command(char **args, main_t *server)
 {
-    int x = atoi(args[0]);
-    int y = atoi(args[1]);
+    int x = atoi(args[1]);
+    int y = atoi(args[2]);
     char **cmd = malloc(sizeof(char *) * 11);
     cmd[0] = strdup("bct");
-    cmd[1] = strdup(args[0]);
-    cmd[2] = strdup(args[1]);
+    cmd[1] = strdup(args[1]);
+    cmd[2] = strdup(args[2]);
     int j = 3;
     for (int i = 0; i < 7; i++)
-        if (server->map->tiles[x][y]->inventory[i] < 0)
+        if (server->map->tiles[y][x]->inventory[i] < 0)
             cmd[j++] = my_itoa(0);
         else
-            cmd[j++] = my_itoa(server->map->tiles[x][y]->inventory[i]);
+            cmd[j++] = my_itoa(server->map->tiles[y][x]->inventory[i]);
     cmd[j] = NULL;
-
 
     bct_command(cmd, server);
     for (int i = 0; cmd[i]; i++)

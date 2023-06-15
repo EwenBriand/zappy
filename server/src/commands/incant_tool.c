@@ -31,11 +31,6 @@ void lock_all(main_t *main)
             printf("nb_player = %d\n", pos + 1);
             CURR_CLI->player->id_player_inc[pos++] = i;
             main->server->client_fd[i]->player->locked = true;
-            dprintf(main->server->gui_fd, "pic %d %d %d %d\n",
-                main->server->client_fd[i]->player->coord.x,
-                main->server->client_fd[i]->player->coord.y,
-                main->server->client_fd[i]->player->level,
-                main->server->client_fd[i]->player->id);
         }
     }
     CURR_CLI->player->id_player_inc[pos] = -1;
@@ -58,6 +53,7 @@ void level_up_all(main_t *main)
               ->player->level;
     }
     CURR_CLI->player->level++;
+    printf("new level = %d\n", CURR_CLI->player->level);
 }
 
 void clear_all(main_t *main)

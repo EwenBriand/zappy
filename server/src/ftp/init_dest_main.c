@@ -16,6 +16,7 @@ static tile_t *new_tile(int x, int y)
     new->coord.x = x;
     new->coord.y = y;
 
+    new->inventory = malloc(sizeof(int) * 7);
     for (int i = 0; i < 7; i++)
         new->inventory[i] = 0;
 
@@ -40,6 +41,8 @@ static map_t *init_map(args_t *args)
         for (int j = 0; j < args->width; j++)
             new->tiles[i][j] = new_tile(i, j);
     }
+
+    new->deleted_element = malloc(sizeof(int) * 7);
     for (int i = 0; i < 7; i++)
         new->deleted_element[i] = 0;
 
@@ -48,8 +51,13 @@ static map_t *init_map(args_t *args)
 
 static void destroy_map(map_t *map)
 {
-    for (int i = 0; i < map->height; i++)
+    for (int i = 0; i < map->height; i++) {
+        for (int j = 0; j < map->width; j++) {
+            free(map->tiles[i][j]->inventory);
+            free(map->tiles[i][j]);
+        }
         free(map->tiles[i]);
+    }
     free(map->tiles);
     free(map);
 }

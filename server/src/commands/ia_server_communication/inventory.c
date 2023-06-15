@@ -25,6 +25,7 @@ static char *fill_string(int i, char *cmd, main_t *main)
 
 void inventory_command(char **args, main_t *main)
 {
+    printf("INVENTORY\n");
     char *cmd = "[";
     for (int i = 0; i <= Q6; i++) {
         cmd = fill_string(i, cmd, main);
