@@ -12,6 +12,6 @@
 
 void tna_gui_command(char **args, main_t *server)
 {
-    for (int i = 0; i < list_len(server->args->name); i++)
+    for (int i = 0; i < list_len((void **) server->args->name); i++)
         tna_command((char *[]){server->args->name[i]}, server);
 }

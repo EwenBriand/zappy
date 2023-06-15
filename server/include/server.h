@@ -14,10 +14,9 @@
 #include <string.h>
 #include <sys/select.h>
 #include <sys/socket.h>
+#include <time.h>
 #include <unistd.h>
 #include "args.h"
-#include <time.h>
-#include <string.h>
 #define _GNU_SOURCE
 
 #define arr_append_n_bytes(arr, bytes, n, size) \
@@ -43,7 +42,6 @@ typedef struct sockinfo_s {
 
 int help();
 bool create_server(args_t *args);
-args_t *get_data_from_args(int ac, char **av);
 char *circular_read(int tcp_socket);
 char **get_args_from_command(char *str);
 // NINJA

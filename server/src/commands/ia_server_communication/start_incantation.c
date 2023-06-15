@@ -7,6 +7,8 @@
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
+#define __STDC_WANT_LIB_EXT2__ 1
+#include "incantation.h"
 #include "ai_command.h"
 
 static const int incantation[7][7] = {{1, 1, 0, 0, 0, 0, 0},

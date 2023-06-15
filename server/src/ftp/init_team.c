@@ -7,11 +7,10 @@
 
 #include "ftp.h"
 #include "server.h"
+#include "init_dest.h"
 
 static void init_one_team(main_t *main, int j)
 {
-    int pos = 0;
-    int *coord = malloc(sizeof(int) * 2);
     main->teams_list[j] = malloc(sizeof(team_t));
     main->teams_list[j]->name = strdup(main->args->name[j]);
     main->teams_list[j]->max_player = main->args->nb_client_max;
@@ -24,7 +23,7 @@ static void init_one_team(main_t *main, int j)
     //     main->teams_list[j]->eggs[pos++] = init_egg(main, j);
     // }
 
-    for (; pos < 100; ++pos)
+    for (int pos = 0; pos < 100; ++pos)
         main->teams_list[j]->eggs[pos] = NULL;
     printf("main->teams_list[j]->name : %s\n", main->teams_list[j]->name);
 }
@@ -57,10 +56,10 @@ void destroy_teams(main_t *main)
     for (int i = 0; main->teams_list[i] != NULL; i++) {
         free(main->teams_list[i]->name);
         free(main->teams_list[i]);
-    for (int i = 0; i < 100; ++i)
+        for (int i = 0; i < 100; ++i)
             if (main->teams_list[i]->eggs[i] != NULL)
                 destroy_egg(main->teams_list[i]->eggs[i]);
-    free(main->teams_list[i]->eggs);
+        free(main->teams_list[i]->eggs);
     }
     free(main->teams_list);
 }

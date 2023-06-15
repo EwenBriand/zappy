@@ -20,7 +20,7 @@ char *get_player_on_tile(main_t *main, int x, int y)
         }
     }
     if (cmd == NULL)
-        asprintf(&cmd, "");
+        return "";
     return (cmd);
 }
 

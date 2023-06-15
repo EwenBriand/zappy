@@ -6,6 +6,7 @@
 */
 
 #include "ftp.h"
+#include "incantation.h"
 #include "struct.h"
 
 void lock_all(main_t *main)

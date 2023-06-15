@@ -7,10 +7,11 @@
 
 #include "ftp.h"
 #include "server.h"
+#include "init_dest.h"
 
 static void add_cmd_to_player(player_t *player, char *str)
 {
-    int i = list_len(player->cmd_buf);
+    int i = list_len((void **) player->cmd_buf);
     if (i >= 10)
         return;
     player->cmd_buf[i] = strdup(str);
@@ -23,7 +24,7 @@ void get_command(char *str, main_t *main, int i)
     if (strlen(str) > 2) {
         char **tab = get_args_from_command(str);
         if (main->server->client_fd[i]->fd == main->server->gui_fd) {
-            return call_gui_command(main, i, tab);
+            return call_gui_command(main, tab);
         }
         welcome_protocole(main, tab);
     } else {

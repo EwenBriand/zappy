@@ -5,10 +5,12 @@
 ** init_dest_player
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "ftp.h"
 #include "server.h"
+#include "init_dest.h"
 
 static int id_act = 0;
 
