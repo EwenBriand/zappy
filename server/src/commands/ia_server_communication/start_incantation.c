@@ -27,7 +27,8 @@ int get_all_lvl(main_t *main, int lvl)
             && main->server->client_fd[i]->player->coord.x
                 == CURR_CLI->player->coord.x
             && main->server->client_fd[i]->player->coord.y
-                == CURR_CLI->player->coord.y)
+                == CURR_CLI->player->coord.y
+            && main->server->client_fd[i]->player->id != CURR_CLI->player->id)
             nb_player_with_this_lvl++;
     }
     return (nb_player_with_this_lvl);
@@ -38,7 +39,11 @@ bool check_tile(main_t *main, int x, int y)
     int lvl = CURR_CLI->player->level;
     int nb_player_with_this_lvl = get_all_lvl(main, lvl);
 
-    if (nb_player_with_this_lvl < incantation[lvl - 1][0]) {
+    printf("in check : nb_player_with_this_lvl = %d incantation[lvl - 1][0] = "
+           "%d\n",
+        nb_player_with_this_lvl, incantation[lvl - 1][0]);
+
+    if (nb_player_with_this_lvl != incantation[lvl - 1][0]) {
         printf("NO PLAYER\n");
         return (false);
     }
@@ -84,6 +89,10 @@ void start_incantation(char **args, main_t *main, bool res)
     asprintf(&cmd, "pic %d %d %d %d\n", CURR_CLI->player->coord.x,
         CURR_CLI->player->coord.y, CURR_CLI->player->level,
         CURR_CLI->player->id);
+    for (int i = 0; CURR_CLI->player->id_player_inc[i] != -1; i++)
+        asprintf(&cmd, "%s %d", cmd,
+            main->server->client_fd[CURR_CLI->player->id_player_inc[i]]
+                ->player->id);
     send_to_gui(cmd, main->server);
     free(cmd);
 }

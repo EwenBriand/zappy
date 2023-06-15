@@ -26,7 +26,7 @@ typedef struct player_s {
     coord_t coord;
     int orientation;
     int level;
-    int inventory[7];
+    int *inventory; // ICI
     int living_time;
     char **cmd_buf;
     int time;
@@ -39,14 +39,14 @@ typedef struct player_s {
 
 typedef struct tile_s {
     coord_t coord;
-    int inventory[7];
+    int *inventory; // ICI
 } tile_t;
 
 typedef struct map_s {
     int width;
     int height;
     tile_t ***tiles;
-    int deleted_element[7];
+    int *deleted_element; // ICI
 } map_t;
 
 typedef struct egg_s {

@@ -69,10 +69,10 @@ static void case_2(main_t *main, int i)
         if (res) {
             dprintf(main->server->client_fd[i]->fd, "ok\n");
             unlock_all(main);
-            level_up_all(main);
-            clear_all(main);
             delete_ressources(
                 main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+            level_up_all(main);
+            clear_all(main);
         } else {
             dprintf(main->server->client_fd[i]->fd, "ko\n");
             unlock_all(main);
