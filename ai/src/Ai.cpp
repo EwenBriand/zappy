@@ -64,6 +64,13 @@ void AI::Loop()
                 CheckLevelUp();
                 std::cout << "level après: " << level << std::endl;
                 Forward();
+                if (i % 10 == 0)
+                    TurnLeft();
+                if (i % 10 == 5)
+                    TurnRight();
+                LookAround();
+                if (messageFromServer == "ok\n")
+                    LookAround();
             }
             i++;
             broadcastActive = false;

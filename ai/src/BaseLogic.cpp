@@ -60,6 +60,8 @@ std::string AI::PrioritizeResources()
 int AI::FindResourceInVision()
 {
     LookAround();
+    if (messageFromServer == "ok\n")
+        LookAround();
     std::cout << "Look FromServer: " << messageFromServer << std::endl;
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::string priorityResource = PrioritizeResources();
