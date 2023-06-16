@@ -14,11 +14,11 @@ void take_object(char **args, main_t *main)
 {
     for (int i = 0; i < 7; i++) {
         if (main->map
-                ->tiles[CURR_CLI->player->coord.y][CURR_CLI->player->coord.x]
+                ->tiles[CURR_CLI->player->coord->y][CURR_CLI->player->coord->x]
                 ->inventory[i]
             > 0) {
             main->map
-                ->tiles[CURR_CLI->player->coord.y][CURR_CLI->player->coord.x]
+                ->tiles[CURR_CLI->player->coord->y][CURR_CLI->player->coord->x]
                 ->inventory[i]--;
             CURR_CLI->player->inventory[i]++;
             main->map->deleted_element[i]++;
@@ -36,7 +36,7 @@ void set_command(char **args, main_t *main)
         return (send_ko(main));
     for (int i = 0; i < quantity; i++) {
         CURR_CLI->player->inventory[atoi(args[1])]--;
-        main->map->tiles[CURR_CLI->player->coord.y][CURR_CLI->player->coord.x]
+        main->map->tiles[CURR_CLI->player->coord->y][CURR_CLI->player->coord->x]
             ->inventory[atoi(args[1])]++;
         pdr_command((char *[]){my_itoa(CURR_CLI->player->id), args[1]}, main);
     }

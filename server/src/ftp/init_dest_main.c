@@ -13,8 +13,9 @@ static tile_t *new_tile(int x, int y)
 {
     tile_t *new = malloc(sizeof(tile_t));
 
-    new->coord.x = x;
-    new->coord.y = y;
+    new->coord = malloc(sizeof(coord_t));
+    new->coord->x = x;
+    new->coord->y = y;
 
     new->inventory = malloc(sizeof(int) * 7);
     for (int i = 0; i < 7; i++)

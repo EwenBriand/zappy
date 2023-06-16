@@ -29,8 +29,8 @@ void pin_gui_command(char **args, main_t *main)
         return;
 
     cmd[0] = my_itoa(main->server->client_fd[index_user]->player->id);
-    cmd[1] = my_itoa(main->server->client_fd[index_user]->player->coord.x);
-    cmd[2] = my_itoa(main->server->client_fd[index_user]->player->coord.y);
+    cmd[1] = my_itoa(main->server->client_fd[index_user]->player->coord->x);
+    cmd[2] = my_itoa(main->server->client_fd[index_user]->player->coord->y);
 
     for (int i = 0; i < 7; i++)
         cmd[3 + i] =

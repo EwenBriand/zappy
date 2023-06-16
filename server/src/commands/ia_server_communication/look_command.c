@@ -14,8 +14,8 @@ char *get_player_on_tile(main_t *main, int x, int y)
     for (int i = 0; i < main->server->nbr_client_connected; i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
-            && main->server->client_fd[i]->player->coord.x == x
-            && main->server->client_fd[i]->player->coord.y == y) {
+            && main->server->client_fd[i]->player->coord->x == x
+            && main->server->client_fd[i]->player->coord->y == y) {
             asprintf(&cmd, "player");
         }
     }
@@ -45,8 +45,8 @@ void look_command(char **args, main_t *main)
     char *cmd = "[";
     int orientation = CURR_CLI->player->orientation;
     int level = CURR_CLI->player->level;
-    int x = CURR_CLI->player->coord.x;
-    int y = CURR_CLI->player->coord.y;
+    int x = CURR_CLI->player->coord->x;
+    int y = CURR_CLI->player->coord->y;
     for (int i = 0; i < level; i++) {
         for (int j = 0; j < (i + 3); j++) {
             int nx = x + (DX * i) + (DY * j);

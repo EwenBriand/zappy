@@ -25,10 +25,10 @@ void pnw_command(char **args, main_t *main)
     CURR_CLI->teams = team;
     CURR_CLI->team_name = strdup(main->teams_list[team]->name);
     main->teams_list[team]->current_player++;
-    printf("player position %d, %d\n", CURR_CLI->player->coord.x,
-        CURR_CLI->player->coord.y);
+    printf("player position %d, %d\n", CURR_CLI->player->coord->x,
+        CURR_CLI->player->coord->y);
     asprintf(&cmd, "pnw #%d %d %d %d %d %s\n", CURR_CLI->player->id,
-        CURR_CLI->player->coord.x, CURR_CLI->player->coord.y,
+        CURR_CLI->player->coord->x, CURR_CLI->player->coord->y,
         CURR_CLI->player->orientation, CURR_CLI->player->level,
         CURR_CLI->team_name);
     send_to_gui(cmd, main->server);

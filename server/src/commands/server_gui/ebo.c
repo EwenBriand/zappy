@@ -33,8 +33,8 @@ void ebo_command(char **args, main_t *main)
     CURR_CLI->teams = team;
     CURR_CLI->team_name = strdup(main->teams_list[team]->name);
     main->teams_list[team]->current_player++;
-    printf("EGG player position %d, %d\n", CURR_CLI->player->coord.x,
-        CURR_CLI->player->coord.y);
+    printf("EGG player position %d, %d\n", CURR_CLI->player->coord->x,
+        CURR_CLI->player->coord->y);
 
     send_ok(main);
     destroy_egg(main->teams_list[team]->eggs[atoi(args[1])]);

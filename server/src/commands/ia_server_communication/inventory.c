@@ -43,8 +43,8 @@ void inventory_command(char **args, main_t *main)
 //     pid_t pid = fork();
 //     if (pid == 0) {
 //         sleep(10 / (main->args->freq / 100));
-//         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
-//             CURR_CLI->player->coord.y, res);
+//         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord->x,
+//             CURR_CLI->player->coord->y, res);
 //         send_to_gui(cmd, main->server);
 //         free(cmd);
 //         exit(0);
@@ -54,7 +54,7 @@ void inventory_command(char **args, main_t *main)
 void incantation_command(char **args, main_t *main)
 {
     bool res =
-        check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+        check_tile(main, CURR_CLI->player->coord->x, CURR_CLI->player->coord->y);
     start_incantation(args, main, res);
 }
 
