@@ -8,6 +8,7 @@
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
 #include "ai_command.h"
+#include "init_dest.h"
 
 void connect_nbr(char **args, main_t *main)
 {

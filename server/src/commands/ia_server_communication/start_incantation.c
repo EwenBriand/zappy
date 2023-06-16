@@ -76,6 +76,7 @@ void start_incantation(char **args, main_t *main, bool res)
     printf("START INCANTATION\n");
     if (res == false) {
         printf("KO INCANTATION FAILED\n");
+        CURR_CLI->player->act_cmd = "nop";
         send_ko(main);
         return;
     }

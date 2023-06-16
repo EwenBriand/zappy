@@ -48,12 +48,12 @@ bool check_food(main_t *main, int cost, char *cmd)
         return true;
     if (CURR_CLI->fd == main->server->gui_fd)
         return true;
-    if (have_enough_food(CURR_CLI->player, cost * 10) == false) {
+    if (have_enough_food(CURR_CLI->player, cost) == false) {
         printf("NOT ENOUGH FOOD\n");
         client_killer(main);
         return false;
     }
-    eat_x_food(CURR_CLI->player, cost * 10);
+    eat_x_food(CURR_CLI->player, cost);
     return true;
 }
 
