@@ -16,10 +16,9 @@ void win_cond(main_t *main)
 
     for (int i = 0; i < main->server->nbr_client_connected; ++i) {
         if (main->server->client_fd[i] != NULL
-            && main->server->client_fd[i]->player != NULL) {
-            if (main->server->client_fd[i]->player->level == 8)
-                ++main->teams_list[main->server->client_fd[i]->teams]->win;
-        }
+            && main->server->client_fd[i]->player != NULL
+            && main->server->client_fd[i]->player->level == 8)
+            ++main->teams_list[main->server->client_fd[i]->teams]->win;
     }
 
     for (int i = 0; main->teams_list[i]; ++i)
