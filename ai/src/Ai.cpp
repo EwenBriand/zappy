@@ -66,6 +66,7 @@ void AI::Loop()
                 Forward();
             }
             i++;
+            broadcastActive = false;
             // if (i % 150 == 0)
             //     ForkPlayerEgg();
         }

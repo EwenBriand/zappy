@@ -13,7 +13,7 @@ void AI::HandleIncomingMessages()
         size_t commaPos = messageFromServer.find(",");
         std::string directionStr = messageFromServer.substr(8, commaPos - 8);
         std::string text = messageFromServer.substr(commaPos + 1);
-
+        broadcastActive = true;
         int direction = std::stoi(directionStr);
         std::cout << "Server broadcast direction: " << direction << ": " << text << std::endl;
 
