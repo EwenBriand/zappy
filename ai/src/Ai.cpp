@@ -61,7 +61,7 @@ void AI::Loop()
                 std::cout << "level après: " << level << std::endl;
             } else {
                 std::cout << "level avant: " << level << std::endl;
-                // CheckLevelUp();
+                CheckLevelUp();
                 std::cout << "level après: " << level << std::endl;
                 Forward();
             }
