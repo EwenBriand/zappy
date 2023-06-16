@@ -10,6 +10,7 @@
 
 void client_killer(main_t *main)
 {
+    main->teams_list[CURR_CLI->teams]->current_player--;
     send_response_to_ia(MSG_551, main);
     pdi_command((char *[]){my_itoa(CURR_CLI->player->id), NULL}, main);
     close(CURR_CLI->fd);
