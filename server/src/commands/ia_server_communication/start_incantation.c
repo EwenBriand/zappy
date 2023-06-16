@@ -86,7 +86,7 @@ void start_incantation(char **args, main_t *main, bool res)
 
     // send_ok(main);
     char *cmd;
-    asprintf(&cmd, "pic %d %d %d %d\n", CURR_CLI->player->coord->x,
+    asprintf(&cmd, "pic %d %d %d %d", CURR_CLI->player->coord->x,
         CURR_CLI->player->coord->y, CURR_CLI->player->level,
         CURR_CLI->player->id);
     for (int i = 0; CURR_CLI->player->id_player_inc[i] != -1; i++)
