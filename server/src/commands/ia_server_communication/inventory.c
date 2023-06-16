@@ -63,13 +63,13 @@ void fork_command(char **args, main_t *main)
     char *cmd;
     int team_id = get_team_by_name(main, CURR_CLI->team_name);
 
+    asprintf(&cmd, "pfk %d\n", CURR_CLI->player->id);
+    send_to_gui(cmd, main->server);
     for (int i = 0; i < 100; i++)
         if (main->teams_list[team_id]->eggs[i] == NULL) {
             main->teams_list[team_id]->eggs[i] =
                 init_egg_from_cli(main, team_id);
             break;
         }
-    asprintf(&cmd, "pfk %d\n", CURR_CLI->player->id);
-    send_to_gui(cmd, main->server);
     send_ok(main);
 }

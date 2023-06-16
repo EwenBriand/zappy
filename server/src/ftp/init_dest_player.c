@@ -70,7 +70,7 @@ void destroy_egg(egg_t *egg)
     free(egg);
 }
 
-player_t *init_player(egg_t *egg)
+player_t *init_player(egg_t *egg, main_t *main)
 {
     player_t *new = malloc(sizeof(player_t));
 
@@ -98,6 +98,9 @@ player_t *init_player(egg_t *egg)
 
     printf("Player %d created at %d %d with %d oritentation at level %d\n",
         new->id, new->coord.x, new->coord.y, new->orientation, new->level);
+
+    dprintf(main->server->gui_fd, "pnw #%d %d %d %d %d %s\n", new->id,
+        new->coord.x, new->coord.y, new->orientation, new->level, egg->team);
 
     return (new);
 }

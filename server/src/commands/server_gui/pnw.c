@@ -23,6 +23,7 @@ void pnw_command(char **args, main_t *main)
         return send_response_to_ia("ko\n", main);
     CURR_CLI->player = init_player_char(main);
     CURR_CLI->teams = team;
+    CURR_CLI->team_name = strdup(main->teams_list[team]->name);
     main->teams_list[team]->current_player++;
     printf("player position %d, %d\n", CURR_CLI->player->coord.x,
         CURR_CLI->player->coord.y);
