@@ -34,13 +34,15 @@ void welcome_protocole(main_t *main, char **tab)
     dprintf(CURR_CLI->fd, "%d %d\n", main->map->width, main->map->height);
 
     // si la team a des oeufs
-    // char *cmd = NULL; //ebo command
-    // for (int i = 0; i < 100; i++)
-    //     if (main->teams_list[team_id]->eggs[i] != NULL) {
-    //         // asprintf(&cmd, "ebo %d %d\n", team_id, i);
-    //         printf("ebo %d %d\n", team_id, i);
-    //         ebo_command((char *[]){my_itoa(team_id), my_itoa(i)}, main);
-    // }
+    char *cmd = NULL; // ebo command
+    for (int i = 0; i < 100; i++)
+        if (main->teams_list[team_id]->eggs[i] != NULL) {
+            // asprintf(&cmd, "ebo %d %d\n", team_id, i);
+            printf("ebo %d %d\n", team_id, i);
+            ebo_command((char *[]){my_itoa(team_id), my_itoa(i)}, main);
+            CURR_CLI->is_welcome_protocole_done = true;
+            return;
+        }
     // printf("team_id dddddddd= %d\n", team_id);
     pnw_command(tab, main);
     if (CURR_CLI->player == NULL) {
@@ -64,7 +66,7 @@ void call_ai_command(char **tab, main_t *main)
             && check_food(main, foodCost[i].cost, tab[0])) {
             printf("call_server_form_ia[i].func(tab, main): %s \n", tab[0]);
             call_server_form_ia[i].func(tab, main);
-            
+
             return;
         }
     }

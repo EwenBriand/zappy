@@ -32,6 +32,8 @@ void take_object(char **args, main_t *main)
 void set_command(char **args, main_t *main)
 {
     int quantity = atoi(args[2]);
+    if (CURR_CLI->player->inventory[atoi(args[1])] < quantity)
+        return (send_ko(main));
     for (int i = 0; i < quantity; i++) {
         CURR_CLI->player->inventory[atoi(args[1])]--;
         main->map->tiles[CURR_CLI->player->coord.y][CURR_CLI->player->coord.x]
