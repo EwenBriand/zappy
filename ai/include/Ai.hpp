@@ -99,6 +99,7 @@ class AI {
         int level = 1;
         int food = 10;
         int broadcastLevel = 0;
+        bool broadcastActive = false;
         bool incantationSoon = false;
         std::string messageFromServer;
         int orientation = NORTH;

@@ -61,7 +61,7 @@ typedef struct team_s {
     int max_player;
     int current_player;
     egg_t **eggs;
-    bool win;
+    int win;
 } team_t;
 
 typedef struct client_s {

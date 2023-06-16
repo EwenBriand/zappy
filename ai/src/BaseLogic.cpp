@@ -60,6 +60,8 @@ std::string AI::PrioritizeResources()
 int AI::FindResourceInVision()
 {
     LookAround();
+    if (messageFromServer == "ok\n")
+        LookAround();
     std::cout << "Look FromServer: " << messageFromServer << std::endl;
     std::vector<std::string> vision = splitString(messageFromServer, ',');
     std::string priorityResource = PrioritizeResources();
@@ -75,7 +77,7 @@ int AI::FindResourceInVision()
             // }
             if (object == priorityResource)
                 return i;
-            if (object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1)
+            if (object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1 && incantationSoon && level > 1 && priorityResource != "food" && broadcastActive)
                 return i;
         }
     }
