@@ -25,6 +25,7 @@ int main(int argc, char **argv)
     if (argc < 7)
         return help();
 
+    srand(time(NULL));
     main_t *main = init_main(argc, argv);
     signal(SIGINT, ctrl_c);
     init_teams(main);

@@ -22,7 +22,6 @@ egg_t *init_egg(main_t *main, int i)
     if (new == NULL)
         return (NULL);
 
-    srand(time(NULL) + i);
     new->coord = malloc(sizeof(coord_t));
     new->coord->x = rand() % main->args->width;
     new->coord->y = rand() % main->args->height;
