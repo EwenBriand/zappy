@@ -32,7 +32,11 @@ void AI::CheckInventoryAndSetObjects()
         for (int i = 0; i < 6; i++) {
             int requiredResource = requirementLevels[level-1][i];
             if (requiredResource > 0) {
-                if (CheckSameTileOtherAI()) {
+                if (level == 1) {
+                    SetObjectDown(i + 1, requiredResource);
+                    UpdateInventory();
+                }
+                if (CheckSameTileOtherAI() && level > 1) {
                     SetObjectDown(i + 1, requiredResource);
                     UpdateInventory();
                 }
@@ -47,8 +51,14 @@ void AI::CheckLevelUp()
     if (incantationSoon) {
         std::string levelUpMessage = "Ready_level_" + std::to_string(level + 1);
         BroadcastText(levelUpMessage);
-        if (CheckSameTileOtherAI()) {
+        if (level == 1) {
             StartIncantation();
+            if (messageFromServer != "ok\n") {
+                StartIncantation();
+            } else {
+                level++;
+                incantationSoon = false;
+            }
         }
         if (CheckSameTileOtherAI()) {
             StartIncantation();

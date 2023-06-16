@@ -29,6 +29,7 @@ def getLine():
     cmd = input("Enter command: ")
     # check is still connected
     send(cmd)
+    recieve()
 
 welcome()
 

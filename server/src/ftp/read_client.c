@@ -42,6 +42,7 @@ static void read_client2(main_t *main, int i)
         dprintf(main->server->client_fd[i]->fd, "%s", MSG_221);
         close(main->server->client_fd[i]->fd);
         FD_CLR(main->server->client_fd[i]->fd, main->server->readfds);
+        main->teams_list[main->server->client_fd[i]->teams]->current_player--;
         destroy_client(main->server->client_fd[i]);
         main->server->client_fd[i] = NULL;
         main->server->nbr_client_connected--;

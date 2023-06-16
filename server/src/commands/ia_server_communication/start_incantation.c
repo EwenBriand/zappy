@@ -24,10 +24,10 @@ int get_all_lvl(main_t *main, int lvl)
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->level == lvl
-            && main->server->client_fd[i]->player->coord.x
-                == CURR_CLI->player->coord.x
-            && main->server->client_fd[i]->player->coord.y
-                == CURR_CLI->player->coord.y
+            && main->server->client_fd[i]->player->coord->x
+                == CURR_CLI->player->coord->x
+            && main->server->client_fd[i]->player->coord->y
+                == CURR_CLI->player->coord->y
             && main->server->client_fd[i]->player->id != CURR_CLI->player->id)
             nb_player_with_this_lvl++;
     }
@@ -36,15 +36,16 @@ int get_all_lvl(main_t *main, int lvl)
 
 bool check_tile(main_t *main, int x, int y)
 {
+    printf("act level %i\n\n", CURR_CLI->player->level);
     int lvl = CURR_CLI->player->level;
     int nb_player_with_this_lvl = get_all_lvl(main, lvl);
 
     printf("in check : nb_player_with_this_lvl = %d incantation[lvl - 1][0] = "
            "%d\n",
         nb_player_with_this_lvl, incantation[lvl - 1][0]);
-
     if (nb_player_with_this_lvl != incantation[lvl - 1][0]) {
         printf("NO PLAYER\n");
+        // exit(0);
         return (false);
     }
     for (int i = 1; i < 7; i++) {
@@ -52,8 +53,7 @@ bool check_tile(main_t *main, int x, int y)
             if (main->map->tiles[y][x]->inventory[i]
                 < incantation[lvl - 1][i]) {
                 printf("NO RESSOURCESE %i is nessesary %i on map and %i "
-                       "nessesary\n",
-                    i, main->map->tiles[y][x]->inventory[i],
+                    "nessesary\n", i, main->map->tiles[y][x]->inventory[i],
                     incantation[lvl - 1][i]);
                 return (false);
             }
@@ -80,14 +80,14 @@ void start_incantation(char **args, main_t *main, bool res)
         return;
     }
     lock_all(main);
-    // printf("old level %i\n", CURR_CLI->player->level);
+    printf(" old level %i\n", CURR_CLI->player->level);
     // CURR_CLI->player->level++;
-    // printf("new level %i\n", CURR_CLI->player->level);
+    printf("new level %i\n\n", CURR_CLI->player->level);
 
-    // send_ok(main);
+    send_ok(main);
     char *cmd;
-    asprintf(&cmd, "pic %d %d %d %d\n", CURR_CLI->player->coord.x,
-        CURR_CLI->player->coord.y, CURR_CLI->player->level,
+    asprintf(&cmd, "pic %d %d %d %d\n", CURR_CLI->player->coord->x,
+        CURR_CLI->player->coord->y, CURR_CLI->player->level,
         CURR_CLI->player->id);
     for (int i = 0; CURR_CLI->player->id_player_inc[i] != -1; i++)
         asprintf(&cmd, "%s %d", cmd,

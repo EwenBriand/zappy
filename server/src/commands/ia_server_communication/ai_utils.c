@@ -10,6 +10,7 @@
 
 void client_killer(main_t *main)
 {
+    main->teams_list[CURR_CLI->teams]->current_player--;
     send_response_to_ia(MSG_551, main);
     pdi_command((char *[]){my_itoa(CURR_CLI->player->id), NULL}, main);
     close(CURR_CLI->fd);
@@ -47,12 +48,12 @@ bool check_food(main_t *main, int cost, char *cmd)
         return true;
     if (CURR_CLI->fd == main->server->gui_fd)
         return true;
-    if (have_enough_food(CURR_CLI->player, cost * 10) == false) {
+    if (have_enough_food(CURR_CLI->player, cost) == false) {
         printf("NOT ENOUGH FOOD\n");
         client_killer(main);
         return false;
     }
-    eat_x_food(CURR_CLI->player, cost * 10);
+    eat_x_food(CURR_CLI->player, cost);
     return true;
 }
 

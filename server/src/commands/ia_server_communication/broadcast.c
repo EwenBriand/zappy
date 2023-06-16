@@ -49,8 +49,8 @@ int get_closest_tile(main_t *main, int x, int y)
     int orientation = CURR_CLI->player->orientation;
     int tile = 0;
 
-    x = x - CURR_CLI->player->coord.x; // x = 3 - 2 = 1
-    y = y - CURR_CLI->player->coord.y; // y = 3 - 3 = 0
+    x = x - CURR_CLI->player->coord->x; // x = 3 - 2 = 1
+    y = y - CURR_CLI->player->coord->y; // y = 3 - 3 = 0
 
     if (y < 0)
         y = 2;
@@ -97,10 +97,10 @@ int check_tile_x_and_tile_y(main_t *main, int tile_x, int tile_y)
 
 int get_tile(main_t *main, client_t *client)
 {
-    int x = CURR_CLI->player->coord.x;
-    int y = CURR_CLI->player->coord.y;
-    int x2 = client->player->coord.x;
-    int y2 = client->player->coord.y;
+    int x = CURR_CLI->player->coord->x;
+    int y = CURR_CLI->player->coord->y;
+    int x2 = client->player->coord->x;
+    int y2 = client->player->coord->y;
 
     // printf("x : %d\n", x);
     // printf("y : %d\n", y);
@@ -151,8 +151,8 @@ void broadcast(char **args, main_t *main)
                 send_to_gui(cmd2, main->server);
         }
     }
-    asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[1]);
-    send_to_gui(cmd, main->server);
+    // asprintf(&cmd, "pbc %d %s\n", CURR_CLI->player->id, args[1]);
+    // send_to_gui(cmd, main->server);
     send_ok(main);
     free(cmd);
     free(cmd2);

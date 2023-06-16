@@ -7,6 +7,7 @@
 
 #include "ftp.h"
 #include "server.h"
+#include "gui_command.h"
 
 int *get_random_pos(main_t *main, int *pos)
 {
@@ -20,6 +21,8 @@ static void add_ressource_to_tile(main_t *main, int ressource)
     int *pos = malloc(sizeof(int) * 2);
     pos = get_random_pos(main, pos);
     main->map->tiles[pos[0]][pos[1]]->inventory[ressource] += 1;
+    bct_gui_command((char *[]){
+        "ok", my_itoa(pos[0]), my_itoa(pos[1])}, main);
     free(pos);
 }
 
@@ -38,22 +41,12 @@ void add_ressources(main_t *main)
 
 void add_ressources_if_its_time(main_t *main)
 {
-    // printf("main->args->freq %d\n", main->args->freq);
     int act_time = time(NULL);
-    // float div = main->args->freq / 100;
-    // printf("main->args->freq2 %d\n", main->args->freq);
-    // printf("act_time %d\n", act_time - main->time);
-    // printf("div %f\n", 20 * ((float) main->args->freq / 100));
 
     if ((act_time - main->time) >= 20 * ((float) main->args->freq / 100)) {
-        // printf("main->args->freq %f\n", (float) main->args->freq / 100);
-        // printf("add ressources time past %i obj %i div %f freq %d\n",
-        //     act_time - main->time, 20 * div, (float) div,
-        // (int) main->args->freq);
-        // exit(0);
         for (int i = 0; i < 7; ++i) {
             for (; 0 < main->map->deleted_element[i];
-                 --main->map->deleted_element[i]) {
+                --main->map->deleted_element[i]) {
                 printf("add %i to map\n", i);
                 add_ressource_to_tile(main, i);
             }

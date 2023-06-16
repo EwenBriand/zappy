@@ -23,10 +23,10 @@ void lock_all(main_t *main)
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->level
                 == CURR_CLI->player->level
-            && main->server->client_fd[i]->player->coord.x
-                == CURR_CLI->player->coord.x
-            && main->server->client_fd[i]->player->coord.y
-                == CURR_CLI->player->coord.y
+            && main->server->client_fd[i]->player->coord->x
+                == CURR_CLI->player->coord->x
+            && main->server->client_fd[i]->player->coord->y
+                == CURR_CLI->player->coord->y
             && main->server->client_fd[i]->fd != CURR_CLI->fd) {
             printf("nb_player = %d\n", pos + 1);
             CURR_CLI->player->id_player_inc[pos++] = i;
@@ -50,7 +50,7 @@ void level_up_all(main_t *main)
 {
     for (int pos = 0; CURR_CLI->player->id_player_inc[pos] != -1; pos++) {
         ++main->server->client_fd[CURR_CLI->player->id_player_inc[pos]]
-              ->player->level;
+            ->player->level;
     }
     CURR_CLI->player->level++;
     printf("new level = %d\n", CURR_CLI->player->level);

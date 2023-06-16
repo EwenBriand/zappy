@@ -61,21 +61,24 @@ static void case_2(main_t *main, int i)
         == 0) {
         main->server->client_fd[i]->player->status_cmd = 0;
         bool res = check_tile(
-            main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+            main, CURR_CLI->player->coord->x, CURR_CLI->player->coord->y);
         if (res) {
-            dprintf(main->server->client_fd[i]->fd, "ok\n");
+            // dprintf(main->server->client_fd[i]->fd, "ok\n");
+            send_ok(main);
             unlock_all(main);
             delete_ressources(
-                main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+                main, CURR_CLI->player->coord->x, CURR_CLI->player->coord->y);
             level_up_all(main);
             clear_all(main);
         } else {
-            dprintf(main->server->client_fd[i]->fd, "ko\n");
+            // dprintf(main->server->client_fd[i]->fd, "ko\n");
+            send_ko(main);
             unlock_all(main);
             clear_all(main);
         }
-        dprintf(main->server->gui_fd, "pie %d %d %d\n",
-            CURR_CLI->player->coord.x, CURR_CLI->player->coord.y, res);
+        int res2 = res ? 1 : 0;
+            pie_command((char *[]){my_itoa(CURR_CLI->player->coord->x),
+                my_itoa(CURR_CLI->player->coord->y), my_itoa(res2)}, main);
     } else {
         main->server->client_fd[i]->player->status_cmd = 0;
     }

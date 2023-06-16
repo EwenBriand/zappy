@@ -20,5 +20,8 @@ char **get_args_from_command(char *str)
         token = strtok(NULL, buf);
     }
     args[i] = NULL;
+    if (args[1] != NULL && args[1][0] == '#')
+        args[1] = &args[1][1];
+
     return args;
 }

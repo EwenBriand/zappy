@@ -35,9 +35,9 @@ void AI::WelcomeProtocol()
     messageFromServer = client.receiveData();             // get map size
     x = atoi(messageFromServer.substr(0, messageFromServer.find(" ")).c_str());
     y = atoi(messageFromServer
-                 .substr(messageFromServer.find(" ") + 1,
-                     messageFromServer.find("\n"))
-                 .c_str());
+                .substr(messageFromServer.find(" ") + 1,
+                    messageFromServer.find("\n"))
+                .c_str());
     std::cout << "END OF WELCOME" << std::endl;
 }
 
@@ -61,12 +61,11 @@ void AI::Loop()
                 std::cout << "level après: " << level << std::endl;
             } else {
                 std::cout << "level avant: " << level << std::endl;
-                // CheckLevelUp();
+                CheckLevelUp();
                 std::cout << "level après: " << level << std::endl;
                 Forward();
             }
-            i++;
-            // if (i % 150 == 0)
+            // if (i % 200 == 0)
             //     ForkPlayerEgg();
         }
     }

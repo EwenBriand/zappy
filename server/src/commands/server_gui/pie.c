@@ -12,7 +12,10 @@
 
 void pie_command(char **args, main_t *server)
 {
-    char cmd[100];
-    sprintf(cmd, "pie %s %s %s\n", args[0], args[1], args[2]);
+    char *cmd = NULL;
+    printf("args[2] : %s\n", args[2]);
+    asprintf(&cmd, "pie %s %s %s\n", args[0], args[1], args[2]);
+    printf("--------------pie : %s -----------------------\n", cmd);
     send_to_gui(cmd, server->server);
+    free(cmd);
 }

@@ -10,6 +10,7 @@
 
 #include "incantation.h"
 #include "ai_command.h"
+#include "init_dest.h"
 
 static char *fill_string(int i, char *cmd, main_t *main)
 {
@@ -42,26 +43,32 @@ void inventory_command(char **args, main_t *main)
 //     pid_t pid = fork();
 //     if (pid == 0) {
 //         sleep(10 / (main->args->freq / 100));
-//         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord.x,
-//             CURR_CLI->player->coord.y, res);
+//         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord->x,
+//             CURR_CLI->player->coord->y, res);
 //         send_to_gui(cmd, main->server);
 //         free(cmd);
-//         exit(0);
 //     }
 // }
 
 void incantation_command(char **args, main_t *main)
 {
-    bool res =
-        check_tile(main, CURR_CLI->player->coord.x, CURR_CLI->player->coord.y);
+    bool res = check_tile(main, CURR_CLI->player->coord->x,
+        CURR_CLI->player->coord->y);
     start_incantation(args, main, res);
 }
 
 void fork_command(char **args, main_t *main)
 {
     char *cmd;
+    int team_id = get_team_by_name(main, CURR_CLI->team_name);
 
     asprintf(&cmd, "pfk %d\n", CURR_CLI->player->id);
     send_to_gui(cmd, main->server);
+    for (int i = 0; i < 100; i++)
+        if (main->teams_list[team_id]->eggs[i] == NULL) {
+            main->teams_list[team_id]->eggs[i] =
+                init_egg_from_cli(main, team_id);
+            break;
+        }
     send_ok(main);
 }

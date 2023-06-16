@@ -23,7 +23,7 @@ typedef struct coord_s {
 
 typedef struct player_s {
     int id;
-    coord_t coord;
+    coord_t *coord;
     int orientation;
     int level;
     int *inventory; // ICI
@@ -38,7 +38,7 @@ typedef struct player_s {
 } player_t;
 
 typedef struct tile_s {
-    coord_t coord;
+    coord_t *coord;
     int *inventory; // ICI
 } tile_t;
 
@@ -51,7 +51,7 @@ typedef struct map_s {
 
 typedef struct egg_s {
     int id;
-    coord_t coord;
+    coord_t *coord;
     char *team;
     int orientation;
 } egg_t;
