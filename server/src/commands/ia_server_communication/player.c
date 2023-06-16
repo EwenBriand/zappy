@@ -43,6 +43,7 @@ void kill_eggs(main_t *main, int pos)
                 edi_command(
                     (char *[]){my_itoa(main->teams_list[i]->eggs[j]->id)},
                     main);
+                main->teams_list[i]->max_player--;
                 destroy_egg(main->teams_list[i]->eggs[j]);
                 main->teams_list[i]->eggs[j] = NULL;
             }
