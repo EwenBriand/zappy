@@ -45,7 +45,7 @@ void AI::CheckLevelUp()
 {
     CheckInventoryAndSetObjects();
     if (incantationSoon) {
-        std::string levelUpMessage = "Ready level " + std::to_string(level+1);
+        std::string levelUpMessage = "Ready_level_" + std::to_string(level + 1);
         BroadcastText(levelUpMessage);
         if (CheckSameTileOtherAI()) {
             StartIncantation();

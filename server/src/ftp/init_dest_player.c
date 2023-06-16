@@ -11,6 +11,7 @@
 #include "ftp.h"
 #include "server.h"
 #include "init_dest.h"
+#include "string.h"
 
 static int id_act = 0;
 
@@ -99,7 +100,7 @@ player_t *init_player_char(main_t *main)
     new->inventory = malloc(sizeof(int) * 7);
     new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
-        new->inventory[i] = 0;
+        new->inventory[i] = 8;
     new->level = 1;
     new->cmd_buf = malloc(sizeof(char *) * 11);
     for (int i = 0; i < 11; ++i)

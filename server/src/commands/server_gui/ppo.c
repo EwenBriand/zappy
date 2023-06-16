@@ -14,5 +14,6 @@ void ppo_command(char **args, main_t *server)
 {
     char cmd[100];
     sprintf(cmd, "ppo %s %s %s %s\n", args[0], args[1], args[2], args[3]);
+    printf("PPO :%s\n", cmd);
     send_to_gui(cmd, server->server);
 }

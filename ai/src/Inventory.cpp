@@ -10,8 +10,8 @@
 void AI::UpdateInventory()
 {
     Inventory();
-    std::string inventoryMessage = client.receiveData();
-    inventory.parse(inventoryMessage);
+    std::cout << "inventoryMessage from server : " << messageFromServer << std::endl;
+    inventory.parse(messageFromServer);
     std::cout << "food: " << inventory.getFood() << std::endl;
     std::cout << "linemate: " << inventory.getLinemate() << std::endl;
     std::cout << "sibur: " << inventory.getSibur() << std::endl;

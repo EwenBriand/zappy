@@ -5,8 +5,8 @@
 ** ftp
 */
 #pragma once
-#pragma GCC diagnostic ignored "-Wunused-parameter"
 #define _GNU_SOURCE
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -26,6 +26,7 @@
 #include "tools.h"
 #include "ai_command.h"
 #include "error_code.h"
+#include "string.h"
 
 #define GUI         "helloGui\r\n"
 #define GUI_FORMAT  "helloGui\r"

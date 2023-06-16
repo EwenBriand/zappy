@@ -1,4 +1,4 @@
-teams=("team1" "team1" "team2" "team2" "team3" "team4" "team1" "team1" "team2" "team2" "team3" "team4" "team5" "team5")
+teams=("team1" "team1" "team2" "team2" "team3" "team4" "team1" "team1" "team2" "team2" "team3" "team4" "team5" "team5" "team1" "team1" "team2" "team2" "team3" "team4" "team1" "team1" "team2" "team2" "team3" "team4" "team5" "team5")
 host="127.0.0.1"
 port=8080
 

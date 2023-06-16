@@ -45,6 +45,7 @@ void AI::Inventory()
     std::cout << "Inventory" << std::endl;
     client.sendData("Inventory\n");
     messageFromServer = client.receiveData();
+
 }
 
 void AI::BroadcastText(std::string message)

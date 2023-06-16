@@ -64,7 +64,7 @@ void call_ai_command(char **tab, main_t *main)
             && check_food(main, foodCost[i].cost, tab[0])) {
             printf("call_server_form_ia[i].func(tab, main): %s \n", tab[0]);
             call_server_form_ia[i].func(tab, main);
-            
+
             return;
         }
     }

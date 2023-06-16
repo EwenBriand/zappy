@@ -102,10 +102,10 @@ int get_tile(main_t *main, client_t *client)
     int x2 = client->player->coord.x;
     int y2 = client->player->coord.y;
 
-    printf("x : %d\n", x);
-    printf("y : %d\n", y);
-    printf("x2 : %d\n", x2);
-    printf("y2 : %d\n", y2);
+    // printf("x : %d\n", x);
+    // printf("y : %d\n", y);
+    // printf("x2 : %d\n", x2);
+    // printf("y2 : %d\n", y2);
 
     int x_vector = x2 - x;
     int y_vector = y2 - y;
@@ -115,7 +115,7 @@ int get_tile(main_t *main, client_t *client)
     for (int tiles = 0; tiles < 9; tiles++) {
         int tile_x = x + (tiles % 3) - 1;
         int tile_y = y + (tiles / 3) - 1;
-        if (check_tile_x_and_tile_y == 1)
+        if (check_tile_x_and_tile_y(main, tile_x, tile_y))
             continue;
         buf = get_tile2(main, tile_x, tile_y, x2, y2, buf);
         float dis = get_distance_btw_two_tiles(tile_x, tile_y, x2, y2);
@@ -145,6 +145,7 @@ void broadcast(char **args, main_t *main)
                 asprintf(&cmd, "message %d, %s\n", get_tile(main,
                     main->server->client_fd[i]), args[1]);
                 dprintf(main->server->client_fd[i]->fd, "%s", cmd);
+                printf("cmd = %s\n", cmd);
                 asprintf(&cmd2, "pbc %d %s\n",
                     main->server->client_fd[i]->player->id, args[1]);
                 send_to_gui(cmd2, main->server);

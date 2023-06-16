@@ -88,11 +88,11 @@ void execute_current_command(main_t *main, int i)
     if (main->server->client_fd[i]->player->locked)
         return;
     if (main->server->client_fd[i]->player->status_cmd == 0) {
-        case_0(main, i);
+        case_0(main, i); //wait and execute a command
     } else if (main->server->client_fd[i]->player->status_cmd == 1)
-        case_1(main, i, act_time);
+        case_1(main, i, act_time); // wait the end of the time
     else if (main->server->client_fd[i]->player->status_cmd == 2)
-        case_2(main, i);
+        case_2(main, i); // end of the command and more for incantation
 
     // lock if incantation
     // if ((act_time - main->server->client_fd[i]->player->time)
