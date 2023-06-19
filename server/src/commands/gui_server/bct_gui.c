@@ -10,6 +10,18 @@
 #include "ftp.h"
 #include "server.h"
 
+static void free_gui(char **args, char **cmd)
+{
+    for (int i = 0; cmd[i]; i++)
+        free(cmd[i]);
+    free(cmd);
+
+    if (strcmp(args[0], "bct") == 0)
+        return;
+    free(args[1]);
+    free(args[2]);
+}
+
 void bct_gui_command(char **args, main_t *server)
 {
     int x = atoi(args[1]);
@@ -27,12 +39,5 @@ void bct_gui_command(char **args, main_t *server)
     cmd[j] = NULL;
 
     bct_command(cmd, server);
-    for (int i = 0; cmd[i]; i++)
-        free(cmd[i]);
-    free(cmd);
-
-    if (strcmp(args[0], "bct") == 0)
-        return;
-    free(args[1]);
-    free(args[2]);
+    free_gui(args, cmd);
 }

@@ -40,7 +40,7 @@ typedef struct sockinfo_s {
     int port;
 } sockinfo_t;
 
-int help();
+int help(void);
 bool create_server(args_t *args);
 char *circular_read(int tcp_socket);
 char **get_args_from_command(char *str);

@@ -72,7 +72,7 @@ void welcome_protocole(main_t *main, char **tab);
 int *get_random_pos(main_t *main, int *pos);
 
 // commands:
-void execute_player_command(main_t *main);
+void exec_player_command(main_t *main);
 void pnw_command(char **args, main_t *main);
 void msz_command(char **args, main_t *main);
 void bct_command(char **args, main_t *main);

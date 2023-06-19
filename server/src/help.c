@@ -7,7 +7,7 @@
 
 #include "server.h"
 
-int help()
+int help(void)
 {
     printf("USAGE: ./zappy_server -p port -x width -y height -n name1 name2 "
            "... -c nb_client_max -f freq\n");

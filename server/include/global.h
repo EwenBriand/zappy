@@ -5,9 +5,6 @@
 ** global
 */
 
-#ifndef E457A391_B834_486A_BD0A_D24BDE4B6707
-#define E457A391_B834_486A_BD0A_D24BDE4B6707
+#pragma once
 
 static int HANDLER = 0;
-
-#endif /* E457A391_B834_486A_BD0A_D24BDE4B6707 */

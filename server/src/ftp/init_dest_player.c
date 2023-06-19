@@ -95,7 +95,7 @@ player_t *init_player(egg_t *egg, main_t *main)
     new->inventory = malloc(sizeof(int) * 7);
     new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
-        new->inventory[i] = 0;
+        new->inventory[i] = 10;
     new->level = 1;
     new->act_cmd = NULL;
     new->cmd_buf = malloc(sizeof(char *) * 11);
@@ -136,7 +136,7 @@ player_t *init_player_char(main_t *main)
     new->inventory = malloc(sizeof(int) * 7);
     new->inventory[Q0] = 9;
     for (int i = 1; i < 7; ++i)
-        new->inventory[i] = 0;
+        new->inventory[i] = 10;
     new->level = 1;
     new->act_cmd = NULL;
     new->cmd_buf = malloc(sizeof(char *) * 11);
@@ -158,6 +158,8 @@ void destroy_player(player_t *player)
 
     if (player->act_cmd != NULL)
         free(player->act_cmd);
+    if (player->id_player_inc != NULL)
+        free(player->id_player_inc);
     free(player->cmd_buf);
     free(player->coord);
     free(player);

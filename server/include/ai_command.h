@@ -16,7 +16,7 @@ typedef struct call_server_form_ia_s {
     void (*func)(char **, main_t *);
 } call_server_form_ia_t;
 
-//tools
+// tools
 char *get_object_name(int i);
 
 void forward_command(char **args, main_t *main);
@@ -37,20 +37,13 @@ void incantation_command(char **args, main_t *main);
 void set_command(char **args, main_t *main);
 void start_incantation(char **args, main_t *main, bool res);
 bool check_tile(main_t *main, int x, int y);
+
 static const call_server_form_ia_t call_server_form_ia[] = {
-    {"Forward", forward_command},
-    {"pnw", pnw_command},
-    {"Inventory", inventory_command},
-    {"Right", turn_right},
-    {"Left", turn_left},
-    {"Take", take_object},
-    {"Look", look_command},
-    {"Set", set_command},
-    {"Broadcast", broadcast},
-    {"Connect_nbr", connect_nbr_command},
-    {"Fork", fork_command},
-    {"Eject", eject},
-    {"Incantation", incantation_command},
+    {"Forward", forward_command}, {"pnw", pnw_command},
+    {"Inventory", inventory_command}, {"Right", turn_right},
+    {"Left", turn_left}, {"Take", take_object}, {"Look", look_command},
+    {"Set", set_command}, {"Broadcast", broadcast},
+    {"Connect_nbr", connect_nbr_command}, {"Fork", fork_command},
+    {"Eject", eject}, {"Incantation", incantation_command},
     // {"PlayersLevel", players_level_command},
-    {NULL, NULL}
-};
+    {NULL, NULL}};
