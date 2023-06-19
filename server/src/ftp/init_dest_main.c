@@ -42,11 +42,9 @@ static map_t *init_map(args_t *args)
         for (int j = 0; j < args->width; j++)
             new->tiles[i][j] = new_tile(i, j);
     }
-
     new->deleted_element = malloc(sizeof(int) * 7);
     for (int i = 0; i < 7; i++)
         new->deleted_element[i] = 0;
-
     return (new);
 }
 

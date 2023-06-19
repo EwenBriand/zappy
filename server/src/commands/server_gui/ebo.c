@@ -5,15 +5,20 @@
 ** ebo
 */
 
-#define __STDC_WANT_LIB_EXT2__ 1
 #include <stdio.h>
 #include <stdlib.h>
 #include "ftp.h"
 #include "server.h"
 #include "init_dest.h"
 
-// 0 : id team_id
-// 1 : id_egg
+static void dest_ebo(char **args, main_t *main, char *cmd, int team)
+{
+    destroy_egg(main->teams_list[team]->eggs[atoi(args[1])]);
+    main->teams_list[team]->eggs[atoi(args[1])] = NULL;
+    free(args[0]);
+    free(args[1]);
+    free(cmd);
+}
 
 void ebo_command(char **args, main_t *main)
 {
@@ -36,9 +41,5 @@ void ebo_command(char **args, main_t *main)
         CURR_CLI->player->coord->y);
 
     send_ok(main);
-    destroy_egg(main->teams_list[team]->eggs[atoi(args[1])]);
-    main->teams_list[team]->eggs[atoi(args[1])] = NULL;
-    free(args[0]);
-    free(args[1]);
-    free(cmd);
+    dest_ebo(args, main, cmd, team);
 }

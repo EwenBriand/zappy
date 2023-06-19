@@ -28,8 +28,6 @@ void get_command(char *str, main_t *main, int i)
         }
         welcome_protocole(main, tab);
         free(tab);
-    } else {
-        // dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
     }
 }
 

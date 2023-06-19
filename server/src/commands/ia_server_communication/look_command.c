@@ -48,6 +48,7 @@ void look_command(char **args, main_t *main)
             int ny = y + (DY * i) + (DX * j);
             get_player_on_tile(main, nx, ny, &cmd);
             get_objects_on_tile(main, nx, ny, &cmd);
+            asprintf(&cmd, "%s, ", cmd);
         }
     }
     asprintf(&cmd, "[%s]\n", cmd);

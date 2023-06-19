@@ -18,11 +18,6 @@ static void init_one_team(main_t *main, int j)
     main->teams_list[j]->win = false;
     main->teams_list[j]->eggs = malloc(sizeof(egg_t *) * 100);
 
-    // comment CA
-    // for (int i = 0; i < main->args->nb_client_max; ++i) {
-    //     main->teams_list[j]->eggs[pos++] = init_egg(main, j);
-    // }
-
     for (int pos = 0; pos < 100; ++pos)
         main->teams_list[j]->eggs[pos] = NULL;
     printf("main->teams_list[j]->name : %s\n", main->teams_list[j]->name);

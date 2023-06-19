@@ -21,8 +21,6 @@ static void add_ressource_to_tile(main_t *main, int ressource)
     int *pos = malloc(sizeof(int) * 2);
     pos = get_random_pos(main, pos);
     main->map->tiles[pos[0]][pos[1]]->inventory[ressource] += 1;
-    // bct_gui_command((char *[]){
-    //     "ok", my_itoa(pos[0]), my_itoa(pos[1])}, main);
     free(pos);
 }
 
@@ -39,17 +37,21 @@ void add_ressources(main_t *main)
     }
 }
 
+static void För_kriget_det_kan(main_t *main, int i)
+{
+    for (; 0 < main->map->deleted_element[i];
+         --main->map->deleted_element[i]) {
+        printf("add %i to map\n", i);
+        add_ressource_to_tile(main, i);
+    }
+}
+
 void add_ressources_if_its_time(main_t *main)
 {
     int act_time = time(NULL);
 
     if ((act_time - main->time) >= 20 * ((float) main->args->freq / 100)) {
-        for (int i = 0; i < 7; ++i) {
-            for (; 0 < main->map->deleted_element[i];
-                 --main->map->deleted_element[i]) {
-                printf("add %i to map\n", i);
-                add_ressource_to_tile(main, i);
-            }
-        }
+        for (int i = 0; i < 7; ++i)
+            För_kriget_det_kan(main, i);
     }
 }
