@@ -118,7 +118,6 @@ void broadcast(char **args, main_t *main)
             asprintf(&cmd, "message %d, %s\n",
                 get_tile(main, main->server->client_fd[i]), args[1]);
             dprintf(main->server->client_fd[i]->fd, "%s", cmd);
-            printf("cmd = %s\n", cmd);
             asprintf(&cmd2, "pbc %d %s\n",
                 main->server->client_fd[i]->player->id, args[1]);
             send_to_gui(cmd2, main->server);

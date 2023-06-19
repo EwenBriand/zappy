@@ -14,6 +14,8 @@
 int get_command_time(char *name)
 {
     printf("name: %s\n", name);
+    if (strcmp(name, "Incant2") == 0)
+        return foodCost[11].cost;
     for (int i = 0; foodCost[i].command; ++i) {
         printf("command: %s\n", foodCost[i].command);
         if (strcmp(name, foodCost[i].command) == 0)
@@ -36,8 +38,8 @@ static void case_0(main_t *main, int i)
         if (main->server->client_fd[i] != NULL) {
             main->server->client_fd[i]->player->time = time(NULL);
             main->server->client_fd[i]->player->command_time =
-                get_command_time(tab[0]);
-            printf("command %s take time: %d\n", tab[0],
+                get_command_time(CURR_CLI->player->act_cmd);
+            printf("command %s take time: %d\n", CURR_CLI->player->act_cmd,
                 main->server->client_fd[i]->player->command_time);
             printf("case 0, act_cmd: %s\n",
                 main->server->client_fd[i]->player->act_cmd);

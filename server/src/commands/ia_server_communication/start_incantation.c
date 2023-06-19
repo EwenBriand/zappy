@@ -7,7 +7,6 @@
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
-#define __STDC_WANT_LIB_EXT2__ 1
 #include "incantation.h"
 #include "ai_command.h"
 
@@ -17,9 +16,9 @@ static const int incantation[7][7] = {{1, 1, 0, 0, 0, 0, 0},
 
 int get_all_lvl(main_t *main, int lvl)
 {
-    int nb_player_with_this_lvl = 1;
+    int nb_player_with_lvl = 1;
     for (int i = 0; i < main->server->nbr_client_connected
-         && nb_player_with_this_lvl < incantation[lvl - 1][0];
+         && nb_player_with_lvl < incantation[lvl - 1][0];
          i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
@@ -29,9 +28,24 @@ int get_all_lvl(main_t *main, int lvl)
             && main->server->client_fd[i]->player->coord->y
                 == CURR_CLI->player->coord->y
             && main->server->client_fd[i]->player->id != CURR_CLI->player->id)
-            nb_player_with_this_lvl++;
+            nb_player_with_lvl++;
     }
-    return (nb_player_with_this_lvl);
+    return (nb_player_with_lvl);
+}
+
+static bool maybe(main_t *main, int *coord, int i, int lvl)
+{
+    if (incantation[lvl - 1][i] != 0) {
+        if (main->map->tiles[coord[1]][coord[0]]->inventory[i]
+            < incantation[lvl - 1][i]) {
+            printf(
+                "NO RESSOURCESE %i is nessesary %i on map and %i nessesary\n",
+                i, main->map->tiles[coord[1]][coord[0]]->inventory[i],
+                incantation[lvl - 1][i]);
+            return (false);
+        }
+    }
+    return (true);
 }
 
 bool check_tile(main_t *main, int x, int y)
@@ -40,26 +54,15 @@ bool check_tile(main_t *main, int x, int y)
     int lvl = CURR_CLI->player->level;
     int nb_player_with_this_lvl = get_all_lvl(main, lvl);
 
-    printf("in check : nb_player_with_this_lvl = %d incantation[lvl - 1][0] = "
-           "%d\n",
+    printf("in check : nb_player_with_lvl = %d incantation[lvl - 1][0] = %d\n",
         nb_player_with_this_lvl, incantation[lvl - 1][0]);
     if (nb_player_with_this_lvl != incantation[lvl - 1][0]) {
         printf("NO PLAYER\n");
-        // exit(0);
         return (false);
     }
-    for (int i = 1; i < 7; i++) {
-        if (incantation[lvl - 1][i] != 0) {
-            if (main->map->tiles[y][x]->inventory[i]
-                < incantation[lvl - 1][i]) {
-                printf("NO RESSOURCESE %i is nessesary %i on map and %i "
-                       "nessesary\n",
-                    i, main->map->tiles[y][x]->inventory[i],
-                    incantation[lvl - 1][i]);
-                return (false);
-            }
-        }
-    }
+    for (int i = 1; i < 7; i++)
+        if (!maybe(main, (int[]){x, y}, i, lvl))
+            return (false);
     return (true);
 }
 
@@ -78,13 +81,11 @@ void start_incantation(char **args, main_t *main, bool res)
     if (res == false) {
         printf("KO INCANTATION FAILED\n");
         free(CURR_CLI->player->act_cmd);
-        CURR_CLI->player->act_cmd = malloc(sizeof(char) * 1);
-        CURR_CLI->player->act_cmd[0] = '\0';
+        CURR_CLI->player->act_cmd = strdup("Incant2");
         send_ko(main);
         return;
     }
     lock_all(main);
-    printf("new level %i\n\n", CURR_CLI->player->level);
 
     char cmd[1000];
     sprintf(cmd, "pic %d %d %d %d", CURR_CLI->player->coord->x,
@@ -95,5 +96,4 @@ void start_incantation(char **args, main_t *main, bool res)
             main->server->client_fd[CURR_CLI->player->id_player_inc[i]]
                 ->player->id);
     send_to_gui(cmd, main->server);
-    // free(cmd);
 }

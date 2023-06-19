@@ -30,14 +30,9 @@ void get_objects_on_tile(main_t *main, int x, int y, char **cmd)
     if (x < 0 || x >= main->map->width || y < 0 || y >= main->map->height)
         return;
 
-    for (int i = 0; i < 7; i++) {
-        if (main->map->tiles[y][x]->inventory[i] > 0) {
-            for (int j = 0; j < main->map->tiles[y][x]->inventory[i]; j++) {
-                asprintf(cmd, "%s %s", *cmd, get_object_name(i));
-                break;
-            }
-        }
-    }
+    for (int i = 0; i < 7; i++)
+        if (main->map->tiles[y][x]->inventory[i] > 0)
+            asprintf(cmd, "%s %s", *cmd, get_object_name(i));
 }
 
 void look_command(char **args, main_t *main)
@@ -57,7 +52,7 @@ void look_command(char **args, main_t *main)
             printf("cmd after objects: %s\n", cmd);
         }
     }
-    asprintf(&cmd, "[%s]", cmd);
+    asprintf(&cmd, "[%s]\n", cmd);
     send_to_ia(cmd, main);
     free(cmd);
 }

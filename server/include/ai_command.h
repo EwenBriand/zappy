@@ -8,6 +8,7 @@
 #pragma once
 #define _GNU_SOURCE
 #include "ftp.h"
+#define __STDC_WANT_LIB_EXT2__ 1
 
 typedef struct main_s main_t;
 
