@@ -20,9 +20,9 @@ void get_player_on_tile(main_t *main, int x, int y, char **cmd)
             asprintf(cmd, "%splayer", *cmd);
         }
     }
-    // if (cmd == NULL)
-    //     return "";
-    // return (cmd);
+    if (cmd == NULL)
+        return "";
+    return (cmd);
 }
 
 void get_objects_on_tile(main_t *main, int x, int y, char **cmd)
@@ -42,7 +42,7 @@ void get_objects_on_tile(main_t *main, int x, int y, char **cmd)
 
 void look_command(char **args, main_t *main)
 {
-    char *cmd = NULL;
+    char *cmd = "";
     int orientation = CURR_CLI->player->orientation;
     int level = CURR_CLI->player->level;
     int x = CURR_CLI->player->coord->x;
@@ -52,7 +52,9 @@ void look_command(char **args, main_t *main)
             int nx = x + (DX * i) + (DY * j);
             int ny = y + (DY * i) + (DX * j);
             get_player_on_tile(main, nx, ny, &cmd);
+            printf("cmd after player: %s\n", cmd);
             get_objects_on_tile(main, nx, ny, &cmd);
+            printf("cmd after objects: %s\n", cmd);
         }
     }
     asprintf(&cmd, "[%s]", cmd);
