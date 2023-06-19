@@ -30,19 +30,14 @@ void get_objects_on_tile(main_t *main, int x, int y, char **cmd)
     if (x < 0 || x >= main->map->width || y < 0 || y >= main->map->height)
         return;
 
-    for (int i = 0; i < 7; i++) {
-        if (main->map->tiles[y][x]->inventory[i] > 0) {
-            for (int j = 0; j < main->map->tiles[y][x]->inventory[i]; j++) {
-                asprintf(cmd, "%s %s", *cmd, get_object_name(i));
-                break;
-            }
-        }
-    }
+    for (int i = 0; i < 7; i++)
+        if (main->map->tiles[y][x]->inventory[i] > 0)
+            asprintf(cmd, "%s %s", *cmd, get_object_name(i));
 }
 
 void look_command(char **args, main_t *main)
 {
-    char *cmd = NULL;
+    char *cmd = "";
     int orientation = CURR_CLI->player->orientation;
     int level = CURR_CLI->player->level;
     int x = CURR_CLI->player->coord->x;
@@ -55,7 +50,7 @@ void look_command(char **args, main_t *main)
             get_objects_on_tile(main, nx, ny, &cmd);
         }
     }
-    asprintf(&cmd, "[%s]", cmd);
+    asprintf(&cmd, "[%s]\n", cmd);
     send_to_ia(cmd, main);
     free(cmd);
 }

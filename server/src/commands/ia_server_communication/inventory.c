@@ -6,7 +6,6 @@
 */
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
-#define __STDC_WANT_LIB_EXT2__ 1
 
 #include "incantation.h"
 #include "ai_command.h"
@@ -21,7 +20,6 @@ static void fill_string(int i, char **cmd, main_t *main)
         asprintf(cmd, "%s, %s %d", *cmd, get_object_name(i),
             CURR_CLI->player->inventory[i]);
     }
-    // return (cmd);
 }
 
 void inventory_command(char **args, main_t *main)
@@ -36,19 +34,6 @@ void inventory_command(char **args, main_t *main)
     send_to_ia(cmd, main);
     free(cmd);
 }
-
-// static void fork_pie(char **args, main_t *main, bool res)
-// {
-//     char *cmd;
-//     pid_t pid = fork();
-//     if (pid == 0) {
-//         sleep(10 / (main->args->freq / 100));
-//         asprintf(&cmd, "pie %d %d %d\n", CURR_CLI->player->coord->x,
-//             CURR_CLI->player->coord->y, res);
-//         send_to_gui(cmd, main->server);
-//         free(cmd);
-//     }
-// }
 
 void incantation_command(char **args, main_t *main)
 {
