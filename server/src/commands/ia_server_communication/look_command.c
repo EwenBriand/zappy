@@ -49,7 +49,7 @@ void look_command(char **args, main_t *main)
             get_player_on_tile(main, nx, ny, &cmd);
             printf("cmd after player: %s\n", cmd);
             get_objects_on_tile(main, nx, ny, &cmd);
-            asprintf(&cmd, "%s, ", cmd);
+            asprintf(&cmd, "%s,", cmd);
             printf("cmd after objects: %s\n", cmd);
         }
     }

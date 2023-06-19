@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "ftp.h"
 #include "server.h"
+#include "ai_command.h"
 #include "init_dest.h"
 
 static void dest_ebo(char **args, main_t *main, char *cmd, int team)

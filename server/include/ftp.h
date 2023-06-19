@@ -22,11 +22,11 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "string.h"
 #include "struct.h"
 #include "tools.h"
 #include "ai_command.h"
 #include "error_code.h"
-#include "string.h"
 
 #define GUI         "helloGui\r\n"
 #define GUI_FORMAT  "helloGui\r"
@@ -47,7 +47,6 @@ typedef struct foodCost_s {
     int cost;
 } foodCost_t;
 
-
 static const foodCost_t foodCost[] = {{"Forward", 7}, {"Right", 7},
     {"Left", 7}, {"Look", 7}, {"Inventory", 1}, {"Broadcast", 7},
     {"Connect_nbr", 0}, {"Fork", 42}, {"Eject", 7}, {"Take", 7}, {"Set", 7},
@@ -67,7 +66,7 @@ void send_to_gui(char *cmd, server_t *server);
 void send_to_ia(char *cmd, main_t *main);
 void call_ai_command(char **tab, main_t *main);
 void check_coord_player(main_t *main);
-// int check_if_gui_setup(char **args, main_t *main);
+
 void welcome_protocole(main_t *main, char **tab);
 int *get_random_pos(main_t *main, int *pos);
 
@@ -112,3 +111,7 @@ void sbp_command(char **args, main_t *main);
 
 void call_gui_command(main_t *main, char **tab);
 void win_cond(main_t *main);
+
+void case_0(main_t *main, int i);
+void case_1(main_t *main, int i, int act_time);
+void case_2(main_t *main, int i);
