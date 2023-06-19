@@ -27,11 +27,16 @@ void loop_server(main_t *main)
 {
     int nfds = 0;
     struct timeval timeout = {0, 0};
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGINT);
 
     while (HANDLER != ERROR_VALUE) {
         setup_rdfs(main->server);
-        nfds = select(
-            main->server->max + 1, main->server->copy, NULL, NULL, &timeout);
+        // nfds = select(
+        //     main->server->max + 1, main->server->copy, NULL, NULL, NULL);
+        nfds = pselect(main->server->max + 1, main->server->copy, NULL, NULL,
+            &timeout, &mask);
         if (nfds < 0)
             break;
 

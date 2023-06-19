@@ -25,13 +25,28 @@ smg M = server message
 suc = command success
 sbp = command fail
 
-client to server:
-msz return map size
-bct X Y return content of a tile
-mct return content of all tiles
-tna return team name
-ppo #n return player position
-plv #n return player level
-pin #n return player inventory
-sgt return time unit
-sst T set time unit
+client to server:                   memory leak
+msz return map size                 OK
+bct X Y return content of a tile    OK
+mct return content of all tiles     OK
+tna return team name                OK
+ppo #n return player position       OK
+plv #n return player level          OK
+pin #n return player inventory      OK
+sgt return time unit                OK
+sst T set time unit                 OK
+
+player to server:
+Forward = player move forward       OK
+Right = player turn right           OK
+Left = player turn left             OK
+Look = player look                  NOP asprintf PUE
+Inventory = player inventory        NOP asprintf PUE
+Broadcast text = player broadcast   
+Connect_nbr = number of free places OK
+Fork = player fork                  OK
+Eject = player eject                OK
+Take object = player take           OK
+Set object = player set             OK
+Incantation = player incantation    
+Nothing = do nothing                

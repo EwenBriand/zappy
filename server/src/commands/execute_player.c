@@ -11,7 +11,6 @@
 #include "struct.h"
 #include "ai_command.h"
 
-
 int get_command_time(char *name)
 {
     printf("name: %s\n", name);
@@ -42,6 +41,7 @@ static void case_0(main_t *main, int i)
                 main->server->client_fd[i]->player->command_time);
             printf("case 0, act_cmd: %s\n",
                 main->server->client_fd[i]->player->act_cmd);
+            free(tab);
         }
     }
 }
@@ -77,11 +77,14 @@ static void case_2(main_t *main, int i)
             clear_all(main);
         }
         int res2 = res ? 1 : 0;
-            pie_command((char *[]){my_itoa(CURR_CLI->player->coord->x),
-                my_itoa(CURR_CLI->player->coord->y), my_itoa(res2)}, main);
+        pie_command((char *[]){my_itoa(CURR_CLI->player->coord->x),
+                        my_itoa(CURR_CLI->player->coord->y), my_itoa(res2)},
+            main);
     } else {
         main->server->client_fd[i]->player->status_cmd = 0;
     }
+    free(main->server->client_fd[i]->player->act_cmd);
+    main->server->client_fd[i]->player->act_cmd = NULL;
 }
 
 void execute_current_command(main_t *main, int i)
@@ -91,7 +94,7 @@ void execute_current_command(main_t *main, int i)
     if (main->server->client_fd[i]->player->locked)
         return;
     if (main->server->client_fd[i]->player->status_cmd == 0) {
-        case_0(main, i); //wait and execute a command
+        case_0(main, i);           // wait and execute a command
     } else if (main->server->client_fd[i]->player->status_cmd == 1)
         case_1(main, i, act_time); // wait the end of the time
     else if (main->server->client_fd[i]->player->status_cmd == 2)

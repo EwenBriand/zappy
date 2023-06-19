@@ -27,7 +27,7 @@ egg_t *init_egg(main_t *main, int i);
 void destroy_egg(egg_t *egg);
 
 void init_teams(main_t *main);
-void destroy_teams(main_t *main);
+void destroy_teams(team_t *teams);
 
 args_t *get_data_from_args(int ac, char **av);
 void destroy_args(args_t *args);

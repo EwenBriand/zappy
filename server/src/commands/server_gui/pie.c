@@ -18,4 +18,7 @@ void pie_command(char **args, main_t *server)
     printf("--------------pie : %s -----------------------\n", cmd);
     send_to_gui(cmd, server->server);
     free(cmd);
+    free(args[0]);
+    free(args[1]);
+    free(args[2]);
 }

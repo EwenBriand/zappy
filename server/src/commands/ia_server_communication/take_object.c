@@ -59,4 +59,5 @@ void connect_nbr_command(char **args, main_t *main)
         main->teams_list[team_id]->max_player
             - main->teams_list[team_id]->current_player);
     send_to_ia(cmd, main);
+    free(cmd);
 }

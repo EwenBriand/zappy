@@ -51,15 +51,12 @@ int get_team_by_name(main_t *main, char *team_name)
     return -1;
 }
 
-void destroy_teams(main_t *main)
+void destroy_teams(team_t *teams)
 {
-    for (int i = 0; main->teams_list[i] != NULL; i++) {
-        free(main->teams_list[i]->name);
-        free(main->teams_list[i]);
-        for (int i = 0; i < 100; ++i)
-            if (main->teams_list[i]->eggs[i] != NULL)
-                destroy_egg(main->teams_list[i]->eggs[i]);
-        free(main->teams_list[i]->eggs);
-    }
-    free(main->teams_list);
+    free(teams->name);
+    for (int i = 0; i < 100; ++i)
+        if (teams->eggs[i] != NULL)
+            destroy_egg(teams->eggs[i]);
+    free(teams->eggs);
+    free(teams);
 }

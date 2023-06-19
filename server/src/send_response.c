@@ -12,7 +12,7 @@ void welcome_protocole(main_t *main, char **tab)
     printf("welcome protocole\n");
     if (strcmp(tab[0], GUI) == 0 || strcmp(tab[0], GUI_FORMAT) == 0
         || strcmp(tab[0], GUI_FORMAT2) == 0
-        || strcmp(tab[0], GUI_FORMAT3) == 0) {
+        || strcmp(tab[0], GUI_FORMAT3) == 0 && main->server->gui_fd == -1) {
         printf("GRAPHIC CONNECTED\n");
         main->server->gui_fd = CURR_CLI->fd;
         CURR_CLI->player = NULL;

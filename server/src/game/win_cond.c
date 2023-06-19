@@ -11,19 +11,19 @@
 void win_cond(main_t *main)
 {
     for (int i = 0; main->teams_list[i]; ++i)
-        if (main->teams_list[i]->current_player >= 6)
+        if (main->teams_list[i]->current_player >= 2)
             main->teams_list[i]->win = 0;
 
     for (int i = 0; i < main->server->nbr_client_connected; ++i) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
-            && main->server->client_fd[i]->player->level == 8)
+            && main->server->client_fd[i]->player->level == 3)
             ++main->teams_list[main->server->client_fd[i]->teams]->win;
     }
 
     for (int i = 0; main->teams_list[i]; ++i)
-        if (main->teams_list[i]->max_player >= 6
-            && main->teams_list[i]->win >= 6) {
+        if (main->teams_list[i]->max_player >= 2
+            && main->teams_list[i]->win >= 2) {
             main->this_is_the_end = true;
             seg_command((char *[]){main->teams_list[i]->name}, main);
         }

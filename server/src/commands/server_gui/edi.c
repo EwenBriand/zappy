@@ -15,4 +15,5 @@ void edi_command(char **args, main_t *server)
     char cmd[100];
     sprintf(cmd, "edi %s\n", args[0]);
     send_to_gui(cmd, server->server);
+    free(args[0]);
 }

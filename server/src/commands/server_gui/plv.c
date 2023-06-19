@@ -15,4 +15,5 @@ void plv_command(char **args, main_t *server)
     char cmd[100];
     sprintf(cmd, "plv %s %s\n", args[0], args[1]);
     send_to_gui(cmd, server->server);
+    free(args[1]);
 }

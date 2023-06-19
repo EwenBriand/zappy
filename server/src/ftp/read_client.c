@@ -27,6 +27,7 @@ void get_command(char *str, main_t *main, int i)
             return call_gui_command(main, tab);
         }
         welcome_protocole(main, tab);
+        free(tab);
     } else {
         // dprintf(main->server->client_fd[i]->fd, "%s", MSG_500);
     }
@@ -40,15 +41,18 @@ static void read_client2(main_t *main, int i)
 
     if (val <= 0 || strcmp(buf, "QUIT") == 0 || strcmp(buf, "QUIT\r\n") == 0) {
         dprintf(main->server->client_fd[i]->fd, "%s", MSG_221);
+        if (main->server->client_fd[i]->player != NULL)
+            main->teams_list[main->server->client_fd[i]->teams]
+                ->current_player--;
         close(main->server->client_fd[i]->fd);
         FD_CLR(main->server->client_fd[i]->fd, main->server->readfds);
-        main->teams_list[main->server->client_fd[i]->teams]->current_player--;
         destroy_client(main->server->client_fd[i]);
         main->server->client_fd[i] = NULL;
         main->server->nbr_client_connected--;
     } else {
         get_command(buf, main, i);
     }
+    free(buf);
 }
 
 void read_client(main_t *main)

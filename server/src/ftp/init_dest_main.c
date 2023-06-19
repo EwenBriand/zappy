@@ -55,11 +55,13 @@ static void destroy_map(map_t *map)
     for (int i = 0; i < map->height; i++) {
         for (int j = 0; j < map->width; j++) {
             free(map->tiles[i][j]->inventory);
+            free(map->tiles[i][j]->coord);
             free(map->tiles[i][j]);
         }
         free(map->tiles[i]);
     }
     free(map->tiles);
+    free(map->deleted_element);
     free(map);
 }
 
@@ -81,9 +83,9 @@ main_t *init_main(int argc, char **argv)
 void destroy_main(main_t *main)
 {
     printf("destroy main\n");
-    if (main->teams_list == NULL) {
+    if (main->teams_list != NULL) {
         for (int i = 0; main->teams_list[i] != NULL; ++i)
-            destroy_teams(main);
+            destroy_teams(main->teams_list[i]);
         free(main->teams_list);
     }
     close(main->server->fd);

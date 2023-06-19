@@ -30,4 +30,9 @@ void bct_gui_command(char **args, main_t *server)
     for (int i = 0; cmd[i]; i++)
         free(cmd[i]);
     free(cmd);
+
+    if (strcmp(args[0], "bct") == 0)
+        return;
+    free(args[1]);
+    free(args[2]);
 }

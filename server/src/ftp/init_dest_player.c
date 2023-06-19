@@ -10,8 +10,8 @@
 #include <time.h>
 #include "ftp.h"
 #include "server.h"
-#include "init_dest.h"
 #include "string.h"
+#include "init_dest.h"
 
 static int id_act = 0;
 
@@ -68,6 +68,7 @@ egg_t *init_egg_from_cli(main_t *main, int i)
 
 void destroy_egg(egg_t *egg)
 {
+    free(egg->coord);
     free(egg->team);
     free(egg);
 }
@@ -78,6 +79,7 @@ player_t *init_player(egg_t *egg, main_t *main)
 
     if (new == NULL)
         return (NULL);
+
     new->id = id_act++;
     new->coord = malloc(sizeof(coord_t));
     new->coord->x = egg->coord->x;
@@ -85,8 +87,8 @@ player_t *init_player(egg_t *egg, main_t *main)
     new->orientation = egg->orientation;
     new->time = 0;
     new->command_time = 0;
-    new->living_time = 126;
     new->status_cmd = 0;
+    new->living_time = 126;
     new->locked = false;
     new->id_player_inc = NULL;
 
@@ -95,6 +97,7 @@ player_t *init_player(egg_t *egg, main_t *main)
     for (int i = 1; i < 7; ++i)
         new->inventory[i] = 0;
     new->level = 1;
+    new->act_cmd = NULL;
     new->cmd_buf = malloc(sizeof(char *) * 11);
     for (int i = 0; i < 11; ++i)
         new->cmd_buf[i] = NULL;
@@ -112,9 +115,9 @@ player_t *init_player_char(main_t *main)
 {
     player_t *new = malloc(sizeof(player_t));
 
-    if (new == NULL) {
+    if (new == NULL)
         return (NULL);
-    }
+
     new->id = id_act++;
     int *pos = malloc(sizeof(int) * 2);
 
@@ -135,6 +138,7 @@ player_t *init_player_char(main_t *main)
     for (int i = 1; i < 7; ++i)
         new->inventory[i] = 0;
     new->level = 1;
+    new->act_cmd = NULL;
     new->cmd_buf = malloc(sizeof(char *) * 11);
     for (int i = 0; i < 11; ++i)
         new->cmd_buf[i] = NULL;
@@ -151,5 +155,10 @@ void destroy_player(player_t *player)
     for (int i = 0; i < 11; ++i)
         if (player->cmd_buf[i] != NULL)
             free(player->cmd_buf[i]);
+
+    if (player->act_cmd != NULL)
+        free(player->act_cmd);
+    free(player->cmd_buf);
+    free(player->coord);
     free(player);
 }

@@ -71,6 +71,7 @@ void eject(char **args, main_t *main)
                 CURR_CLI->player->orientation);
             ejected++;
             kill_eggs(main, i);
+            free(cmd);
         }
     }
     if (ejected == 0)
