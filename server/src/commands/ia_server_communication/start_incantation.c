@@ -17,9 +17,9 @@ static const int incantation[7][7] = {{1, 1, 0, 0, 0, 0, 0},
 int get_all_lvl(main_t *main, int lvl)
 {
     int nb_player_with_lvl = 1;
-    for (int i = 0; i < main->server->nbr_client_connected
-         && nb_player_with_lvl < incantation[lvl - 1][0];
-         i++) {
+    int cnt = main->server->nbr_client_connected;
+    int i = 0;
+    for (; i < cnt && nb_player_with_lvl < incantation[lvl - 1][0]; i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->level == lvl

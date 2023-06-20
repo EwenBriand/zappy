@@ -6,54 +6,67 @@
 */
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
+#include "struct.h"
 #include "ai_command.h"
 
-// char *get_player_on_tile(main_t *main, int x, int y)
-void get_player_on_tile(main_t *main, int x, int y, char **cmd)
+void get_player_on_tile(main_t *main, int x, int y, char *cmd)
 {
-    // char *cmd = NULL;
+    char *tmp;
     for (int i = 0; i < main->server->nbr_client_connected; i++) {
         if (main->server->client_fd[i] != NULL
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->coord->x == x
             && main->server->client_fd[i]->player->coord->y == y) {
-            asprintf(cmd, "%splayer", *cmd);
+            tmp = strdup(cmd);
+            sprintf(cmd, "%splayer", tmp);
+            free(tmp);
         }
     }
-    // if (cmd == NULL)
-    //     return "";
-    // return (cmd);
 }
 
-void get_objects_on_tile(main_t *main, int x, int y, char **cmd)
+void get_objects_on_tile(main_t *main, int x, int y, char *cmd)
 {
+    char *tmp;
     if (x < 0 || x >= main->map->width || y < 0 || y >= main->map->height)
         return;
 
     for (int i = 0; i < 7; i++)
-        if (main->map->tiles[y][x]->inventory[i] > 0)
-            asprintf(cmd, "%s %s", *cmd, get_object_name(i));
+        if (main->map->tiles[y][x]->inventory[i] > 0) {
+            tmp = strdup(cmd);
+            sprintf(cmd, "%s %s", tmp, get_object_name(i));
+            free(tmp);
+        }
+}
+
+static void one_tile(main_t *main, int *coord, char *cmd, int *pos)
+{
+    int orientation = CURR_CLI->player->orientation;
+    char *tmp;
+    int nx = coord[0] + (DX * pos[0]) + (DY * pos[1]);
+    int ny = coord[1] + (DY * pos[0]) + (DX * pos[1]);
+    get_player_on_tile(main, nx, ny, cmd);
+    get_objects_on_tile(main, nx, ny, cmd);
+    tmp = strdup(cmd);
+    sprintf(cmd, "%s,", tmp);
+    free(tmp);
 }
 
 void look_command(char **args, main_t *main)
 {
-    char *cmd = "";
-    int orientation = CURR_CLI->player->orientation;
+    char *cmd = malloc(sizeof(char) * 1000);
+    cmd[0] = '\0';
+    char *tmp;
     int level = CURR_CLI->player->level;
     int x = CURR_CLI->player->coord->x;
     int y = CURR_CLI->player->coord->y;
-    for (int i = 0; i < level; i++) {
-        for (int j = 0; j < (i + 3); j++) {
-            int nx = x + (DX * i) + (DY * j);
-            int ny = y + (DY * i) + (DX * j);
-            get_player_on_tile(main, nx, ny, &cmd);
-            printf("cmd after player: %s\n", cmd);
-            get_objects_on_tile(main, nx, ny, &cmd);
-            asprintf(&cmd, "%s,", cmd);
-            printf("cmd after objects: %s\n", cmd);
-        }
-    }
-    asprintf(&cmd, "[%s]\n", cmd);
+
+    for (int i = 0; i < level; i++)
+        for (int j = 0; j < (i + 3); j++)
+            one_tile(main, (int[]){x, y}, cmd, (int[]){i, j});
+
+    tmp = strdup(cmd);
+    sprintf(cmd, "[%s]\n", tmp);
+    free(tmp);
     send_to_ia(cmd, main);
     free(cmd);
 }

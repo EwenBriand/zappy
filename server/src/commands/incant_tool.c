@@ -28,17 +28,16 @@ void lock_all(main_t *main)
     int nb_player = get_all_lvl(main, CURR_CLI->player->level);
     CURR_CLI->player->id_player_inc = malloc(sizeof(int) * (nb_player + 1));
     int pos = 0;
+    int i = 0;
 
     printf("nb_player = %d\n", nb_player);
 
-    for (int i = 0;
-         i < main->server->nbr_client_connected && nb_player - 1 > pos; i++) {
+    for (; i < main->server->nbr_client_connected && nb_player - 1 > pos; i++)
         if (lock_cond(main, i)) {
             printf("nb_player = %d\n", pos + 1);
             CURR_CLI->player->id_player_inc[pos++] = i;
             main->server->client_fd[i]->player->locked = true;
         }
-    }
     CURR_CLI->player->id_player_inc[pos] = -1;
 }
 

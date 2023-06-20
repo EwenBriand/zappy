@@ -10,12 +10,6 @@
 #include "ai_command.h"
 #include "init_dest.h"
 
-void connect_nbr(char **args, main_t *main)
-{
-    char *cmd = NULL;
-    send_to_ia(cmd, main);
-}
-
 void move_player_from_tile(main_t *main, int i)
 {
     switch (main->server->client_fd[i]->player->orientation) {

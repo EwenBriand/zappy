@@ -23,7 +23,6 @@ player_t *init_player(egg_t *egg, main_t *main);
 void destroy_player(player_t *player);
 
 egg_t *init_egg_from_cli(main_t *main, int i);
-egg_t *init_egg(main_t *main, int i);
 void destroy_egg(egg_t *egg);
 
 void init_teams(main_t *main);

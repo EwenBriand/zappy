@@ -39,3 +39,9 @@ void forward_command(char **args, main_t *main)
     send_ok(main);
     free(cmd);
 }
+
+void connect_nbr(char **args, main_t *main)
+{
+    char *cmd = NULL;
+    send_to_ia(cmd, main);
+}

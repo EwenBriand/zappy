@@ -39,11 +39,8 @@ void add_ressources(main_t *main)
 
 static void for_kriget_det_kan(main_t *main, int i)
 {
-    for (; 0 < main->map->deleted_element[i];
-         --main->map->deleted_element[i]) {
-        printf("add %i to map\n", i);
+    for (; 0 < main->map->deleted_element[i]; --main->map->deleted_element[i])
         add_ressource_to_tile(main, i);
-    }
 }
 
 void add_ressources_if_its_time(main_t *main)
