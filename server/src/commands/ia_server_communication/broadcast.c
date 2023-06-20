@@ -7,9 +7,10 @@
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
-#include <math.h>
-#include <stdio.h>
+#include "asprintf.h"
 #include "ai_command.h"
+
+#include <math.h>
 
 static int casesNorth[3][3] = {{2, 1, 8}, {3, 0, 7}, {4, 5, 6}};
 
@@ -19,14 +20,7 @@ static int casesSouth[3][3] = {{6, 7, 8}, {5, 0, 1}, {4, 3, 2}};
 
 static int casesWest[3][3] = {{4, 5, 6}, {3, 0, 7}, {2, 1, 8}};
 
-float get_distance_btw_two_tiles(int x1, int y1, int x2, int y2)
-{
-    int x_vector = x2 - x1;
-    int y_vector = y2 - y1;
-    return sqrt(pow(x_vector, 2) + pow(y_vector, 2));
-}
-
-int get_closest_tile(main_t *main, int x, int y)
+static int get_closest_tile(main_t *main, int x, int y)
 {
     int orientation = CURR_CLI->player->orientation;
     int tile = 0;
@@ -49,56 +43,19 @@ int get_closest_tile(main_t *main, int x, int y)
     return tile;
 }
 
-float get_tile2(
-    main_t *main, int tile_x, int tile_y, int x2, int y2, float buf)
-{
-    if (tile_x < 0) {
-        tile_x = main->map->width - 1;
-    } else if (tile_x >= main->map->width) {
-        tile_x = 0;
-    }
-    if (tile_y < 0) {
-        tile_y = main->map->height - 1;
-    } else if (tile_y >= main->map->height) {
-        tile_y = 0;
-    }
-    return buf;
-}
-
-int check_tile_x_and_tile_y(main_t *main, int tile_x, int tile_y)
-{
-    if ((tile_x == -1 && tile_y == -1)
-        || (tile_x == main->map->width && tile_y == main->map->height)
-        || (tile_x == main->map->width && tile_y == -1)
-        || (tile_x == -1 && tile_y == main->map->height)) {
-        return 1;
-    }
-    return 0;
-}
-
-int get_tile(main_t *main, client_t *client)
+static int get_tile(main_t *main, client_t *client)
 {
     int x = CURR_CLI->player->coord->x;
     int y = CURR_CLI->player->coord->y;
     int x2 = client->player->coord->x;
     int y2 = client->player->coord->y;
 
-    float buf = 100000;
     int tile_n_x = 0;
     int tile_n_y = 0;
-    for (int tiles = 0; tiles < 9; tiles++) {
-        int tile_x = x + (tiles % 3) - 1;
-        int tile_y = y + (tiles / 3) - 1;
-        if (check_tile_x_and_tile_y(main, tile_x, tile_y))
-            continue;
-        buf = get_tile2(main, tile_x, tile_y, x2, y2, buf);
-        float dis = get_distance_btw_two_tiles(tile_x, tile_y, x2, y2);
-        buf = (dis < buf) ? dis : buf;
-        if (dis == buf) {
-            tile_n_x = tile_x;
-            tile_n_y = tile_y;
-        }
-    }
+    for (int tiles = 0; tiles < 9; tiles++)
+        broadcast_sec(
+            main, (int[]){x, y, x2, y2, tiles}, &tile_n_x, &tile_n_y);
+
     int res = get_closest_tile(main, tile_n_x, tile_n_y);
     printf("THE TILE IS : %d\n", res);
     return res;

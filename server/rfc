@@ -40,13 +40,13 @@ player to server:
 Forward = player move forward       OK
 Right = player turn right           OK
 Left = player turn left             OK
-Look = player look                  NOP asprintf PUE
-Inventory = player inventory        NOP asprintf PUE
+Look = player look                  OK
+Inventory = player inventory        OK
 Broadcast text = player broadcast   OK
 Connect_nbr = number of free places OK
 Fork = player fork                  OK
 Eject = player eject                OK
 Take object = player take           OK
 Set object = player set             OK
-Incantation = player incantation    
+Incantation = player incantation    OK
 Nothing = do nothing                OK

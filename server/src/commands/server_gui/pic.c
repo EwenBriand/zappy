@@ -12,12 +12,18 @@
 
 void pic_command(char **args, main_t *server)
 {
-    char *cmd = NULL;
+    char *cmd = malloc(sizeof(char) * 1000);
+    char *tmp;
 
-    asprintf(&cmd, "pic %s %s %s ", args[0], args[1], args[2]);
-    for (int i = 3; args[i]; i++)
-        asprintf(&cmd, "%s%s ", cmd, args[i]);
-    asprintf(&cmd, "%s\n", cmd);
+    sprintf(cmd, "pic %s %s %s ", args[0], args[1], args[2]);
+    for (int i = 3; args[i]; i++) {
+        tmp = my_strdup(cmd);
+        sprintf(cmd, "%s%s ", tmp, args[i]);
+        free(tmp);
+    }
+    tmp = my_strdup(cmd);
+    sprintf(cmd, "%s\n", tmp);
+    free(tmp);
     send_to_gui(cmd, server->server);
     free(cmd);
 }

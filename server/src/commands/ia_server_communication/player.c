@@ -7,6 +7,7 @@
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
+#include "asprintf.h"
 #include "ai_command.h"
 #include "init_dest.h"
 

@@ -14,7 +14,7 @@ static void add_cmd_to_player(player_t *player, char *str)
     int i = list_len((void **) player->cmd_buf);
     if (i >= 10)
         return;
-    player->cmd_buf[i] = strdup(str);
+    player->cmd_buf[i] = my_strdup(str);
 }
 
 void get_command(char *str, main_t *main, int i)

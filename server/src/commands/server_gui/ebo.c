@@ -5,8 +5,7 @@
 ** ebo
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "asprintf.h"
 #include "ftp.h"
 #include "server.h"
 #include "ai_command.h"

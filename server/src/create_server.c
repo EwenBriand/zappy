@@ -5,7 +5,11 @@
 ** create_server.c
 */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "server.h"
+#include "tools.h"
 
 bool is_digit(char *str)
 {
@@ -37,7 +41,7 @@ char **get_names(char **av)
     for (i = 0; av[i]; i++) {
         if (av[i][0] == '-' && av[i][1] >= 'a' && av[i][1] <= 'z')
             break;
-        names[i] = strdup(av[i]);
+        names[i] = my_strdup(av[i]);
     }
     names[i] = NULL;
     return names;

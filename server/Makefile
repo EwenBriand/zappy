@@ -7,7 +7,7 @@
 
 CPPFLAGS	=	-I ./include
 
-CFLAGS	=	-Wall -Wextra -g3 -std=c17 -lm
+CFLAGS	=	-Wall -Wextra -g3 -std=c17 -lm -std=gnu99
 
 CLIENT		=	zappy_server
 
@@ -65,6 +65,7 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/ia_server_communication/look_command.c \
 				src/commands/ia_server_communication/start_incantation.c \
 				src/commands/ia_server_communication/broadcast.c \
+				src/commands/ia_server_communication/broadcast2.c \
 				src/game/add_ressources.c	\
 				src/game/win_cond.c	\
 				src/init/init_dest_player.c	\

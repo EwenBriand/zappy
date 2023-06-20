@@ -17,8 +17,8 @@ void get_player_on_tile(main_t *main, int x, int y, char *cmd)
             && main->server->client_fd[i]->player != NULL
             && main->server->client_fd[i]->player->coord->x == x
             && main->server->client_fd[i]->player->coord->y == y) {
-            tmp = strdup(cmd);
-            sprintf(cmd, "%splayer", tmp);
+            tmp = my_strdup(cmd);
+            sprintf(cmd, "%s player", tmp);
             free(tmp);
         }
     }
@@ -32,7 +32,7 @@ void get_objects_on_tile(main_t *main, int x, int y, char *cmd)
 
     for (int i = 0; i < 7; i++)
         if (main->map->tiles[y][x]->inventory[i] > 0) {
-            tmp = strdup(cmd);
+            tmp = my_strdup(cmd);
             sprintf(cmd, "%s %s", tmp, get_object_name(i));
             free(tmp);
         }
@@ -46,7 +46,7 @@ static void one_tile(main_t *main, int *coord, char *cmd, int *pos)
     int ny = coord[1] + (DY * pos[0]) + (DX * pos[1]);
     get_player_on_tile(main, nx, ny, cmd);
     get_objects_on_tile(main, nx, ny, cmd);
-    tmp = strdup(cmd);
+    tmp = my_strdup(cmd);
     sprintf(cmd, "%s,", tmp);
     free(tmp);
 }
@@ -64,7 +64,7 @@ void look_command(char **args, main_t *main)
         for (int j = 0; j < (i + 3); j++)
             one_tile(main, (int[]){x, y}, cmd, (int[]){i, j});
 
-    tmp = strdup(cmd);
+    tmp = my_strdup(cmd);
     sprintf(cmd, "[%s]\n", tmp);
     free(tmp);
     send_to_ia(cmd, main);

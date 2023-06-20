@@ -79,21 +79,22 @@ void start_incantation(char **args, main_t *main, bool res)
 {
     printf("START INCANTATION\n");
     if (res == false) {
-        printf("KO INCANTATION FAILED\n");
         free(CURR_CLI->player->act_cmd);
-        CURR_CLI->player->act_cmd = strdup("Incant2");
-        send_ko(main);
-        return;
+        CURR_CLI->player->act_cmd = my_strdup("Incant2");
+        return send_ko(main);
     }
     lock_all(main);
-
     char cmd[1000];
+    char *tmp;
     sprintf(cmd, "pic %d %d %d %d", CURR_CLI->player->coord->x,
         CURR_CLI->player->coord->y, CURR_CLI->player->level,
         CURR_CLI->player->id);
-    for (int i = 0; CURR_CLI->player->id_player_inc[i] != -1; i++)
-        sprintf(cmd, "%s %d", cmd,
+    for (int i = 0; CURR_CLI->player->id_player_inc[i] != -1; i++) {
+        tmp = my_strdup(cmd);
+        sprintf(cmd, "%s %d", tmp,
             main->server->client_fd[CURR_CLI->player->id_player_inc[i]]
                 ->player->id);
+        free(tmp);
+    }
     send_to_gui(cmd, main->server);
 }

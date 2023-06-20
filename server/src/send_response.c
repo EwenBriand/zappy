@@ -35,7 +35,7 @@ void welcome_protocole(main_t *main, char **tab)
     int team_id = case_of_gui(main, tab);
     if (team_id == -1)
         return;
-    CURR_CLI->team_name = strdup(tab[0]);
+    CURR_CLI->team_name = my_strdup(tab[0]);
     printf("buf = %s\n", tab[0]);
     dprintf(CURR_CLI->fd, "%i\n", main->server->current_client_index);
     usleep(1000);

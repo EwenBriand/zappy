@@ -24,7 +24,7 @@ egg_t *init_egg_from_cli(main_t *main, int i)
     new->coord = malloc(sizeof(coord_t));
     new->coord->x = CURR_CLI->player->coord->x;
     new->coord->y = CURR_CLI->player->coord->y;
-    new->team = strdup(main->teams_list[i]->name);
+    new->team = my_strdup(main->teams_list[i]->name);
     new->orientation = CURR_CLI->player->orientation;
     new->id = id++;
     main->teams_list[i]->max_player++;
