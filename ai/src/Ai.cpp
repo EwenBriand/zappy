@@ -46,7 +46,7 @@ void AI::Loop()
     int i = 0;
     messageFromServer = client.receiveData();
     while (alive) {
-        if (Waiter()) {
+        // if (Waiter()) {
             int directionToResource = FindResourceInVision();
             HandleIncomingMessages();
             UpdateInventory();
@@ -64,18 +64,16 @@ void AI::Loop()
                 CheckLevelUp();
                 std::cout << "level après: " << level << std::endl;
                 Forward();
-                if (i % 10 == 0)
+                if (i % 2 == 0)
                     TurnLeft();
-                if (i % 10 == 5)
+                else
                     TurnRight();
                 LookAround();
-                if (messageFromServer == "ok\n")
-                    LookAround();
+                FindResourceInVision();
             }
-            i++;
             broadcastActive = false;
-            // if (i % 150 == 0)
+            // if (i % 20 == 0)
             //     ForkPlayerEgg();
         }
-    }
+    // }
 }
