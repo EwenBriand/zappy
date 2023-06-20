@@ -73,6 +73,7 @@ main_t *init_main(int argc, char **argv)
     main->map = init_map(main->args);
     main->time = time(NULL);
     main->this_is_the_end = false;
+    main->id_act = 0;
 
     add_ressources(main);
     return (main);

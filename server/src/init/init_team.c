@@ -12,7 +12,7 @@
 static void init_one_team(main_t *main, int j)
 {
     main->teams_list[j] = malloc(sizeof(team_t));
-    main->teams_list[j]->name = strdup(main->args->name[j]);
+    main->teams_list[j]->name = my_strdup(main->args->name[j]);
     main->teams_list[j]->max_player = main->args->nb_client_max;
     main->teams_list[j]->current_player = 0;
     main->teams_list[j]->win = false;

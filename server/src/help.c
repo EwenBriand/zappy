@@ -9,8 +9,8 @@
 
 int help(void)
 {
-    printf("USAGE: ./zappy_server -p port -x width -y height -n name1 name2 "
-           "... -c nb_client_max -f freq\n");
+    printf("USAGE: ./zappy_server -p port -x width -y height -n name1 name2 ");
+    printf("... -c nb_client_max -f freq\n");
     printf("\tport\tis the port number\n");
     printf("\twidth\tis the width of the world\n");
     printf("\theight\tis the height of the world\n");

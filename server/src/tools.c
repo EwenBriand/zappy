@@ -8,6 +8,8 @@
 #include "tools.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 int list_len(void **list)
 {
     int i = 0;
@@ -46,4 +48,13 @@ char *my_itoa(int num)
     char *str = malloc(len + 1);
     snprintf(str, len + 1, "%d", num);
     return str;
+}
+
+char *my_strdup(const char *s)
+{
+    size_t len = strlen(s) + 1;
+    char *dup = malloc(len);
+    if (dup)
+        memcpy(dup, s, len);
+    return dup;
 }

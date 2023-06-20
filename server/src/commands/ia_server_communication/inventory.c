@@ -7,31 +7,41 @@
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
+#include "asprintf.h"
 #include "incantation.h"
 #include "ai_command.h"
 #include "init_dest.h"
 
-static void fill_string(int i, char **cmd, main_t *main)
+static void fill_string(int i, char *cmd, main_t *main)
 {
+    char *tmp;
     if (i == 0) {
-        asprintf(cmd, "%s%s %d", *cmd, get_object_name(i),
+        tmp = my_strdup(cmd);
+        sprintf(cmd, "%s%s %d", tmp, get_object_name(i),
             CURR_CLI->player->inventory[i]);
+        free(tmp);
     } else {
-        asprintf(cmd, "%s, %s %d", *cmd, get_object_name(i),
+        tmp = my_strdup(cmd);
+        sprintf(cmd, "%s, %s %d", tmp, get_object_name(i),
             CURR_CLI->player->inventory[i]);
+        free(tmp);
     }
 }
 
 void inventory_command(char **args, main_t *main)
 {
     printf("INVENTORY!!!!!!!!!!\n");
-    char *cmd = "[";
-    for (int i = 0; i <= Q6; i++) {
-        fill_string(i, &cmd, main);
-    }
-    asprintf(&cmd, "%s]\n", cmd);
+    char *cmd = malloc(sizeof(char) * 1000);
+    cmd[0] = '\0';
+    char *tmp;
+    for (int i = 0; i <= Q6; i++)
+        fill_string(i, cmd, main);
+
+    tmp = my_strdup(cmd);
+    sprintf(cmd, "[%s]\n", tmp);
     printf("cmd : %s", cmd);
     send_to_ia(cmd, main);
+    free(tmp);
     free(cmd);
 }
 

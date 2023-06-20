@@ -9,7 +9,6 @@
 
 char **get_args_from_command(char *str)
 {
-    // printf("str: %s\n", str);
     char *buf = " \r\n\0";
     char *token = strtok(str, buf);
     char **args = malloc(sizeof(char *) * 100);

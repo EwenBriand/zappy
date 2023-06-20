@@ -7,7 +7,7 @@
 
 CPPFLAGS	=	-I ./include
 
-CFLAGS	=	-Wall -Wextra -g3 -std=c17 -lm
+CFLAGS	=	-Wall -Wextra -g3 -std=c17 -lm -std=gnu99
 
 CLIENT		=	zappy_server
 
@@ -15,7 +15,6 @@ SRC_CLIENT	=	src/main.c	\
 				src/help.c	\
 				src/create_server.c	\
 				src/ftp/accept_client.c	\
-				src/ftp/init_and_destroy.c	\
 				src/ftp/loop_server.c	\
 				src/ftp/read_client.c	\
 				src/circular_buf.c	\
@@ -66,12 +65,16 @@ SRC_CLIENT	=	src/main.c	\
 				src/commands/ia_server_communication/look_command.c \
 				src/commands/ia_server_communication/start_incantation.c \
 				src/commands/ia_server_communication/broadcast.c \
-				src/ftp/init_dest_main.c	\
-				src/ftp/init_dest_player.c	\
+				src/commands/ia_server_communication/broadcast2.c \
 				src/game/add_ressources.c	\
 				src/game/win_cond.c	\
-				src/ftp/init_team.c	\
+				src/init/init_dest_player.c	\
+				src/init/init_dest_main.c	\
+				src/init/init_and_destroy.c	\
+				src/init/init_team.c	\
+				src/init/init_egg.c	\
 				src/commands/execute_player.c	\
+				src/commands/exec_case.c	\
 				src/commands/incant_tool.c	\
 				src/commands/gui_commands.c	\
 

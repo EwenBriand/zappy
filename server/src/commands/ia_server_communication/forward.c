@@ -7,6 +7,7 @@
 
 #pragma GCC diagnostic ignored "-Wwrite-strings"
 
+#include "asprintf.h"
 #include "ai_command.h"
 
 void check_coord_player(main_t *main)
@@ -38,4 +39,10 @@ void forward_command(char **args, main_t *main)
     send_to_gui(cmd, main->server);
     send_ok(main);
     free(cmd);
+}
+
+void connect_nbr(char **args, main_t *main)
+{
+    char *cmd = NULL;
+    send_to_ia(cmd, main);
 }

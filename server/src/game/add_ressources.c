@@ -37,13 +37,10 @@ void add_ressources(main_t *main)
     }
 }
 
-static void För_kriget_det_kan(main_t *main, int i)
+static void for_kriget_det_kan(main_t *main, int i)
 {
-    for (; 0 < main->map->deleted_element[i];
-         --main->map->deleted_element[i]) {
-        printf("add %i to map\n", i);
+    for (; 0 < main->map->deleted_element[i]; --main->map->deleted_element[i])
         add_ressource_to_tile(main, i);
-    }
 }
 
 void add_ressources_if_its_time(main_t *main)
@@ -52,6 +49,6 @@ void add_ressources_if_its_time(main_t *main)
 
     if ((act_time - main->time) >= 20 * ((float) main->args->freq / 100)) {
         for (int i = 0; i < 7; ++i)
-            För_kriget_det_kan(main, i);
+            for_kriget_det_kan(main, i);
     }
 }

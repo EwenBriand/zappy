@@ -31,6 +31,7 @@ void turn_left(char **args, main_t *main);
 void take_object(char **args, main_t *main);
 void look_command(char **args, main_t *main);
 void broadcast(char **args, main_t *main);
+void broadcast_sec(main_t *main, int *int_val, int *tile_n_x, int *tile_n_y);
 void connect_nbr_command(char **args, main_t *main);
 void fork_command(char **args, main_t *main);
 void eject(char **args, main_t *main);

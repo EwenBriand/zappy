@@ -27,9 +27,9 @@ void bct_gui_command(char **args, main_t *server)
     int x = atoi(args[1]);
     int y = atoi(args[2]);
     char **cmd = malloc(sizeof(char *) * 11);
-    cmd[0] = strdup("bct");
-    cmd[1] = strdup(args[1]);
-    cmd[2] = strdup(args[2]);
+    cmd[0] = my_strdup("bct");
+    cmd[1] = my_strdup(args[1]);
+    cmd[2] = my_strdup(args[2]);
     int j = 3;
     for (int i = 0; i < 7; i++)
         if (server->map->tiles[y][x]->inventory[i] < 0)

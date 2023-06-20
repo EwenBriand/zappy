@@ -5,11 +5,10 @@
 ** pnw_command.c
 */
 
+#include "asprintf.h"
 #include "ftp.h"
 #include "server.h"
 #include "init_dest.h"
-
-// pnw #n X Y O L N\n
 
 void pnw_command(char **args, main_t *main)
 {

@@ -93,6 +93,7 @@ typedef struct main_s {
     map_t *map;
     int time;
     bool this_is_the_end;
+    int id_act;
 } main_t;
 
 typedef struct call_command_s {
