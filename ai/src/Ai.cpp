@@ -51,6 +51,8 @@ void AI::Loop()
             HandleIncomingMessages();
             UpdateInventory();
             if (directionToResource != -1) {
+                std::cout << "directionToResource: " << directionToResource << std::endl;
+                std::cout << "LOOK FIND SOMETHING" << std::endl;
                 TurnToDirection(directionToResource);
                 Forward();
                 TakeObject();
