@@ -11,7 +11,7 @@
 #include <sys/select.h>
 #include "args.h"
 
-static const int directions[4][2] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+static const int directions[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
 #define DX directions[orientation][0]
 #define DY directions[orientation][1]

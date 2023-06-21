@@ -43,7 +43,7 @@ static void one_tile(main_t *main, int *coord, char *cmd, int *pos)
     int orientation = CURR_CLI->player->orientation;
     char *tmp;
     int nx, ny, mult = 1;
-    if (orientation == 3 || orientation == 2)
+    if (orientation == 2 || orientation == 1)
         mult = -1;
     if (DX == 0) {
         printf("DY == %d\n", DY);
