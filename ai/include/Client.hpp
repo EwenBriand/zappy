@@ -13,6 +13,8 @@
     #include <unistd.h>
     #include <iostream>
     #include <cerrno>
+    #include <cstring>
+    #include <exception>
 
 class Client {
     public:

@@ -59,19 +59,6 @@ void look_command(char **args, main_t *main)
     int level = CURR_CLI->player->level;
     int x = CURR_CLI->player->coord->x;
     int y = CURR_CLI->player->coord->y;
-    // for (int i = 0; i < level; i++) {
-    //     for (int j = 0; j < (i + 3); j++) {
-    //         int nx = x + (DX * i) + (DY * j);
-    //         int ny = y + (DY * i) + (DX * j);
-    //         get_player_on_tile(main, nx, ny, &cmd);
-    //         printf("cmd after player: %s\n", cmd);
-    //         get_objects_on_tile(main, nx, ny, &cmd);
-    //         asprintf(&cmd, "%s,", cmd);
-    //         printf("cmd after objects: %s\n", cmd);
-    //     }
-    // }
-    // asprintf(&cmd, "[%s]\n", cmd);
-
     for (int i = 0; i < level; i++)
         for (int j = 0; j < (i + 3); j++)
             one_tile(main, (int[]){x, y}, cmd, (int[]){i, j});

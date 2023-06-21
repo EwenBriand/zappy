@@ -35,8 +35,13 @@ int main(int argc, char **argv)
                 return 1;
         }
     }
-    AI ai(hostname, port, teamName);
-    ai.Loop();
+    try {
+        AI ai(hostname, port, teamName);
+        ai.Loop();
+    } catch (std::exception &e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }

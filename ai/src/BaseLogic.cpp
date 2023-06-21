@@ -69,6 +69,9 @@ int AI::FindResourceInVision()
     std::cout << "priorityResource: " << priorityResource << std::endl;
 
     for (int i = 0; i < vision.size(); i++) {
+        if (!vision[i].empty() && vision[i][0] == ' ')
+            vision[i].erase(0, 1);
+
         std::vector<std::string> tileContents = splitString(vision[i], ' ');
         for (const std::string &object : tileContents) {
             // if (i == 0 && incantationSoon && object == "player" && std::count(tileContents.begin(), tileContents.end(), "player") > 1) {
@@ -83,7 +86,6 @@ int AI::FindResourceInVision()
     }
     return -1;
 }
-
 bool AI::CheckSameTileOtherAI()
 {
     static const std::array<int, 7> requiredPlayersPerLevel = {1, 2, 2, 4, 4, 6, 6};

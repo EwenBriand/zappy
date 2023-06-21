@@ -29,5 +29,3 @@ void AI::HandleIncomingMessages()
         }
     }
 }
-
-
