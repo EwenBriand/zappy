@@ -42,8 +42,19 @@ static void one_tile(main_t *main, int *coord, char *cmd, int *pos)
 {
     int orientation = CURR_CLI->player->orientation;
     char *tmp;
-    int nx = coord[0] + (DX * pos[0]) + (DY * pos[1]);
-    int ny = coord[1] + (DY * pos[0]) + (DX * pos[1]);
+    int nx, ny, mult = 1;
+    if (orientation == 3 || orientation == 2)
+        mult = -1;
+    if (DX == 0) {
+        printf("DY == %d\n", DY);
+        nx = coord[0] + (pos[1] * mult);
+        ny = coord[1] + (DY * pos[0]);
+    } else {
+        printf("DX == %i\n", DX);
+        nx = coord[0] + (DX * pos[0]);
+        ny = coord[1] + (pos[1] * mult);
+    }
+    printf("o:%d nx: %d, ny: %d\n", orientation, nx, ny);
     get_player_on_tile(main, nx, ny, cmd);
     get_objects_on_tile(main, nx, ny, cmd);
     tmp = my_strdup(cmd);
@@ -59,21 +70,10 @@ void look_command(char **args, main_t *main)
     int level = CURR_CLI->player->level;
     int x = CURR_CLI->player->coord->x;
     int y = CURR_CLI->player->coord->y;
-    // for (int i = 0; i < level; i++) {
-    //     for (int j = 0; j < (i + 3); j++) {
-    //         int nx = x + (DX * i) + (DY * j);
-    //         int ny = y + (DY * i) + (DX * j);
-    //         get_player_on_tile(main, nx, ny, &cmd);
-    //         printf("cmd after player: %s\n", cmd);
-    //         get_objects_on_tile(main, nx, ny, &cmd);
-    //         asprintf(&cmd, "%s,", cmd);
-    //         printf("cmd after objects: %s\n", cmd);
-    //     }
-    // }
-    // asprintf(&cmd, "[%s]\n", cmd);
 
-    for (int i = 0; i < level; i++)
-        for (int j = 0; j < (i + 3); j++)
+    one_tile(main, (int[]){x, y}, cmd, (int[]){0, 0});
+    for (int i = 1; i < level + 1; i++)
+        for (int j = -i; j < i + 1; j++)
             one_tile(main, (int[]){x, y}, cmd, (int[]){i, j});
 
     tmp = my_strdup(cmd);
